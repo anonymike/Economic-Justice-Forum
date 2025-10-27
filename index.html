@@ -1,0 +1,2293 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Economic Justice Forum (EJF) — Justice, Equity & Prosperity</title>
+  <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+  <link rel="manifest" href="site.webmanifest">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="ejf_styles.css">
+  <!-- Add this for AI functionality -->
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  <style>
+    /* Base Mobile Styles */
+    :root {
+      --navy: #00264d;
+      --gold: #d9a21c;
+      --text: #333333;
+      --light-gray: #f8f9fa;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      line-height: 1.6;
+      color: var(--text);
+      overflow-x: hidden;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 15px;
+    }
+
+    /* Header & Navigation */
+    .site-header {
+      background: var(--navy);
+      padding: 15px 0;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+
+    .site-header .container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo-container {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .logo-container img {
+      height: 54px;
+      width: 54px;
+      object-fit: cover;
+      border-radius: 6px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    }
+
+    .logo-text {
+      color: white;
+    }
+
+    .logo-title {
+      font-weight: 700;
+      font-size: 16px;
+    }
+
+    .logo-subtitle {
+      font-size: 14px;
+      opacity: 0.9;
+      text-align: center;
+      margin-top: 4px;
+      font-weight: 500;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+    }
+
+    /* Mobile Navigation */
+    .mobile-menu-toggle {
+      display: none;
+      background: none;
+      border: none;
+      color: white;
+      font-size: 24px;
+      cursor: pointer;
+      padding: 5px;
+    }
+
+    .main-nav {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .main-nav a {
+      color: white;
+      text-decoration: none;
+      font-weight: 500;
+      transition: color 0.3s;
+      white-space: nowrap;
+    }
+
+    .main-nav a:hover {
+      color: var(--gold);
+    }
+
+    .btn {
+      display: inline-block;
+      padding: 10px 20px;
+      border-radius: 6px;
+      text-decoration: none;
+      font-weight: 600;
+      text-align: center;
+      transition: all 0.3s ease;
+      border: none;
+      cursor: pointer;
+    }
+
+    .btn-primary {
+      background: var(--navy);
+      color: white;
+    }
+
+    .btn-secondary {
+      background: var(--gold);
+      color: var(--navy);
+    }
+
+    .btn-gold {
+      background: var(--gold);
+      color: var(--navy);
+    }
+
+    .user-menu {
+      position: relative;
+    }
+
+    .user-dropdown {
+      display: none;
+      position: absolute;
+      top: 100%;
+      right: 0;
+      background: white;
+      min-width: 200px;
+      box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+      border-radius: 8px;
+      z-index: 1000;
+      margin-top: 10px;
+    }
+
+    .user-dropdown.show {
+      display: block;
+    }
+
+    .user-dropdown a {
+      display: block;
+      padding: 12px 16px;
+      color: var(--text);
+      text-decoration: none;
+      border-bottom: 1px solid #f0f0f0;
+    }
+
+    .user-dropdown a:hover {
+      background: #f8f9fa;
+    }
+
+    .user-dropdown a:last-child {
+      border-bottom: none;
+      color: #dc3545;
+    }
+
+    /* Hero Section */
+    .hero {
+      position: relative;
+      height: 70vh;
+      min-height: 500px;
+      overflow: hidden;
+    }
+
+    .hero img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      max-width: 100%;
+      display: block;
+    }
+
+    .overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 38, 77, 0.7);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+    }
+
+    .hero-inner {
+      color: white;
+      max-width: 800px;
+      padding: 0 20px;
+    }
+
+    .hero h1 {
+      font-size: 2.5rem;
+      margin-bottom: 15px;
+      font-weight: 700;
+    }
+
+    .lead {
+      font-size: 1.2rem;
+      margin-bottom: 30px;
+      opacity: 0.9;
+    }
+
+    .cta-row {
+      display: flex;
+      gap: 15px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    /* Main Content */
+    main {
+      padding: 60px 0;
+    }
+
+    .card {
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+      padding: 30px;
+      margin-bottom: 30px;
+    }
+
+    .card h2 {
+      color: var(--navy);
+      margin-top: 0;
+      margin-bottom: 20px;
+      font-size: 1.8rem;
+    }
+
+    .card h3 {
+      color: var(--navy);
+      margin-top: 0;
+      margin-bottom: 15px;
+    }
+
+    /* Strategic Pillars */
+    .pillars-preview {
+      margin: 40px 0;
+    }
+
+    .pillars-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 25px;
+      margin-top: 30px;
+    }
+
+    .pillar-card {
+      background: white;
+      border-radius: 12px;
+      padding: 25px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+      transition: all 0.4s ease;
+      position: relative;
+      overflow: hidden;
+      border-top: 4px solid var(--gold);
+    }
+
+    .pillar-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 15px 40px rgba(0,0,0,0.15);
+    }
+
+    .pillar-icon {
+      font-size: 2rem;
+      color: var(--gold);
+      margin-bottom: 15px;
+      display: inline-block;
+      transition: transform 0.3s ease;
+    }
+
+    .pillar-card:hover .pillar-icon {
+      transform: scale(1.2);
+    }
+
+    .pillar-title {
+      font-size: 1.3rem;
+      color: var(--navy);
+      margin-bottom: 10px;
+      font-weight: 700;
+    }
+
+    .pillar-description {
+      color: var(--text);
+      font-size: 0.95rem;
+      line-height: 1.5;
+      margin-bottom: 15px;
+    }
+
+    .pillar-link {
+      display: inline-block;
+      padding: 8px 16px;
+      background-color: var(--navy);
+      color: white;
+      text-decoration: none;
+      border-radius: 6px;
+      font-size: 0.9rem;
+      transition: all 0.3s ease;
+    }
+
+    .pillar-link:hover {
+      background-color: var(--gold);
+      transform: translateY(-2px);
+    }
+
+    /* Values Grid */
+    .values-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 15px;
+    }
+
+    .value-item {
+      background: var(--light-gray);
+      padding: 15px;
+      border-radius: 8px;
+      text-align: center;
+      font-weight: 600;
+      color: var(--navy);
+    }
+
+    /* Three Column Layout */
+    .three-col .cols {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 30px;
+    }
+
+    .col {
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Stats Grid */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 30px;
+      text-align: center;
+    }
+
+    .counter {
+      font-size: 2.5rem;
+      font-weight: 700;
+      color: var(--navy);
+      margin-bottom: 10px;
+    }
+
+    /* Impact Highlights */
+    .impact-highlights {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 30px;
+      margin-top: 30px;
+    }
+
+    .impact-item {
+      text-align: center;
+      padding: 20px;
+      background: var(--light-gray);
+      border-radius: 10px;
+    }
+
+    .impact-icon {
+      font-size: 2.5rem;
+      margin-bottom: 15px;
+    }
+
+    /* Footer */
+    .site-footer {
+      background: var(--navy);
+      color: white;
+      padding: 60px 0 20px;
+    }
+
+    .footer-inner {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 40px;
+    }
+
+    .footer-about img {
+      height: 60px;
+      width: auto;
+      margin-bottom: 15px;
+      border-radius: 6px;
+    }
+
+    .social-media h4 {
+      margin-bottom: 15px;
+    }
+
+    .social-links {
+      display: flex;
+      gap: 10px;
+    }
+
+    .social-link {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 40px;
+      height: 40px;
+      background: rgba(255,255,255,0.1);
+      border-radius: 50%;
+      color: white;
+      text-decoration: none;
+      font-weight: bold;
+      transition: background 0.3s;
+    }
+
+    .social-link:hover {
+      background: var(--gold);
+      color: var(--navy);
+    }
+
+    .footer-links a, .footer-resources a {
+      color: rgba(255,255,255,0.8);
+      text-decoration: none;
+      margin-bottom: 10px;
+      display: inline-block;
+    }
+
+    .footer-links a:hover, .footer-resources a:hover {
+      color: white;
+    }
+
+    .footer-links h4, .footer-resources h4, .footer-contact h4 {
+      margin-bottom: 20px;
+      color: white;
+    }
+
+    .footer-quick-links, .download-resources {
+      margin-top: 20px;
+    }
+
+    .quick-link, .download-btn {
+      display: block;
+      margin-bottom: 8px;
+      font-size: 14px;
+    }
+
+    .footer-contact form {
+      display: flex;
+      margin-bottom: 20px;
+    }
+
+    .footer-contact input {
+      flex: 1;
+      padding: 10px 15px;
+      border: none;
+      border-radius: 6px 0 0 6px;
+    }
+
+    .footer-contact button {
+      border-radius: 0 6px 6px 0;
+      white-space: nowrap;
+    }
+
+    .contact-info {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .contact-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    /* Resources Section */
+    .resources-section {
+      background: white;
+      padding: 60px 0;
+      margin-top: 40px;
+    }
+
+    .resources-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 30px;
+    }
+
+    .resource-card {
+      background: var(--light-gray);
+      padding: 30px;
+      border-radius: 10px;
+      text-align: center;
+    }
+
+    .resource-icon {
+      font-size: 3rem;
+      margin-bottom: 20px;
+    }
+
+    .resource-card h3 {
+      color: var(--navy);
+      margin-bottom: 15px;
+    }
+
+    .resource-links {
+      list-style: none;
+      padding: 0;
+      margin-top: 20px;
+    }
+
+    .resource-links li {
+      margin-bottom: 8px;
+    }
+
+    .resource-links a {
+      color: var(--navy);
+      text-decoration: none;
+    }
+
+    .resource-links a:hover {
+      text-decoration: underline;
+    }
+
+    .footer-legal {
+      text-align: center;
+      margin-top: 40px;
+      padding-top: 20px;
+      border-top: 1px solid rgba(255,255,255,0.1);
+      font-size: 14px;
+    }
+
+    .footer-legal a {
+      color: rgba(255,255,255,0.7);
+      text-decoration: none;
+      margin: 0 10px;
+    }
+
+    .footer-legal a:hover {
+      color: white;
+    }
+
+    /* Authentication Styles */
+    .auth-container {
+      background: white;
+      border-radius: 20px;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+      overflow: hidden;
+      width: 100%;
+      max-width: 420px;
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      z-index: 10000;
+      display: none;
+    }
+
+    .auth-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.7);
+      z-index: 9999;
+      display: none;
+    }
+
+    .auth-header {
+      background: var(--navy);
+      color: white;
+      padding: 30px;
+      text-align: center;
+      position: relative;
+    }
+
+    .auth-header::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 4px;
+      background: var(--gold);
+    }
+
+    .auth-logo {
+      width: 80px;
+      height: 80px;
+      background: white;
+      border-radius: 50%;
+      margin: 0 auto 15px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+      font-weight: bold;
+      color: var(--navy);
+    }
+
+    .auth-body {
+      padding: 40px;
+    }
+
+    .auth-tabs {
+      display: flex;
+      margin-bottom: 30px;
+      background: #f8f9fa;
+      border-radius: 10px;
+      padding: 4px;
+    }
+
+    .auth-tab {
+      flex: 1;
+      padding: 12px;
+      text-align: center;
+      background: none;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: all 0.3s ease;
+    }
+
+    .auth-tab.active {
+      background: var(--navy);
+      color: white;
+    }
+
+    .auth-form-group {
+      margin-bottom: 20px;
+    }
+
+    .auth-form-group label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: 600;
+      color: var(--navy);
+    }
+
+    .auth-form-control {
+      width: 100%;
+      padding: 12px 16px;
+      border: 2px solid #e1e5e9;
+      border-radius: 10px;
+      font-size: 16px;
+      transition: all 0.3s ease;
+    }
+
+    .auth-form-control:focus {
+      outline: none;
+      border-color: var(--gold);
+      box-shadow: 0 0 0 3px rgba(217, 162, 28, 0.1);
+    }
+
+    .auth-btn {
+      width: 100%;
+      padding: 14px;
+      border: none;
+      border-radius: 10px;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .auth-btn-primary {
+      background: var(--navy);
+      color: white;
+    }
+
+    .auth-btn-primary:hover {
+      background: #002a4a;
+      transform: translateY(-2px);
+    }
+
+    .auth-btn-secondary {
+      background: var(--gold);
+      color: var(--navy);
+      margin-top: 10px;
+    }
+
+    .auth-btn-secondary:hover {
+      background: #c19116;
+      transform: translateY(-2px);
+    }
+
+    .auth-divider {
+      text-align: center;
+      margin: 25px 0;
+      position: relative;
+    }
+
+    .auth-divider::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background: #e1e5e9;
+    }
+
+    .auth-divider span {
+      background: white;
+      padding: 0 15px;
+      color: #6c757d;
+      font-size: 14px;
+    }
+
+    .auth-footer {
+      text-align: center;
+      margin-top: 25px;
+      padding-top: 20px;
+      border-top: 1px solid #e1e5e9;
+    }
+
+    .auth-footer a {
+      color: var(--navy);
+      text-decoration: none;
+      font-weight: 600;
+    }
+
+    .auth-footer a:hover {
+      text-decoration: underline;
+    }
+
+    .auth-alert {
+      padding: 12px 16px;
+      border-radius: 8px;
+      margin-bottom: 20px;
+      font-size: 14px;
+    }
+
+    .auth-alert-success {
+      background: #d4edda;
+      color: #28a745;
+      border: 1px solid #c3e6cb;
+    }
+
+    .auth-alert-error {
+      background: #f8d7da;
+      color: #dc3545;
+      border: 1px solid #f5c6cb;
+    }
+
+    .guest-features {
+      background: #f8f9fa;
+      padding: 20px;
+      border-radius: 10px;
+      margin-top: 20px;
+    }
+
+    .guest-features h4 {
+      color: var(--navy);
+      margin-bottom: 10px;
+    }
+
+    .guest-features ul {
+      list-style: none;
+      padding-left: 0;
+    }
+
+    .guest-features li {
+      padding: 5px 0;
+      color: #6c757d;
+    }
+
+    .guest-features li::before {
+      content: '✓';
+      color: #28a745;
+      font-weight: bold;
+      margin-right: 10px;
+    }
+
+    /* AI Registration Section */
+    .ai-registration-container {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 30px;
+      margin-top: 20px;
+    }
+
+    .ai-chat-interface {
+      background: #f8f9fa;
+      border-radius: 12px;
+      padding: 20px;
+      border: 2px solid #e9ecef;
+    }
+
+    .chat-messages {
+      height: 300px;
+      overflow-y: auto;
+      margin-bottom: 15px;
+      padding: 15px;
+      background: white;
+      border-radius: 8px;
+      border: 1px solid #dee2e6;
+    }
+
+    .message {
+      display: flex;
+      margin-bottom: 15px;
+      gap: 10px;
+    }
+
+    .message-avatar {
+      font-size: 1.5em;
+      flex-shrink: 0;
+    }
+
+    .message-content {
+      background: #f1f3f4;
+      padding: 12px 15px;
+      border-radius: 18px;
+      max-width: 80%;
+    }
+
+    .bot-message .message-content {
+      background: var(--navy);
+      color: white;
+    }
+
+    .user-message {
+      flex-direction: row-reverse;
+    }
+
+    .user-message .message-content {
+      background: var(--gold);
+      color: var(--navy);
+    }
+
+    .chat-input-container {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 15px;
+    }
+
+    .chat-input {
+      flex: 1;
+      padding: 12px 15px;
+      border: 2px solid #dee2e6;
+      border-radius: 25px;
+      font-size: 14px;
+    }
+
+    .quick-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .quick-btn {
+      background: white;
+      border: 1px solid var(--navy);
+      color: var(--navy);
+      padding: 8px 12px;
+      border-radius: 20px;
+      font-size: 12px;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+
+    .quick-btn:hover {
+      background: var(--navy);
+      color: white;
+    }
+
+    /* Floating Chat Widget */
+    .ai-chat-widget {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      z-index: 1000;
+    }
+
+    .chat-window {
+      width: 350px;
+      height: 500px;
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+      display: flex;
+      flex-direction: column;
+      margin-bottom: 15px;
+    }
+
+    .chat-header {
+      background: var(--navy);
+      color: white;
+      padding: 15px;
+      border-radius: 12px 12px 0 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .chat-header h4 {
+      margin: 0;
+    }
+
+    .close-btn {
+      background: none;
+      border: none;
+      color: white;
+      font-size: 20px;
+      cursor: pointer;
+      padding: 0;
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .close-btn:hover {
+      background: rgba(255,255,255,0.2);
+    }
+
+    .chat-toggle-btn {
+      background: var(--gold);
+      color: var(--navy);
+      border: none;
+      border-radius: 50px;
+      padding: 15px 20px;
+      font-weight: 700;
+      cursor: pointer;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      transition: all 0.3s;
+    }
+
+    .chat-toggle-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+    }
+
+    .chat-toggle-btn.active {
+      background: var(--navy);
+      color: white;
+    }
+
+    .chat-label {
+      font-size: 14px;
+    }
+
+    /* Registration Form */
+    .registration-form-container {
+      background: white;
+      padding: 25px;
+      border-radius: 12px;
+      border: 2px solid var(--gold);
+      box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+    }
+
+    .registration-form-container h3 {
+      color: var(--navy);
+      margin-bottom: 20px;
+      text-align: center;
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    .form-group label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: 600;
+      color: var(--navy);
+    }
+
+    .form-group input, .form-group select, .form-group textarea {
+      width: 100%;
+      padding: 12px 15px;
+      border: 2px solid #e1e5e9;
+      border-radius: 8px;
+      font-size: 16px;
+      transition: all 0.3s ease;
+    }
+
+    .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
+      outline: none;
+      border-color: var(--gold);
+      box-shadow: 0 0 0 3px rgba(217, 162, 28, 0.1);
+    }
+
+    /* Mobile Responsive Styles */
+    /* Project Card Styles */
+    .project-card img {
+      width: 100%;
+      height: 250px;
+      object-fit: cover;
+      display: block;
+      border-radius: 8px 8px 0 0;
+    }
+
+    @media (max-width: 768px) {
+      .mobile-menu-toggle {
+        display: block;
+      }
+
+      .main-nav {
+        position: fixed;
+        top: 84px;
+        left: 0;
+        width: 100%;
+        background: var(--navy);
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 20px;
+        gap: 0;
+        transform: translateX(-100%);
+        transition: transform 0.3s ease;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+      }
+
+      .main-nav.active {
+        transform: translateX(0);
+      }
+
+      .main-nav a {
+        width: 100%;
+        padding: 15px 0;
+        border-bottom: 1px solid rgba(255,255,255,0.1);
+      }
+
+      .main-nav a:last-child {
+        border-bottom: none;
+      }
+
+      .hero {
+        height: 60vh;
+        min-height: 400px;
+      }
+
+      .hero h1 {
+        font-size: 2rem;
+      }
+
+      .lead {
+        font-size: 1rem;
+      }
+
+      .cta-row {
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .cta-row .btn {
+        width: 100%;
+        max-width: 250px;
+      }
+
+      .card {
+        padding: 20px;
+      }
+
+      .card h2 {
+        font-size: 1.5rem;
+      }
+
+      .values-grid {
+        grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+      }
+
+      .three-col .cols {
+        grid-template-columns: 1fr;
+      }
+
+      .stats-grid {
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      }
+
+      .counter {
+        font-size: 2rem;
+      }
+
+      .impact-highlights {
+        grid-template-columns: 1fr;
+      }
+
+      .footer-inner {
+        grid-template-columns: 1fr;
+        gap: 30px;
+      }
+
+      .footer-contact form {
+        flex-direction: column;
+      }
+
+      .footer-contact input {
+        border-radius: 6px;
+        margin-bottom: 10px;
+      }
+
+      .footer-contact button {
+        border-radius: 6px;
+        width: 100%;
+      }
+
+      .resources-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .auth-body {
+        padding: 30px 20px;
+      }
+      
+      .auth-header {
+        padding: 20px;
+      }
+
+      .auth-container {
+        width: 95%;
+        max-width: none;
+      }
+
+      .ai-registration-container {
+        grid-template-columns: 1fr;
+      }
+
+      .chat-window {
+        width: calc(100vw - 40px);
+        height: 400px;
+      }
+
+      .chat-toggle-btn .chat-label {
+        display: none;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .hero h1 {
+        font-size: 1.8rem;
+      }
+
+      .card {
+        padding: 15px;
+      }
+
+      .values-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .stats-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .counter {
+        font-size: 1.8rem;
+      }
+
+      .ai-chat-widget {
+        bottom: 10px;
+        right: 10px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<!-- Authentication Modal -->
+<div class="auth-overlay" id="authOverlay"></div>
+<div class="auth-container" id="authContainer">
+  <div class="auth-header">
+    <div class="auth-logo">EJF</div>
+    <h1 id="authTitle">Welcome Back</h1>
+    <p id="authSubtitle">Continue your journey with Economic Justice Forum</p>
+  </div>
+  
+  <div class="auth-body">
+    <div class="auth-tabs">
+      <button class="auth-tab active" onclick="switchAuthTab('login')">Login</button>
+      <button class="auth-tab" onclick="switchAuthTab('signup')">Sign Up</button>
+    </div>
+
+    <!-- Login Form -->
+    <form id="loginForm" class="auth-form">
+      <div class="auth-form-group">
+        <label for="loginEmail">Email Address</label>
+        <input type="email" id="loginEmail" class="auth-form-control" placeholder="Enter your email" required>
+      </div>
+      
+      <div class="auth-form-group">
+        <label for="loginPassword">Password</label>
+        <input type="password" id="loginPassword" class="auth-form-control" placeholder="Enter your password" required>
+      </div>
+
+      <div class="auth-form-group" style="display: flex; justify-content: space-between; align-items: center;">
+        <label style="margin: 0;">
+          <input type="checkbox" id="rememberMe"> Remember me
+        </label>
+        <a href="#" style="color: var(--navy); text-decoration: none; font-size: 14px;">Forgot password?</a>
+      </div>
+
+      <button type="submit" class="auth-btn auth-btn-primary">Sign In</button>
+    </form>
+
+    <!-- Signup Form -->
+    <form id="signupForm" class="auth-form" style="display: none;">
+      <div class="auth-form-group">
+        <label for="signupName">Full Name</label>
+        <input type="text" id="signupName" class="auth-form-control" placeholder="Enter your full name" required>
+      </div>
+
+      <div class="auth-form-group">
+        <label for="signupEmail">Email Address</label>
+        <input type="email" id="signupEmail" class="auth-form-control" placeholder="Enter your email" required>
+      </div>
+      
+      <div class="auth-form-group">
+        <label for="signupPassword">Password</label>
+        <input type="password" id="signupPassword" class="auth-form-control" placeholder="Create a password" required>
+      </div>
+
+      <div class="auth-form-group">
+        <label for="confirmPassword">Confirm Password</label>
+        <input type="password" id="confirmPassword" class="auth-form-control" placeholder="Confirm your password" required>
+      </div>
+
+      <div class="auth-form-group">
+        <label style="font-weight: normal; font-size: 14px;">
+          <input type="checkbox" id="agreeTerms" required>
+          I agree to the <a href="#" style="color: var(--navy);">Terms of Service</a> and <a href="#" style="color: var(--navy);">Privacy Policy</a>
+        </label>
+      </div>
+
+      <button type="submit" class="auth-btn auth-btn-primary">Create Account</button>
+    </form>
+
+    <div class="auth-divider">
+      <span>Or continue as</span>
+    </div>
+
+    <button class="auth-btn auth-btn-secondary" onclick="continueAsGuest()">
+      🎯 Continue as Guest
+    </button>
+
+    <div class="guest-features">
+      <h4>Guest Access Includes:</h4>
+      <ul>
+        <li>Browse all EJF content</li>
+        <li>Access research materials</li>
+        <li>Use AI assistant</li>
+        <li>View events and programs</li>
+        <li>Limited interactions</li>
+      </ul>
+    </div>
+
+    <div class="auth-footer">
+      <p>By continuing, you agree to our <a href="#">Terms</a> and <a href="#">Privacy Policy</a></p>
+    </div>
+  </div>
+</div>
+
+<header class="site-header">
+  <div class="container">
+    <div class="logo-container">
+      <img src="logo.jpeg" alt="EJF logo">
+      <div class="logo-text">
+        <div class="logo-title">Economic Justice Forum (EJF)</div>
+        <div class="logo-subtitle">Equity • Justice • Prosperity</div>
+      </div>
+    </div>
+    <button class="mobile-menu-toggle" id="mobileMenuToggle">☰</button>
+    <nav class="main-nav" id="mainNav" aria-label="Main navigation">
+      <a href="index.html">Home</a>
+      <a href="about.html">About</a>
+      <a href="pillars.html">Pillars</a>
+      <a href="programs.html">Programs</a>
+      <a href="research.html">Research</a>
+      <a href="events.html">Events</a>
+      <a href="profile.html">Profile</a>
+      <a href="donate.html" class="btn btn-gold">Donate</a>
+      <!-- Authentication Button -->
+      <div class="user-menu">
+        <button class="btn btn-primary" id="authButton" onclick="toggleAuthModal()">Login</button>
+        <div class="user-dropdown" id="userDropdown">
+          <a href="profile.html" id="profileLink">Profile</a>
+          <a href="#" id="settingsLink">Settings</a>
+          <a href="#" onclick="logout()">Logout</a>
+        </div>
+      </div>
+    </nav>
+  </div>
+</header>
+
+<section class="hero" aria-label="Hero">
+  <img src="hero.jpeg" alt="Community banner">
+  <div class="overlay">
+    <div class="hero-inner container">
+      <h1>Equity. Justice. Prosperity.</h1>
+      <p class="lead">People's Platform for Economic, Climate, Social & Digital Justice</p>
+      <div class="cta-row">
+        <a href="about.html" class="btn btn-primary">Learn More</a>
+        <a href="donate.html" class="btn btn-secondary">Join Us</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<main class="container">
+  <section class="card">
+    <h2>About Us</h2>
+    <p>The Economic Justice Forum (EJF) is the people's platform for Economic, Climate, Social, and Digital Justice. We champion equitable development, participatory governance, and sustainable prosperity for all.</p>
+    <p>EJF bridges grassroots realities and international advocacy, empowering citizens to claim their economic, environmental, and digital rights.</p>
+    <a href="about.html" class="btn btn-primary">Read Our Full Story</a>
+  </section>
+  
+  <section class="pillars-preview">
+    <div class="section-title">
+      <h2>Our Strategic Pillars</h2>
+      <p>The foundation of our mission rests on four key pillars that guide our work towards comprehensive justice and equality.</p>
+    </div>
+    
+   
+
+     
+
+    <!-- Add this section after the "About Us" section and before "Our Core Values" -->
+
+<section class="card">
+  <h2>Our Core Pillars</h2>
+  <div class="three-col">
+    <div class="cols">
+      <div class="col">
+        <h3 style="color: var(--navy);">🌍 Climate & Resource Justice</h3>
+        <p>Advocating for Natural Resources Benefit-Sharing Legislation covering minerals, marine resources, water, renewable energy, and conservation areas. Promoting sustainable economies, climate resilience, and Debt-for-Climate Swaps to invest in reforestation, clean energy, and ecosystem restoration.</p>
+      </div>
+      <div class="col">
+        <h3 style="color: var(--navy);">💻 Democracy, Digital Justice & Devolution</h3>
+        <p>Promoting transparent electronic voting, efficient county governments, digital inclusion, and ethical AI. Establishing leadership academies and advancing e-governance tools for enhanced citizen participation and accountability in the digital age.</p>
+      </div>
+      <div class="col">
+        <h3 style="color: var(--navy);">🌐 Global Advocacy & Governance Reform</h3>
+        <p>Championing UN frameworks for Natural Resource Benefit-Sharing, reforming international financial institutions, establishing Debt and Tax Justice protocols, and advocating for UN Security Council reforms to ensure Africa's voice in global decision-making.</p>
+      </div>
+    </div>
+  </div>
+  <div style="text-align: center; margin-top: 20px;">
+    <a href="pillars.html" class="btn btn-primary">Explore All Pillars</a>
+  </div>
+</section> 
+
+
+  
+  <section class="card">
+    <h2>Our Core Values</h2>
+    <div class="values-grid">
+      <div class="value-item">Equity & Social Justice</div>
+      <div class="value-item">Transparency & Integrity</div>
+      <div class="value-item">Inclusion</div>
+      <div class="value-item">Sustainability</div>
+      <div class="value-item">Collaboration</div>
+      <div class="value-item">Digital Fairness</div>
+    </div>
+  </section>
+  
+  <section>
+    <h2>Featured Projects</h2>
+    <div class="projects-grid">
+      <div class="project-card">
+        <img src="images-projects/ourtreesourfuture.webp" alt="Our Trees, Our Future Project">
+        <div class="project-content">
+          <div>
+            <h3>Our Trees, Our Future</h3>
+            <p>Growing Leaders, Growing Trees — a flagship initiative linking environmental conservation, youth leadership and civic empowerment.</p>
+          </div>
+          <a href="programs.html#trees" class="btn">Read more</a>
+        </div>
+      </div>
+      <div class="project-card">
+        <img src="images-projects/climatejustice.jpg" alt="Civic Engagement Project">
+        <div class="project-content">
+          <div>
+            <h3>Civic Engagement on Economic & Climate Justice</h3>
+            <p>Empowering citizens to influence policy, monitor public spending, and demand accountability in natural resource management and climate finance.</p>
+          </div>
+          <a href="programs.html#civic" class="btn">Read more</a>
+        </div>
+      </div>
+      <div class="project-card">
+        <img src="images-projects/advocacy.png" alt="Research and Policy Advocacy">
+        <div class="project-content">
+          <div>
+            <h3>Research & Policy Advocacy</h3>
+            <p>Developing evidence-based policy recommendations for equitable resource distribution and benefit-sharing frameworks.</p>
+          </div>
+          <a href="research.html" class="btn">Explore Research</a>
+        </div>
+      </div>
+    </div>
+  </section>
+  
+  <section class="card">
+    <h2>Our Impact</h2>
+    <div class="stats-grid">
+      <div><div class="counter">20,000</div><div>Trees grown</div></div>
+      <div><div class="counter">20,000</div><div>Tree Champions inducted</div></div>
+      <div><div class="counter">100,000</div><div>People reached through civic engagement</div></div>
+    </div>
+  </section>
+  
+  <section class="card">
+    <h2>Geographic Focus</h2>
+    <p>EJF operates across coastal counties (Taita Taveta, Kilifi, Kwale, Lamu, Mombasa), arid and semi-arid regions (Turkana, Isiolo, Samburu), resource-rich counties (Kajiado, Laikipia, Nyandarua), and urban hubs (Nairobi and Mombasa).</p>
+    <div class="impact-highlights">
+      <div class="impact-item">
+        <div class="impact-icon">🌊</div>
+        <h3>Coastal Regions</h3>
+        <p>Focus on marine resources and coastal community rights</p>
+      </div>
+      <div class="impact-item">
+        <div class="impact-icon">🌵</div>
+        <h3>Arid & Semi-Arid</h3>
+        <p>Climate resilience and resource management</p>
+      </div>
+      <div class="impact-item">
+        <div class="impact-icon">🏙️</div>
+        <h3>Urban Centers</h3>
+        <p>Digital inclusion and economic opportunities</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- AI Registration Section -->
+  <section class="card" id="ai-registration">
+    <h2>Join EJF - AI Assisted Registration</h2>
+    <p>Our AI assistant can help you register as a member, volunteer, or partner. Get instant answers to your questions about EJF and complete your registration smoothly.</p>
+    
+    <div class="ai-registration-container">
+      <div class="ai-chat-interface">
+        <div id="chat-messages" class="chat-messages">
+          <div class="message bot-message">
+            <div class="message-avatar">🤖</div>
+            <div class="message-content">
+              <strong>EJF Assistant:</strong> Hello! I'm here to help you learn about EJF and guide you through registration. What would you like to know or how can I assist you today?
+            </div>
+          </div>
+        </div>
+        
+        <div class="chat-input-container">
+          <input type="text" id="user-input" placeholder="Ask about EJF or type 'register' to become a member..." class="chat-input">
+          <button id="send-btn" class="btn btn-primary">Send</button>
+        </div>
+        
+        <div class="quick-actions">
+          <button class="quick-btn" data-question="What is EJF?">What is EJF?</button>
+          <button class="quick-btn" data-question="How to become a member?">Become a Member</button>
+          <button class="quick-btn" data-question="What are the benefits?">Membership Benefits</button>
+          <button class="quick-btn" data-question="volunteer opportunities">Volunteer Opportunities</button>
+        </div>
+      </div>
+      
+      <div class="registration-form-container" id="registration-form" style="display: none;">
+        <h3>Member Registration Form</h3>
+        <form id="member-form">
+          <div class="form-group">
+            <label>Full Name *</label>
+            <input type="text" id="full-name" required>
+          </div>
+          
+          <div class="form-group">
+            <label>Email Address *</label>
+            <input type="email" id="email" required>
+          </div>
+          
+          <div class="form-group">
+            <label>Phone Number</label>
+            <input type="tel" id="phone">
+          </div>
+          
+          <div class="form-group">
+            <label>County/Region *</label>
+            <select id="county" required>
+              <option value="">Select your county</option>
+              <option value="Taita Taveta">Taita Taveta</option>
+              <option value="Kilifi">Kilifi</option>
+              <option value="Kwale">Kwale</option>
+              <option value="Lamu">Lamu</option>
+              <option value="Mombasa">Mombasa</option>
+              <option value="Nairobi">Nairobi</option>
+              <option value="Other">Other</option>
+            </select>
+          </div>
+          
+          <div class="form-group">
+            <label>Interest Area *</label>
+            <select id="interest" required>
+              <option value="">Select your interest</option>
+              <option value="Economic Justice">Economic Justice</option>
+              <option value="Climate Justice">Climate Justice</option>
+              <option value="Social Justice">Social Justice</option>
+              <option value="Digital Justice">Digital Justice</option>
+              <option value="All Areas">All Areas</option>
+            </select>
+          </div>
+          
+          <div class="form-group">
+            <label>How would you like to contribute? *</label>
+            <select id="contribution" required>
+              <option value="">Select contribution type</option>
+              <option value="Member">General Member</option>
+              <option value="Volunteer">Volunteer</option>
+              <option value="Partner">Organization Partner</option>
+              <option value="Donor">Donor/Supporter</option>
+            </select>
+          </div>
+          
+          <div class="form-group">
+            <label>Message (Optional)</label>
+            <textarea id="message" rows="3" placeholder="Tell us about your background or interests..."></textarea>
+          </div>
+          
+          <button type="submit" class="btn btn-primary">Submit Registration</button>
+          <button type="button" id="cancel-registration" class="btn btn-secondary">Cancel</button>
+        </form>
+      </div>
+    </div>
+  </section>
+</main>
+
+ 
+  <!-- Resources Section -->
+  <div class="resources-section">
+    <div class="container">
+      <h2 style="text-align: center; color: var(--navy); margin-bottom: 10px;">Helpful Resources</h2>
+      <p style="text-align: center; margin-bottom: 30px; max-width: 600px; margin-left: auto; margin-right: auto;">
+        Access our latest publications, research papers, and educational materials to learn more about economic justice.
+      </p>
+      
+      <div class="resources-grid">
+        <div class="resource-card">
+          <div class="resource-icon">📚</div>
+          <h3>Publications</h3>
+          <p>Download our latest research papers, policy briefs, and annual reports.</p>
+          <ul class="resource-links">
+            <li><a href="#">Annual Report 2023</a></li>
+            <li><a href="#">Climate Justice Policy</a></li>
+            <li><a href="#">Economic Equity Study</a></li>
+            <li><a href="#">Digital Inclusion Paper</a></li>
+          </ul>
+        </div>
+        
+        <div class="resource-card">
+          <div class="resource-icon">🎥</div>
+          <h3>Media Resources</h3>
+          <p>Access photos, videos, and media kits for press and partners.</p>
+          <ul class="resource-links">
+            <li><a href="#">Photo Gallery</a></li>
+            <li><a href="#">Video Library</a></li>
+            <li><a href="#">Press Releases</a></li>
+            <li><a href="#">Media Kit</a></li>
+          </ul>
+        </div>
+        
+        <div class="resource-card">
+          <div class="resource-icon">📊</div>
+          <h3>Data & Research</h3>
+          <p>Explore our data visualizations and research findings.</p>
+          <ul class="resource-links">
+            <li><a href="#">Impact Dashboard</a></li>
+            <li><a href="#">Research Database</a></li>
+            <li><a href="#">Case Studies</a></li>
+            <li><a href="#">Statistics</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+<footer class="site-footer">
+  <div class="container footer-inner">
+    <div class="footer-about">
+      <img src="logo.jpeg" alt="EJF logo" class="logo-sm" />
+      <p><strong>Economic Justice Forum (EJF)</strong><br/>Equity. Justice. Prosperity.</p>
+      <p>Equity • Justice • Prosperity</p>
+      
+      <div class="social-media">
+        <h4>Follow Us</h4>
+        <div class="social-links">
+          <a href="https://www.facebook.com/share/17Zf49Rkb9/?mibextid=wwXIfr" class="social-link facebook" aria-label="Facebook">
+            <i>f</i>
+          </a>
+          <a href=" https://x.com/Economicjusti?t=PsvaT0beGOqlZEs4COyiOQ&s=08" class="social-link twitter" aria-label="Twitter">
+            <i>𝕏</i>
+          </a>
+          <a href="https://www.instagram.com/invites/contact/?utm_source=ig_contact_invite&utm_medium=copy_link&utm_content=zqovetx" class="social-link instagram" aria-label="Instagram">
+            <i class="fab fa-instagram"></i>
+          </a>
+          <a href="https://www.linkedin.com/in/economic-justice-forum-65758238b?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app" class="social-link linkedin" aria-label="LinkedIn">
+            <i>in</i>
+          </a>
+          <a href="#" class="social-link youtube" aria-label="YouTube">
+            <i>▶</i>
+          </a>
+        </div>
+      </div>
+    </div>
+    
+    <div class="footer-links">
+      <h4>Explore</h4>
+      <a href="about.html">About</a><br/>
+      <a href="pillars.html">Pillars</a><br/>
+      <a href="programs.html">Programs</a><br/>
+      <a href="research.html">Research</a><br/>
+      <a href="events.html">Events</a><br/>
+      <a href="donate.html">Donate</a>
+      
+      <div class="footer-quick-links">
+        <a href="#" class="quick-link">Annual Report</a>
+        <a href="#" class="quick-link">Newsletter</a>
+        <a href="#" class="quick-link">Careers</a>
+        <a href="#" class="quick-link">FAQs</a>
+      </div>
+    </div>
+    
+    <div class="footer-resources">
+      <h4>Resources</h4>
+      <a href="research.html">Publications</a><br/>
+      <a href="#">Policy Briefs</a><br/>
+      <a href="#">Case Studies</a><br/>
+      <a href="#">Research Papers</a><br/>
+      <a href="#">Annual Reports</a><br/>
+      <a href="#">Media Kit</a>
+      
+      <div class="download-resources">
+        <a href="#" class="download-btn">📥 EJF Brochure</a>
+        <a href="#" class="download-btn">📥 Impact Report</a>
+      </div>
+    </div>
+    
+    <div class="footer-contact">
+      <h4>Subscribe</h4>
+      <form id="newsletter" action="#" method="post">
+        <input type="email" placeholder="Email address" required/>
+        <button class="btn btn-primary">Subscribe</button>
+      </form>
+      
+      <div class="contact-info">
+        <div class="contact-item">
+          <i>📧</i> economicjusticeforum.org
+        </div>
+        <div class="contact-item">
+          <i class="fas fa-phone"></i> +254 741 357 830
+        </div>
+        <div class="contact-item">
+          <i>📍</i> Taita-Taveta, Kenya
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer-legal">
+    <p>&copy; 2025 Economic Justice Forum (EJF) — Building a Future of Justice, Equity, and Prosperity</p>
+    <div style="margin-top: 10px;">
+      <a href="#" style="color: rgba(255,255,255,0.7); margin: 0 10px; font-size: 12px;">Privacy Policy</a>
+      <a href="#" style="color: rgba(255,255,255,0.7); margin: 0 10px; font-size: 12px;">Terms of Service</a>
+      <a href="#" style="color: rgba(255,255,255,0.7); margin: 0 10px; font-size: 12px;">Accessibility</a>
+    </div>
+  </div>
+</footer>
+
+<!-- AI Chat Widget (Floating) -->
+<div id="ai-chat-widget" class="ai-chat-widget">
+  <div id="chat-window" class="chat-window" style="display: none;">
+    <div class="chat-header">
+      <h4>EJF Assistant</h4>
+      <button id="close-chat" class="close-btn">×</button>
+    </div>
+    <div id="widget-messages" class="chat-messages">
+      <div class="message bot-message">
+        <div class="message-avatar">🤖</div>
+        <div class="message-content">
+          <strong>EJF Assistant:</strong> Hi! I can answer questions about EJF and help with registration. How can I assist you?
+        </div>
+      </div>
+    </div>
+    <div class="chat-input-container">
+      <input type="text" id="widget-input" placeholder="Type your question..." class="chat-input">
+      <button id="widget-send" class="btn btn-primary">Send</button>
+    </div>
+  </div>
+  <button id="chat-toggle" class="chat-toggle-btn">
+    <span>🤖</span>
+    <span class="chat-label">EJF Assistant</span>
+  </button>
+</div>
+
+<!-- Mobile Menu Script -->
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const mobileMenuToggle = document.getElementById('mobileMenuToggle');
+    const mainNav = document.getElementById('mainNav');
+    
+    mobileMenuToggle.addEventListener('click', function() {
+      mainNav.classList.toggle('active');
+      this.textContent = mainNav.classList.contains('active') ? '✕' : '☰';
+    });
+    
+    // Close mobile menu when clicking on a link
+    const navLinks = mainNav.querySelectorAll('a');
+    navLinks.forEach(link => {
+      link.addEventListener('click', () => {
+        mainNav.classList.remove('active');
+        mobileMenuToggle.textContent = '☰';
+      });
+    });
+  });
+</script>
+
+<!-- Authentication JavaScript -->
+<script>
+// Authentication System
+class AuthSystem {
+    constructor() {
+        this.user = null;
+        this.init();
+    }
+
+    init() {
+        this.loadUser();
+        this.setupEventListeners();
+        this.updateUI();
+    }
+
+    loadUser() {
+        const userData = localStorage.getItem('ejfUser');
+        if (userData) {
+            this.user = JSON.parse(userData);
+        }
+    }
+
+    setupEventListeners() {
+        // Login form
+        document.getElementById('loginForm').addEventListener('submit', (e) => this.handleLogin(e));
+        
+        // Signup form
+        document.getElementById('signupForm').addEventListener('submit', (e) => this.handleSignup(e));
+        
+        // Close modal when clicking overlay
+        document.getElementById('authOverlay').addEventListener('click', () => this.hideAuthModal());
+        
+        // User dropdown
+        document.addEventListener('click', (e) => {
+            if (!e.target.closest('.user-menu')) {
+                document.getElementById('userDropdown').classList.remove('show');
+            }
+        });
+    }
+
+    updateUI() {
+        const authButton = document.getElementById('authButton');
+        const userDropdown = document.getElementById('userDropdown');
+
+        if (this.user) {
+            if (this.user.type === 'guest') {
+                authButton.innerHTML = '👤 Guest';
+                authButton.onclick = () => userDropdown.classList.toggle('show');
+                this.showGuestNotification();
+            } else {
+                authButton.innerHTML = `👤 ${this.user.name}`;
+                authButton.onclick = () => userDropdown.classList.toggle('show');
+                this.showWelcomeBack();
+            }
+        } else {
+            authButton.innerHTML = 'Login';
+            authButton.onclick = () => this.showAuthModal();
+        }
+    }
+
+    showAuthModal() {
+        document.getElementById('authOverlay').style.display = 'block';
+        document.getElementById('authContainer').style.display = 'block';
+    }
+
+    hideAuthModal() {
+        document.getElementById('authOverlay').style.display = 'none';
+        document.getElementById('authContainer').style.display = 'none';
+    }
+
+    handleLogin(e) {
+        e.preventDefault();
+        const email = document.getElementById('loginEmail').value;
+        const password = document.getElementById('loginPassword').value;
+        
+        if (email && password) {
+            this.user = {
+                email: email,
+                name: email.split('@')[0],
+                type: 'member',
+                loginTime: new Date().toISOString()
+            };
+            
+            localStorage.setItem('ejfUser', JSON.stringify(this.user));
+            this.showAlert('Login successful!', 'success');
+            this.hideAuthModal();
+            this.updateUI();
+        } else {
+            this.showAlert('Please fill in all fields', 'error');
+        }
+    }
+
+    handleSignup(e) {
+        e.preventDefault();
+        const name = document.getElementById('signupName').value;
+        const email = document.getElementById('signupEmail').value;
+        const password = document.getElementById('signupPassword').value;
+        const confirmPassword = document.getElementById('confirmPassword').value;
+        
+        if (password !== confirmPassword) {
+            this.showAlert('Passwords do not match', 'error');
+            return;
+        }
+        
+        if (name && email && password) {
+            this.user = {
+                email: email,
+                name: name,
+                type: 'member',
+                loginTime: new Date().toISOString()
+            };
+            
+            localStorage.setItem('ejfUser', JSON.stringify(this.user));
+            this.showAlert('Account created successfully! Welcome to EJF.', 'success');
+            this.hideAuthModal();
+            this.updateUI();
+        } else {
+            this.showAlert('Please fill in all fields', 'error');
+        }
+    }
+
+    continueAsGuest() {
+        this.user = {
+            email: 'guest@ejf.org',
+            name: 'Guest',
+            type: 'guest',
+            loginTime: new Date().toISOString()
+        };
+        
+        localStorage.setItem('ejfUser', JSON.stringify(this.user));
+        this.showAlert('Welcome! Continuing as guest.', 'success');
+        this.hideAuthModal();
+        this.updateUI();
+    }
+
+    logout() {
+        localStorage.removeItem('ejfUser');
+        this.user = null;
+        this.updateUI();
+        this.showAlert('Logged out successfully', 'success');
+    }
+
+    showAlert(message, type) {
+        // Remove existing alerts
+        const existingAlert = document.querySelector('.auth-alert');
+        if (existingAlert) {
+            existingAlert.remove();
+        }
+        
+        const alert = document.createElement('div');
+        alert.className = `auth-alert auth-alert-${type}`;
+        alert.textContent = message;
+        
+        const authBody = document.querySelector('.auth-body');
+        authBody.insertBefore(alert, authBody.firstChild);
+        
+        setTimeout(() => {
+            if (alert.parentNode) {
+                alert.remove();
+            }
+        }, 5000);
+    }
+
+    showGuestNotification() {
+        const notification = document.createElement('div');
+        notification.style.cssText = `
+            position: fixed;
+            top: 80px;
+            right: 20px;
+            background: var(--gold);
+            color: var(--navy);
+            padding: 10px 15px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            z-index: 1000;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        `;
+        notification.innerHTML = '👋 Welcome, Guest! <span style="margin-left: 8px; cursor: pointer; text-decoration: underline;" onclick="authSystem.showAuthModal()">Upgrade</span>';
+        
+        document.body.appendChild(notification);
+        
+        setTimeout(() => {
+            if (notification.parentNode) {
+                notification.remove();
+            }
+        }, 5000);
+    }
+
+    showWelcomeBack() {
+        console.log(`Welcome back, ${this.user.name}!`);
+    }
+}
+
+// Global functions for HTML onclick attributes
+function switchAuthTab(tab) {
+    const loginForm = document.getElementById('loginForm');
+    const signupForm = document.getElementById('signupForm');
+    const tabs = document.querySelectorAll('.auth-tab');
+    const authTitle = document.getElementById('authTitle');
+    const authSubtitle = document.getElementById('authSubtitle');
+    
+    tabs.forEach(t => t.classList.remove('active'));
+    
+    if (tab === 'login') {
+        loginForm.style.display = 'block';
+        signupForm.style.display = 'none';
+        tabs[0].classList.add('active');
+        authTitle.textContent = 'Welcome Back';
+        authSubtitle.textContent = 'Continue your journey with Economic Justice Forum';
+    } else {
+        loginForm.style.display = 'none';
+        signupForm.style.display = 'block';
+        tabs[1].classList.add('active');
+        authTitle.textContent = 'Join EJF';
+        authSubtitle.textContent = 'Become part of the movement for economic justice';
+    }
+}
+
+function toggleAuthModal() {
+    if (window.authSystem.user) {
+        document.getElementById('userDropdown').classList.toggle('show');
+    } else {
+        window.authSystem.showAuthModal();
+    }
+}
+
+function continueAsGuest() {
+    window.authSystem.continueAsGuest();
+}
+
+function logout() {
+    window.authSystem.logout();
+    document.getElementById('userDropdown').classList.remove('show');
+}
+
+// Initialize authentication system
+document.addEventListener('DOMContentLoaded', () => {
+    window.authSystem = new AuthSystem();
+});
+</script>
+
+<!-- Add this JavaScript for AI functionality -->
+<script>
+// Update your ejfKnowledgeBase object:
+const ejfKnowledgeBase = {
+  "what is ejf": "The Economic Justice Forum (EJF) is the people's platform for Economic, Climate, Social, and Digital Justice. We champion equitable development, participatory governance, and sustainable prosperity for all.",
+  "mission": "Our mission is to promote economic, social, climate, and digital justice through policy advocacy, constitutional reforms, civic empowerment, and sustainable development.",
+  "vision": "Our vision is a just, equitable, sustainable, and digitally inclusive Kenya where every person enjoys dignity, opportunity, and prosperity.",
+  "founder": "EJF was founded by Hon. Christopher Mwambingu along with co-founders Hon. Amriya Juma Boy, Mr. Moses Macharia, Reverend Isaac Mwambingu, and Mr. Hassan Maghanga.",
+  "programs": "Our main programs include: 1) Our Trees, Our Future - environmental conservation and youth leadership, 2) Civic Engagement on Economic & Climate Justice, 3) Research and Policy Advocacy.",
+  "membership benefits": "As an EJF member, you get: Access to training programs, Networking opportunities, Participation in advocacy campaigns, Updates on research and policy, Volunteer opportunities, and A platform to contribute to social change.",
+  "volunteerOpportunities": "We offer volunteering in: Community mobilization, Research assistance, Event organization, Digital skills training, Tree planting initiatives, and Civic education programs.",
+  "donate": "You can support EJF through: One-time donations, Monthly contributions, Corporate partnerships, or In-kind support. Visit our donate page for more details.",
+  "contact": "You can reach us through the contact form on our website or start a registration process to become more involved.",
+  "location": "EJF operates across coastal counties (Taita Taveta, Kilifi, Kwale, Lamu, Mombasa), arid regions, resource-rich counties, and urban hubs.",
+  "impact": "We've planted 20,000 trees, trained 20,000 Tree Champions, and reached 100,000+ people through civic engagement."
+};
+
+// AI Response System
+class EJFAssistant {
+  constructor() {
+    this.registrationStep = 0;
+    this.userData = {};
+    this.setupEventListeners();
+  }
+
+  setupEventListeners() {
+    // Main chat interface
+    document.getElementById('send-btn').addEventListener('click', () => this.handleUserInput());
+    document.getElementById('user-input').addEventListener('keypress', (e) => {
+      if (e.key === 'Enter') this.handleUserInput();
+    });
+
+    // Widget chat interface
+    document.getElementById('widget-send').addEventListener('click', () => this.handleWidgetInput());
+    document.getElementById('widget-input').addEventListener('keypress', (e) => {
+      if (e.key === 'Enter') this.handleWidgetInput();
+    });
+
+    // Quick action buttons
+    document.querySelectorAll('.quick-btn').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        const question = e.target.getAttribute('data-question');
+        this.processQuestion(question, 'user-input');
+      });
+    });
+
+    // Chat toggle
+    document.getElementById('chat-toggle').addEventListener('click', () => this.toggleChatWidget());
+
+    // Registration form
+    document.getElementById('member-form').addEventListener('submit', (e) => this.handleRegistration(e));
+    document.getElementById('cancel-registration').addEventListener('click', () => this.cancelRegistration());
+
+    // Close chat
+    document.getElementById('close-chat').addEventListener('click', () => this.toggleChatWidget());
+  }
+
+  handleUserInput() {
+    const input = document.getElementById('user-input');
+    const question = input.value.trim();
+    if (question) {
+      this.processQuestion(question, 'user-input');
+      input.value = '';
+    }
+  }
+
+  handleWidgetInput() {
+    const input = document.getElementById('widget-input');
+    const question = input.value.trim();
+    if (question) {
+      this.processQuestion(question, 'widget-input');
+      input.value = '';
+    }
+  }
+
+  processQuestion(question, inputType) {
+    this.addMessage(question, 'user', inputType);
+    
+    // Check if user wants to register
+    if (question.toLowerCase().includes('register') || question.toLowerCase().includes('become member') || question.toLowerCase().includes('join')) {
+      this.startRegistrationProcess(inputType);
+      return;
+    }
+
+    // Find matching response
+    const response = this.findResponse(question);
+    setTimeout(() => {
+      this.addMessage(response, 'bot', inputType);
+      
+      // Suggest registration if relevant
+      if (question.toLowerCase().includes('member') || question.toLowerCase().includes('join') || question.toLowerCase().includes('participate')) {
+        setTimeout(() => {
+          this.addMessage("Would you like me to help you register as a member? Just type 'register' or click the registration form.", 'bot', inputType);
+        }, 500);
+      }
+    }, 1000);
+  }
+
+ findResponse(question) {
+  const lowerQuestion = question.toLowerCase();
+  
+  // Check for exact matches in knowledge base
+  for (const [key, value] of Object.entries(ejfKnowledgeBase)) {
+    if (lowerQuestion.includes(key)) {
+      return value;
+    }
+  }
+
+  // Check for related terms
+  if (lowerQuestion.includes('tree') || lowerQuestion.includes('plant') || lowerQuestion.includes('environment')) {
+    return ejfKnowledgeBase.programs;
+  } else if (lowerQuestion.includes('money') || lowerQuestion.includes('fund') || lowerQuestion.includes('support')) {
+    return ejfKnowledgeBase.donate;
+  } else if (lowerQuestion.includes('help') || lowerQuestion.includes('volunteer') || lowerQuestion.includes('participate')) {
+    return ejfKnowledgeBase.volunteerOpportunities;
+  } else if (lowerQuestion.includes('where') || lowerQuestion.includes('location') || lowerQuestion.includes('area')) {
+    return ejfKnowledgeBase.location;
+  }
+
+  // Default response
+  return "I'm here to help you learn about EJF! You can ask me about our mission, programs, membership, volunteering, or how to support our work. If you'd like to register as a member, just type 'register'.";
+}
+
+  startRegistrationProcess(inputType) {
+    this.addMessage("Great! I'd be happy to help you register. Let me show you the registration form where you can provide your details.", 'bot', inputType);
+    
+    setTimeout(() => {
+      document.getElementById('registration-form').style.display = 'block';
+      document.getElementById('ai-registration').scrollIntoView({ behavior: 'smooth' });
+    }, 1000);
+  }
+
+  cancelRegistration() {
+    document.getElementById('registration-form').style.display = 'none';
+    this.addMessage("Registration cancelled. If you change your mind, just type 'register' anytime!", 'bot', 'user-input');
+  }
+
+  async handleRegistration(e) {
+    e.preventDefault();
+    
+    const formData = {
+      name: document.getElementById('full-name').value,
+      email: document.getElementById('email').value,
+      phone: document.getElementById('phone').value,
+      county: document.getElementById('county').value,
+      interest: document.getElementById('interest').value,
+      contribution: document.getElementById('contribution').value,
+      message: document.getElementById('message').value,
+      timestamp: new Date().toISOString()
+    };
+
+    // Store in localStorage (in real implementation, this would go to a server)
+    let registrations = JSON.parse(localStorage.getItem('ejfRegistrations') || '[]');
+    registrations.push(formData);
+    localStorage.setItem('ejfRegistrations', JSON.stringify(registrations));
+
+    // Show success message
+    this.addMessage(`Thank you ${formData.name}! Your registration as a ${formData.contribution} has been received. We'll contact you at ${formData.email} soon. Welcome to EJF!`, 'bot', 'user-input');
+    
+    // Reset form
+    document.getElementById('member-form').reset();
+    document.getElementById('registration-form').style.display = 'none';
+
+    // Also show in widget if open
+    if (document.getElementById('chat-window').style.display !== 'none') {
+      this.addMessage(`Registration completed for ${formData.name} as ${formData.contribution}. Welcome to EJF!`, 'bot', 'widget-input');
+    }
+  }
+
+  addMessage(text, sender, inputType) {
+    const messageDiv = document.createElement('div');
+    messageDiv.className = `message ${sender}-message`;
+    
+    const avatar = sender === 'bot' ? '🤖' : '👤';
+    messageDiv.innerHTML = `
+      <div class="message-avatar">${avatar}</div>
+      <div class="message-content">
+        <strong>${sender === 'bot' ? 'EJF Assistant' : 'You'}:</strong> ${text}
+      </div>
+    `;
+
+    const messagesContainer = inputType === 'user-input' ? 
+      document.getElementById('chat-messages') : 
+      document.getElementById('widget-messages');
+    
+    messagesContainer.appendChild(messageDiv);
+    messagesContainer.scrollTop = messagesContainer.scrollHeight;
+  }
+
+  toggleChatWidget() {
+    const chatWindow = document.getElementById('chat-window');
+    const isVisible = chatWindow.style.display !== 'none';
+    chatWindow.style.display = isVisible ? 'none' : 'block';
+    
+    const toggleBtn = document.getElementById('chat-toggle');
+    if (!isVisible) {
+      toggleBtn.classList.add('active');
+    } else {
+      toggleBtn.classList.remove('active');
+    }
+  }
+}
+
+// Initialize the AI Assistant when page loads
+document.addEventListener('DOMContentLoaded', () => {
+  new EJFAssistant();
+});
+
+// Back to Top functionality
+const backToTopButton = document.createElement('a');
+backToTopButton.href = '#';
+backToTopButton.className = 'back-to-top';
+backToTopButton.innerHTML = '↑';
+document.body.appendChild(backToTopButton);
+
+// Counter Animation
+const animateCounter = (element, target) => {
+  const duration = 2000; // Animation duration in milliseconds
+  const steps = 50; // Number of steps in the animation
+  const stepTime = duration / steps;
+  let currentNumber = 0;
+  const stepValue = target / steps;
+  
+  const updateCounter = () => {
+    currentNumber += stepValue;
+    if (currentNumber > target) {
+      element.textContent = target.toLocaleString();
+      return;
+    }
+    element.textContent = Math.round(currentNumber).toLocaleString();
+    setTimeout(updateCounter, stepTime);
+  };
+  
+  updateCounter();
+};
+
+// Intersection Observer for counters
+const observerOptions = {
+  root: null,
+  rootMargin: '0px',
+  threshold: 0.5
+};
+
+const counterObserver = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      const counterElements = entry.target.querySelectorAll('.counter');
+      counterElements.forEach(counter => {
+        const target = parseInt(counter.textContent.replace(/,/g, ''));
+        counter.classList.add('visible');
+        animateCounter(counter, target);
+      });
+      counterObserver.unobserve(entry.target); // Only animate once
+    }
+  });
+}, observerOptions);
+
+// Start observing the stats section
+const statsSection = document.querySelector('.stats-grid');
+if (statsSection) {
+  counterObserver.observe(statsSection);
+}
+
+window.addEventListener('scroll', () => {
+  if (window.pageYOffset > 300) {
+    backToTopButton.classList.add('visible');
+  } else {
+    backToTopButton.classList.remove('visible');
+  }
+});
+
+backToTopButton.addEventListener('click', (e) => {
+  e.preventDefault();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+});
+
+// Header scroll behavior
+let lastScrollY = window.scrollY;
+let ticking = false;
+
+function updateHeader() {
+  const header = document.querySelector('.site-header');
+  const currentScrollY = window.scrollY;
+  
+  // Show header when scrolling up or at top
+  if (currentScrollY < lastScrollY || currentScrollY < 100) {
+    header.classList.remove('header-hidden');
+  } 
+  // Hide header when scrolling down and not at top
+  else if (currentScrollY > 100) {
+    header.classList.add('header-hidden');
+  }
+  
+  lastScrollY = currentScrollY;
+  ticking = false;
+}
+
+window.addEventListener('scroll', () => {
+  if (!ticking) {
+    window.requestAnimationFrame(() => {
+      updateHeader();
+    });
+    ticking = true;
+  }
+});
+</script>
+
+</body>
+</html>

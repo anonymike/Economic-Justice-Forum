@@ -1,0 +1,1167 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Strategic Pillars | EJF</title>
+  <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+  <link rel="manifest" href="site.webmanifest">
+  <style>
+    /* Base Styles */
+    :root {
+      --navy: #00264d;
+      --gold: #d9a21c;
+      --text: #333333;
+      --light-gray: #f8f9fa;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      line-height: 1.6;
+      color: var(--text);
+      overflow-x: hidden;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 15px;
+    }
+
+    /* Header & Navigation */
+    .site-header {
+      background: var(--navy);
+      padding: 15px 0;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+
+    .site-header .container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo-container {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .logo-container img {
+      height: 54px;
+      width: auto;
+      object-fit: contain;
+      border-radius: 6px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    }
+
+    .logo-text {
+      color: white;
+    }
+
+    .logo-title {
+      font-weight: 700;
+      font-size: 16px;
+    }
+
+    .logo-subtitle {
+      font-size: 14px;
+      opacity: 0.9;
+      text-align: center;
+      margin-top: 4px;
+      font-weight: 500;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+    }
+
+    /* Mobile Navigation */
+    .mobile-menu-toggle {
+      display: none;
+      background: none;
+      border: none;
+      color: white;
+      font-size: 24px;
+      cursor: pointer;
+      padding: 5px;
+    }
+
+    .main-nav {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .main-nav a {
+      color: white;
+      text-decoration: none;
+      font-weight: 500;
+      transition: color 0.3s;
+      white-space: nowrap;
+    }
+
+    .main-nav a:hover {
+      color: var(--gold);
+    }
+
+    .btn {
+      display: inline-block;
+      padding: 10px 20px;
+      border-radius: 6px;
+      text-decoration: none;
+      font-weight: 600;
+      text-align: center;
+      transition: all 0.3s ease;
+      border: none;
+      cursor: pointer;
+    }
+
+    .btn-primary {
+      background: var(--navy);
+      color: white;
+    }
+
+    .btn-secondary {
+      background: var(--gold);
+      color: var(--navy);
+    }
+
+    .btn-gold {
+      background: var(--gold);
+      color: var(--navy);
+    }
+
+    /* Hero Section */
+    .hero {
+      position: relative;
+      height: 60vh;
+      min-height: 400px;
+      width: 100%;
+      overflow: hidden;
+    }
+
+    .hero img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .hero-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 38, 77, 0.7);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 20px;
+    }
+
+    .hero-content {
+      color: white;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    .hero-content h1 {
+      font-size: 3rem;
+      margin-bottom: 20px;
+      text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+    }
+
+    .hero-content p {
+      font-size: 1.2rem;
+      margin-bottom: 30px;
+      opacity: 0.9;
+    }
+
+    @media (max-width: 768px) {
+      .hero {
+        height: 50vh;
+      }
+      
+      .hero-content h1 {
+        font-size: 2rem;
+      }
+      
+      .hero-content p {
+        font-size: 1rem;
+      }
+    }
+
+    /* Strategic Pillars Section */
+    .strategic-pillars {
+      margin: 40px 0;
+    }
+
+    .pillars-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 30px;
+      margin-top: 40px;
+    }
+
+    .pillar-card {
+      background: white;
+      border-radius: 12px;
+      padding: 30px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+      transition: all 0.4s ease;
+      position: relative;
+      overflow: hidden;
+      border-top: 4px solid var(--gold);
+      opacity: 0;
+      transform: translateY(30px);
+    }
+
+    .pillar-card.animate {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .pillar-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 15px 40px rgba(0,0,0,0.15);
+    }
+
+    .pillar-details {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.5s ease-out;
+      margin-top: 0;
+    }
+
+    .pillar-card.expanded .pillar-details {
+      max-height: 1000px;
+      margin-top: 20px;
+    }
+
+    .pillar-card.expanded .pillar-link {
+      background-color: var(--gold);
+    }
+
+    .pillar-card.expanded .pillar-link::after {
+      transform: rotate(180deg);
+    }
+
+    .pillar-icon {
+      font-size: 2.5rem;
+      color: var(--gold);
+      margin-bottom: 20px;
+      display: inline-block;
+      transition: transform 0.3s ease;
+    }
+
+    .pillar-card:hover .pillar-icon {
+      transform: scale(1.2);
+    }
+
+    .pillar-title {
+      font-size: 1.5rem;
+      color: var(--navy);
+      margin-bottom: 15px;
+      font-weight: 700;
+    }
+
+    .pillar-description {
+      color: var(--text);
+      line-height: 1.6;
+      margin-bottom: 20px;
+    }
+
+    .pillar-items {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .pillar-items li {
+      padding: 8px 0;
+      padding-left: 25px;
+      position: relative;
+      color: var(--text);
+    }
+
+    .pillar-items li::before {
+      content: "→";
+      position: absolute;
+      left: 0;
+      color: var(--gold);
+      font-weight: bold;
+    }
+
+    .pillar-link {
+      display: inline-block;
+      margin-top: 20px;
+      padding: 10px 20px;
+      background-color: var(--navy);
+      color: white;
+      text-decoration: none;
+      border-radius: 6px;
+      transition: all 0.3s ease;
+    }
+
+    .pillar-link:hover {
+      background-color: var(--gold);
+      transform: translateY(-2px);
+    }
+
+    /* Detailed Pillar Sections */
+    .pillar-details {
+      margin-top: 20px;
+    }
+
+    .pillar-details h3 {
+      color: var(--navy);
+      margin-bottom: 15px;
+      font-size: 1.3rem;
+    }
+
+    .pillar-details ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .pillar-details li {
+      padding: 10px 0;
+      padding-left: 25px;
+      position: relative;
+      border-bottom: 1px solid #f0f0f0;
+    }
+
+    .pillar-details li:last-child {
+      border-bottom: none;
+    }
+
+    .pillar-details li::before {
+      content: "→";
+      position: absolute;
+      left: 0;
+      color: var(--gold);
+      font-weight: bold;
+    }
+
+    /* Smooth Scroll Behavior */
+    html {
+      scroll-behavior: smooth;
+    }
+
+    .section-title {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .section-title h2 {
+      color: var(--navy);
+      font-size: 2.5rem;
+      margin-bottom: 15px;
+    }
+
+    .section-title p {
+      color: var(--text);
+      max-width: 700px;
+      margin: 0 auto;
+      font-size: 1.1rem;
+    }
+
+    /* Animation Delays */
+    .pillar-card:nth-child(1) { transition-delay: 0.1s; }
+    .pillar-card:nth-child(2) { transition-delay: 0.2s; }
+    .pillar-card:nth-child(3) { transition-delay: 0.3s; }
+    .pillar-card:nth-child(4) { transition-delay: 0.4s; }
+
+    @media (max-width: 768px) {
+      .pillars-grid {
+        grid-template-columns: 1fr;
+      }
+      
+      .section-title h2 {
+        font-size: 2rem;
+      }
+      
+      .pillar-title {
+        font-size: 1.3rem;
+      }
+    }
+
+    /* Main Content */
+    main {
+      padding: 60px 0;
+    }
+
+    .card {
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+      padding: 30px;
+      margin-bottom: 30px;
+    }
+
+    .card h1, .card h2 {
+      color: var(--navy);
+      margin-top: 0;
+      margin-bottom: 20px;
+    }
+
+    .card h1 {
+      font-size: 2.2rem;
+    }
+
+    .card h2 {
+      font-size: 1.8rem;
+    }
+
+    .card h3, .card h4 {
+      color: var(--navy);
+      margin-top: 0;
+      margin-bottom: 15px;
+    }
+
+    /* Focus Areas */
+    .focus-areas {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 25px;
+      margin-top: 20px;
+    }
+
+    .focus-item {
+      background: white;
+      border-radius: 8px;
+      padding: 20px;
+      box-shadow: 0 3px 10px rgba(0,0,0,0.05);
+      border-top: 3px solid var(--gold);
+    }
+
+    /* Values Grid */
+    .values-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 15px;
+    }
+
+    .value-item {
+      background: var(--light-gray);
+      padding: 15px;
+      border-radius: 8px;
+      text-align: center;
+      font-weight: 600;
+      color: var(--navy);
+    }
+
+    /* Impact Highlights */
+    .impact-highlights {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 30px;
+      margin-top: 30px;
+    }
+
+    .impact-item {
+      text-align: center;
+      padding: 20px;
+      background: var(--light-gray);
+      border-radius: 10px;
+    }
+
+    .impact-icon {
+      font-size: 2.5rem;
+      margin-bottom: 15px;
+    }
+
+    /* Footer */
+    .site-footer {
+      background: var(--navy);
+      color: white;
+      padding: 60px 0 20px;
+    }
+
+    .footer-inner {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 40px;
+    }
+
+    .footer-about img {
+      height: 60px;
+      width: auto;
+      margin-bottom: 15px;
+      border-radius: 6px;
+    }
+
+    .social-media h4 {
+      margin-bottom: 15px;
+    }
+
+    .social-links {
+      display: flex;
+      gap: 10px;
+    }
+
+    .social-link {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 40px;
+      height: 40px;
+      background: rgba(255,255,255,0.1);
+      border-radius: 50%;
+      color: white;
+      text-decoration: none;
+      font-weight: bold;
+      transition: background 0.3s;
+    }
+
+    .social-link:hover {
+      background: var(--gold);
+      color: var(--navy);
+    }
+
+    .footer-links a, .footer-resources a {
+      color: rgba(255,255,255,0.8);
+      text-decoration: none;
+      margin-bottom: 10px;
+      display: inline-block;
+    }
+
+    .footer-links a:hover, .footer-resources a:hover {
+      color: white;
+    }
+
+    .footer-links h4, .footer-resources h4, .footer-contact h4 {
+      margin-bottom: 20px;
+      color: white;
+    }
+
+    .footer-quick-links, .download-resources {
+      margin-top: 20px;
+    }
+
+    .quick-link, .download-btn {
+      display: block;
+      margin-bottom: 8px;
+      font-size: 14px;
+    }
+
+    .footer-contact form {
+      display: flex;
+      margin-bottom: 20px;
+    }
+
+    .footer-contact input {
+      flex: 1;
+      padding: 10px 15px;
+      border: none;
+      border-radius: 6px 0 0 6px;
+    }
+
+    .footer-contact button {
+      border-radius: 0 6px 6px 0;
+      white-space: nowrap;
+    }
+
+    .contact-info {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .contact-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    /* Resources Section */
+    .resources-section {
+      background: white;
+      padding: 60px 0;
+      margin-top: 40px;
+    }
+
+    .resources-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 30px;
+    }
+
+    .resource-card {
+      background: var(--light-gray);
+      padding: 30px;
+      border-radius: 10px;
+      text-align: center;
+    }
+
+    .resource-icon {
+      font-size: 3rem;
+      margin-bottom: 20px;
+    }
+
+    .resource-card h3 {
+      color: var(--navy);
+      margin-bottom: 15px;
+    }
+
+    .resource-links {
+      list-style: none;
+      padding: 0;
+      margin-top: 20px;
+    }
+
+    .resource-links li {
+      margin-bottom: 8px;
+    }
+
+    .resource-links a {
+      color: var(--navy);
+      text-decoration: none;
+    }
+
+    .resource-links a:hover {
+      text-decoration: underline;
+    }
+
+    .footer-legal {
+      text-align: center;
+      margin-top: 40px;
+      padding-top: 20px;
+      border-top: 1px solid rgba(255,255,255,0.1);
+      font-size: 14px;
+    }
+
+    .footer-legal a {
+      color: rgba(255,255,255,0.7);
+      text-decoration: none;
+      margin: 0 10px;
+    }
+
+    .footer-legal a:hover {
+      color: white;
+    }
+
+    /* Mobile Responsive Styles */
+    @media (max-width: 768px) {
+      .mobile-menu-toggle {
+        display: block;
+      }
+
+      .main-nav {
+        position: fixed;
+        top: 84px;
+        left: 0;
+        width: 100%;
+        background: var(--navy);
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 20px;
+        gap: 0;
+        transform: translateX(-100%);
+        transition: transform 0.3s ease;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+      }
+
+      .main-nav.active {
+        transform: translateX(0);
+      }
+
+      .main-nav a {
+        width: 100%;
+        padding: 15px 0;
+        border-bottom: 1px solid rgba(255,255,255,0.1);
+      }
+
+      .main-nav a:last-child {
+        border-bottom: none;
+      }
+
+      .card {
+        padding: 20px;
+      }
+
+      .card h1 {
+        font-size: 1.8rem;
+      }
+
+      .card h2 {
+        font-size: 1.5rem;
+      }
+
+      .focus-areas {
+        grid-template-columns: 1fr;
+      }
+
+      .values-grid {
+        grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+      }
+
+      .impact-highlights {
+        grid-template-columns: 1fr;
+      }
+
+      .footer-inner {
+        grid-template-columns: 1fr;
+        gap: 30px;
+      }
+
+      .footer-contact form {
+        flex-direction: column;
+      }
+
+      .footer-contact input {
+        border-radius: 6px;
+        margin-bottom: 10px;
+      }
+
+      .footer-contact button {
+        border-radius: 6px;
+        width: 100%;
+      }
+
+      .resources-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .card {
+        padding: 15px;
+      }
+
+      .card h1 {
+        font-size: 1.6rem;
+      }
+
+      .values-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="container">
+    <div class="logo-container">
+      <img src="logo.jpeg" alt="EJF logo">
+      <div class="logo-text">
+        <div class="logo-title">Economic Justice Forum (EJF)</div>
+        <div class="logo-subtitle">Equity • Justice • Prosperity</div>
+      </div>
+    </div>
+    <button class="mobile-menu-toggle" id="mobileMenuToggle">☰</button>
+    <nav class="main-nav" id="mainNav" aria-label="Main navigation">
+      <a href="index.html">Home</a>
+      <a href="about.html">About</a>
+      <a href="pillars.html">Pillars</a>
+      <a href="programs.html">Programs</a>
+      <a href="research.html">Research</a>
+      <a href="events.html">Events</a>
+      <a href="profile.html">Profile</a>
+      <a href="donate.html" class="btn btn-gold">Donate</a>
+    </nav>
+  </div>
+</header>
+
+<!-- Hero Section -->
+<section class="hero">
+  <img src="pillars_images/pillars_hero.jpg" alt="EJF Strategic Pillars Banner">
+  <div class="hero-overlay">
+    <div class="hero-content">
+      <h1>Strategic Pillars, Core Values & Guiding Principles</h1>
+      <p>EJF's work is organized around three strategic pillars that guide our advocacy, programs, and partnerships toward achieving economic, climate, social, and digital justice.</p>
+    </div>
+  </div>
+</section>
+
+<main class="container">
+  <section class="strategic-pillars">
+    <div class="section-title">
+      <h2>Our Strategic Pillars</h2>
+      <p>The foundation of our mission rests on four key pillars that guide our work towards achieving comprehensive justice and equality.</p>
+    </div>
+    
+  
+    <h2>Our Pillars</h2>
+      <div class="focus-item">
+        <h3>1. climate & Resource Justice</h3>
+        
+        
+        <h4>focus-areas:</h4>
+        <ul>
+         
+          <ul>
+    <li>Lobbying and advocating for <strong>Natural Resources Benefit-Sharing Legislation</strong> covering:
+      <ul>
+        <li>Minerals & Extractives (gold, titanium, gemstones, rare earths)</li>
+        <li>Marine & Coastal Resources (fisheries, ports, blue economy assets)</li>
+        <li>Water Resources (rivers, lakes, underground aquifers)</li>
+        <li>Renewable Energy (wind, solar, natural gas)</li>
+        <li>Wildlife & Conservation Areas (national parks, forests, biodiversity zones)</li>
+      </ul>
+    </li>
+    <li>Sustainable mining, renewable energy & conservation economies creating climate-resilient jobs.</li>
+    <li>Strengthening climate resilience in <strong>arid, semi-arid, and coastal regions</strong>.</li>
+    <li><strong>Debt-for-Climate Swaps:</strong> converting debt repayments into investments in:
+      <ul>
+        <li>Reforestation, renewable energy, and sustainable livelihoods in counties like Taita-Taveta and Marsabit.</li>
+        <li>Climate-smart agriculture, carbon farming & circular economy enterprises led by youth & women.</li>
+        <li>Ecosystem restoration, clean water, & biodiversity protection.</li>
+      </ul>
+    </li>
+    <li>Direct climate finance flows to counties and community organizations.</li>
+    <li>People’s Climate Dividend ensuring communities protecting natural resources receive guaranteed benefits.</li>
+  </ul>
+  <p style="font-style: italic;">💡 True climate justice ensures those protecting the planet are the first to benefit.</p>
+
+        </ul>
+      </div>
+      
+      <div class="focus-item">
+        <h3>2.Democracy,digital Justice,leadership & devolution</h3>
+         <ul>
+    <li>Promoting simple, verifiable electronic voting systems for transparent elections.</li>
+    <li>Restructuring devolution to ensure lean, efficient, and development-focused county governments.</li>
+    <li>Expanding digital justice — bridging the digital divide, ensuring fair access to digital opportunities, and protecting citizens’ rights in the digital age.</li>
+    <li>Advocating for equitable and ethical Artificial Intelligence (AI) that serves humanity, protects the planet, and promotes equity, accountability, and sustainability.</li>
+    <li>Establishing a Leadership Academy for civic education, youth empowerment, and women’s leadership.</li>
+    <li>Advancing e-governance tools and civic tech innovations to enhance participation and transparency.</li>
+  </ul>
+</div>
+        
+<br>
+       
+      <div class="focus-item">
+        <h3>3.Global Advocacy & governance reforms</h3>
+        
+          <ul>
+    <li>A UN Framework/Convention on Natural Resource Benefit-Sharing.</li>
+    <li>Reforms of international financial institutions (IMF, World Bank, WTO) to make global finance transparent, fair, and sustainable.</li>
+    <li>A UN Framework on Debt and Tax Justice to prevent exploitation and ensure responsible lending and borrowing.</li>
+    <li>UN Security Council reforms — granting Africa permanent seats with veto powers and ensuring grassroots communities have a voice in global decision-making.</li>
+  </ul>
+       
+      </div>
+    </div>
+  </section>
+
+  <section class="card">
+    <h2>Core Values</h2>
+    <div class="values-grid">
+      <div class="value-item">Equity & Social Justice</div>
+      <div class="value-item">Transparency & Integrity</div>
+      <div class="value-item">Inclusion</div>
+      <div class="value-item">Sustainability</div>
+      <div class="value-item">Collaboration</div>
+      <div class="value-item">Digital Fairness</div>
+    </div>
+  </section>
+  
+  <section class="card">
+    <h2>Guiding Principles</h2>
+    <div class="focus-areas">
+      <div class="focus-item">
+        <h3>People-Centered Approach</h3>
+        <p>Placing communities at the center of our work, ensuring their voices, needs, and aspirations drive our interventions and solutions.</p>
+      </div>
+      
+      <div class="focus-item">
+        <h3>Evidence-Based Advocacy</h3>
+        <p>Grounding our work in rigorous research, data analysis, and contextual understanding to develop effective, targeted solutions.</p>
+      </div>
+      
+      <div class="focus-item">
+        <h3>Partnership & Collaboration</h3>
+        <p>Working with diverse stakeholders including government, civil society, private sector, and communities to leverage collective expertise and resources.</p>
+      </div>
+      
+      <div class="focus-item">
+        <h3>Local Context Sensitivity</h3>
+        <p>Adapting approaches to specific regional needs, cultural contexts, and local realities while maintaining our core principles.</p>
+      </div>
+      
+      <div class="focus-item">
+        <h3>Long-Term Sustainability</h3>
+        <p>Building lasting solutions, not quick fixes, that create enduring positive change for current and future generations.</p>
+      </div>
+      
+      <div class="focus-item">
+        <h3>Innovation & Adaptation</h3>
+        <p>Embracing creative approaches and adapting to changing contexts while remaining true to our mission and values.</p>
+      </div>
+    </div>
+  </section>
+  
+  <section class="card">
+    <h2>Integrated Approach</h2>
+    <p>Our three pillars are interconnected and mutually reinforcing. We believe that sustainable change requires addressing economic, governance, and social issues simultaneously through an integrated approach that recognizes their complex interrelationships.</p>
+    
+    <div class="impact-highlights">
+      <div class="impact-item">
+        <div class="impact-icon">⚖️</div>
+        <h3>Economic Justice</h3>
+        <p>Fair distribution of resources and opportunities</p>
+      </div>
+      <div class="impact-item">
+        <div class="impact-icon">🏛️</div>
+        <h3>Governance Justice</h3>
+        <p>Accountable and participatory institutions</p>
+      </div>
+      <div class="impact-item">
+        <div class="impact-icon">🌍</div>
+        <h3>Social & Climate Justice</h3>
+        <p>Inclusive and sustainable communities</p>
+      </div>
+    </div>
+  </section>
+</main>
+<!-- Resources Section -->
+  <div class="resources-section">
+    <div class="container">
+      <h2 style="text-align: center; color: var(--navy); margin-bottom: 10px;">Helpful Resources</h2>
+      <p style="text-align: center; margin-bottom: 30px; max-width: 600px; margin-left: auto; margin-right: auto;">
+        Access our latest publications, research papers, and educational materials to learn more about economic justice.
+      </p>
+      
+      <div class="resources-grid">
+        <div class="resource-card">
+          <div class="resource-icon">📚</div>
+          <h3>Publications</h3>
+          <p>Download our latest research papers, policy briefs, and annual reports.</p>
+          <ul class="resource-links">
+            <li><a href="#">Annual Report 2023</a></li>
+            <li><a href="#">Climate Justice Policy</a></li>
+            <li><a href="#">Economic Equity Study</a></li>
+            <li><a href="#">Digital Inclusion Paper</a></li>
+          </ul>
+        </div>
+        
+        <div class="resource-card">
+          <div class="resource-icon">🎥</div>
+          <h3>Media Resources</h3>
+          <p>Access photos, videos, and media kits for press and partners.</p>
+          <ul class="resource-links">
+            <li><a href="#">Photo Gallery</a></li>
+            <li><a href="#">Video Library</a></li>
+            <li><a href="#">Press Releases</a></li>
+            <li><a href="#">Media Kit</a></li>
+          </ul>
+        </div>
+        
+        <div class="resource-card">
+          <div class="resource-icon">📊</div>
+          <h3>Data & Research</h3>
+          <p>Explore our data visualizations and research findings.</p>
+          <ul class="resource-links">
+            <li><a href="#">Impact Dashboard</a></li>
+            <li><a href="#">Research Database</a></li>
+            <li><a href="#">Case Studies</a></li>
+            <li><a href="#">Statistics</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+<footer class="site-footer">
+  <div class="container footer-inner">
+    <div class="footer-about">
+      <img src="logo.jpeg" alt="EJF logo" class="logo-sm" />
+      <p><strong>Economic Justice Forum (EJF)</strong><br/>Equity. Justice. Prosperity.</p>
+      <p>Equity • Justice • Prosperity</p>
+      
+      <div class="social-media">
+        <h4>Follow Us</h4>
+        <div class="social-links">
+          <a href="https://www.facebook.com/share/17Zf49Rkb9/?mibextid=wwXIfr" class="social-link facebook" aria-label="Facebook">
+            <i>f</i>
+          </a>
+          <a href=" https://x.com/Economicjusti?t=PsvaT0beGOqlZEs4COyiOQ&s=08" class="social-link twitter" aria-label="Twitter">
+            <i>𝕏</i>
+          </a>
+          <a href="https://www.instagram.com/invites/contact/?utm_source=ig_contact_invite&utm_medium=copy_link&utm_content=zqovetx" class="social-link instagram" aria-label="Instagram">
+            <i class="fab fa-instagram"></i>
+          </a>
+          <a href="https://www.linkedin.com/in/economic-justice-forum-65758238b?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app" class="social-link linkedin" aria-label="LinkedIn">
+            <i>in</i>
+          </a>
+          <a href="#" class="social-link youtube" aria-label="YouTube">
+            <i>▶</i>
+          </a>
+        </div>
+      </div>
+    </div>
+    
+    <div class="footer-links">
+      <h4>Explore</h4>
+      <a href="about.html">About</a><br/>
+      <a href="pillars.html">Pillars</a><br/>
+      <a href="programs.html">Programs</a><br/>
+      <a href="research.html">Research</a><br/>
+      <a href="events.html">Events</a><br/>
+      <a href="donate.html">Donate</a>
+      
+      <div class="footer-quick-links">
+        <a href="#" class="quick-link">Annual Report</a>
+        <a href="#" class="quick-link">Newsletter</a>
+        <a href="#" class="quick-link">Careers</a>
+        <a href="#" class="quick-link">FAQs</a>
+      </div>
+    </div>
+    
+    <div class="footer-resources">
+      <h4>Resources</h4>
+      <a href="research.html">Publications</a><br/>
+      <a href="#">Policy Briefs</a><br/>
+      <a href="#">Case Studies</a><br/>
+      <a href="#">Research Papers</a><br/>
+      <a href="#">Annual Reports</a><br/>
+      <a href="#">Media Kit</a>
+      
+      <div class="download-resources">
+        <a href="#" class="download-btn">📥 EJF Brochure</a>
+        <a href="#" class="download-btn">📥 Impact Report</a>
+      </div>
+    </div>
+    
+    <div class="footer-contact">
+      <h4>Subscribe</h4>
+      <form id="newsletter" action="#" method="post">
+        <input type="email" placeholder="Email address" required/>
+        <button class="btn btn-primary">Subscribe</button>
+      </form>
+      
+      <div class="contact-info">
+        <div class="contact-item">
+          <i class="far fa-envelope"></i> economicsjusticeforums@gmail.com
+        </div>
+        <div class="contact-item">
+          <i class="fas fa-phone"></i> +254 741 357 830
+        </div>
+        <div class="contact-item">
+          <i>📍</i> Taita-Taveta, Kenya
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer-legal">
+    <p>&copy; 2024 Economic Justice Forum (EJF) — Building a Future of Justice, Equity, and Prosperity</p>
+    <div style="margin-top: 10px;">
+      <a href="#" style="color: rgba(255,255,255,0.7); margin: 0 10px; font-size: 12px;">Privacy Policy</a>
+      <a href="#" style="color: rgba(255,255,255,0.7); margin: 0 10px; font-size: 12px;">Terms of Service</a>
+      <a href="#" style="color: rgba(255,255,255,0.7); margin: 0 10px; font-size: 12px;">Accessibility</a>
+    </div>
+  </div>
+</footer>
+
+  <!-- Animation and Expansion Script -->
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  // Add click handlers for pillar expansion
+  document.querySelectorAll('.pillar-link').forEach(button => {
+    button.addEventListener('click', function(e) {
+      e.preventDefault();
+      const card = this.closest('.pillar-card');
+      
+      // If this card is already expanded, collapse it
+      if (card.classList.contains('expanded')) {
+        card.classList.remove('expanded');
+        this.textContent = 'View More';
+      } else {
+        // Collapse any other expanded cards
+        document.querySelectorAll('.pillar-card.expanded').forEach(expandedCard => {
+          expandedCard.classList.remove('expanded');
+          expandedCard.querySelector('.pillar-link').textContent = 'View More';
+        });
+        
+        // Expand this card
+        card.classList.add('expanded');
+        this.textContent = 'View Less';
+      }
+    });
+  });
+});
+</script>
+
+  <!-- Animation Script -->
+<script>
+// Animate pillars on scroll
+function animatePillars() {
+  const pillars = document.querySelectorAll('.pillar-card');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('animate');
+      }
+    });
+  }, {
+    threshold: 0.2
+  });
+
+  pillars.forEach(pillar => {
+    observer.observe(pillar);
+  });
+}
+
+// Initialize animations
+document.addEventListener('DOMContentLoaded', animatePillars);
+</script>
+
+<!-- Mobile Menu Script -->
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const mobileMenuToggle = document.getElementById('mobileMenuToggle');
+    const mainNav = document.getElementById('mainNav');
+    
+    mobileMenuToggle.addEventListener('click', function() {
+      mainNav.classList.toggle('active');
+      this.textContent = mainNav.classList.contains('active') ? '✕' : '☰';
+    });
+    
+    // Close mobile menu when clicking on a link
+    const navLinks = mainNav.querySelectorAll('a');
+    navLinks.forEach(link => {
+      link.addEventListener('click', () => {
+        mainNav.classList.remove('active');
+        mobileMenuToggle.textContent = '☰';
+      });
+    });
+
+    // Back to Top functionality
+    const backToTopButton = document.createElement('a');
+    backToTopButton.href = '#';
+    backToTopButton.className = 'back-to-top';
+    backToTopButton.innerHTML = '↑';
+    document.body.appendChild(backToTopButton);
+
+    window.addEventListener('scroll', () => {
+      if (window.pageYOffset > 300) {
+        backToTopButton.classList.add('visible');
+      } else {
+        backToTopButton.classList.remove('visible');
+      }
+    });
+
+    backToTopButton.addEventListener('click', (e) => {
+      e.preventDefault();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+  });
+</script>
+</body>
+</html>

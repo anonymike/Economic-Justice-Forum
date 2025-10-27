@@ -1,0 +1,935 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>About | EJF</title>
+  <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+  <link rel="manifest" href="site.webmanifest">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    /* Base Styles */
+    :root {
+      --navy: #00264d;
+      --gold: #d9a21c;
+      --text: #333333;
+      --light-gray: #f8f9fa;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      line-height: 1.6;
+      color: var(--text);
+      overflow-x: hidden;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 15px;
+    }
+
+    /* Header & Navigation */
+    .site-header {
+      background: var(--navy);
+      padding: 15px 0;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+
+    .site-header .container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo-container {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .logo-container img {
+      height: 54px;
+      width: auto;
+      object-fit: contain;
+      border-radius: 6px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    }
+
+    .logo-text {
+      color: white;
+    }
+
+    .logo-title {
+      font-weight: 700;
+      font-size: 16px;
+    }
+
+    .logo-subtitle {
+      font-size: 14px;
+      opacity: 0.9;
+      text-align: center;
+      margin-top: 4px;
+      font-weight: 500;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+    }
+
+    /* Mobile Navigation */
+    .mobile-menu-toggle {
+      display: none;
+      background: none;
+      border: none;
+      color: white;
+      font-size: 24px;
+      cursor: pointer;
+      padding: 5px;
+    }
+
+    .main-nav {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .main-nav a {
+      color: white;
+      text-decoration: none;
+      font-weight: 500;
+      transition: color 0.3s;
+      white-space: nowrap;
+    }
+
+    .main-nav a:hover {
+      color: var(--gold);
+    }
+
+    .btn {
+      display: inline-block;
+      padding: 10px 20px;
+      border-radius: 6px;
+      text-decoration: none;
+      font-weight: 600;
+      text-align: center;
+      transition: all 0.3s ease;
+      border: none;
+      cursor: pointer;
+    }
+
+    .btn-primary {
+      background: var(--navy);
+      color: white;
+    }
+
+    .btn-secondary {
+      background: var(--gold);
+      color: var(--navy);
+    }
+
+    .btn-gold {
+      background: var(--gold);
+      color: var(--navy);
+    }
+
+    /* Main Content */
+    main {
+      padding: 60px 0;
+    }
+
+    .card {
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+      padding: 30px;
+      margin-bottom: 30px;
+    }
+
+    .card h1, .card h2 {
+      color: var(--navy);
+      margin-top: 0;
+      margin-bottom: 20px;
+    }
+
+    .card h1 {
+      font-size: 2.2rem;
+    }
+
+    .card h2 {
+      font-size: 1.8rem;
+    }
+
+    .card h3, .card h4 {
+      color: var(--navy);
+      margin-top: 0;
+      margin-bottom: 15px;
+    }
+
+    /* Focus Areas */
+    .focus-areas {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 25px;
+      margin-top: 20px;
+    }
+
+    .focus-item {
+      background: white;
+      border-radius: 8px;
+      padding: 20px;
+      box-shadow: 0 3px 10px rgba(0,0,0,0.05);
+      border-top: 3px solid var(--gold);
+    }
+
+    /* Team Member Layout */
+    .team-member {
+      margin-bottom: 30px;
+    }
+
+    .team-member-content {
+      display: flex;
+      align-items: flex-start;
+      gap: 20px;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+    }
+
+    .team-member-img {
+      width: 280px;
+      height: 320px;
+      object-fit: cover;
+      border-radius: 8px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    }
+
+    .team-member-info {
+      flex: 1;
+      min-width: 300px;
+    }
+
+    /* Values Grid */
+    .values-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 15px;
+    }
+
+    .value-item {
+      background: var(--light-gray);
+      padding: 15px;
+      border-radius: 8px;
+      text-align: center;
+      font-weight: 600;
+      color: var(--navy);
+    }
+
+    /* Impact Highlights */
+    .impact-highlights {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 30px;
+      margin-top: 30px;
+    }
+
+    .impact-item {
+      text-align: center;
+      padding: 20px;
+      background: var(--light-gray);
+      border-radius: 10px;
+    }
+
+    .impact-icon {
+      font-size: 2.5rem;
+      margin-bottom: 15px;
+    }
+
+    /* Footer */
+    .site-footer {
+      background: var(--navy);
+      color: white;
+      padding: 60px 0 20px;
+    }
+
+    .footer-inner {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 40px;
+    }
+
+    .footer-about img {
+      height: 60px;
+      width: auto;
+      margin-bottom: 15px;
+      border-radius: 6px;
+    }
+
+    .social-media h4 {
+      margin-bottom: 15px;
+    }
+
+    .social-links {
+      display: flex;
+      gap: 10px;
+    }
+
+    .social-link {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 40px;
+      height: 40px;
+      background: rgba(255,255,255,0.1);
+      border-radius: 50%;
+      color: white;
+      text-decoration: none;
+      font-weight: bold;
+      transition: background 0.3s;
+    }
+
+    .social-link:hover {
+      background: var(--gold);
+      color: var(--navy);
+    }
+
+    .footer-links a, .footer-resources a {
+      color: rgba(255,255,255,0.8);
+      text-decoration: none;
+      margin-bottom: 10px;
+      display: inline-block;
+    }
+
+    .footer-links a:hover, .footer-resources a:hover {
+      color: white;
+    }
+
+    .footer-links h4, .footer-resources h4, .footer-contact h4 {
+      margin-bottom: 20px;
+      color: white;
+    }
+
+    .footer-quick-links, .download-resources {
+      margin-top: 20px;
+    }
+
+    .quick-link, .download-btn {
+      display: block;
+      margin-bottom: 8px;
+      font-size: 14px;
+    }
+
+    .footer-contact form {
+      display: flex;
+      margin-bottom: 20px;
+    }
+
+    .footer-contact input {
+      flex: 1;
+      padding: 10px 15px;
+      border: none;
+      border-radius: 6px 0 0 6px;
+    }
+
+    .footer-contact button {
+      border-radius: 0 6px 6px 0;
+      white-space: nowrap;
+    }
+
+    .contact-info {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .contact-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    /* Resources Section */
+    .resources-section {
+      background: white;
+      padding: 60px 0;
+      margin-top: 40px;
+    }
+
+    .resources-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 30px;
+    }
+
+    .resource-card {
+      background: var(--light-gray);
+      padding: 30px;
+      border-radius: 10px;
+      text-align: center;
+    }
+
+    .resource-icon {
+      font-size: 3rem;
+      margin-bottom: 20px;
+    }
+
+    .resource-card h3 {
+      color: var(--navy);
+      margin-bottom: 15px;
+    }
+
+    .resource-links {
+      list-style: none;
+      padding: 0;
+      margin-top: 20px;
+    }
+
+    .resource-links li {
+      margin-bottom: 8px;
+    }
+
+    .resource-links a {
+      color: var(--navy);
+      text-decoration: none;
+    }
+
+    .resource-links a:hover {
+      text-decoration: underline;
+    }
+
+    .footer-legal {
+      text-align: center;
+      margin-top: 40px;
+      padding-top: 20px;
+      border-top: 1px solid rgba(255,255,255,0.1);
+      font-size: 14px;
+    }
+
+    .footer-legal a {
+      color: rgba(255,255,255,0.7);
+      text-decoration: none;
+      margin: 0 10px;
+    }
+
+    .footer-legal a:hover {
+      color: white;
+    }
+
+    /* Mobile Responsive Styles */
+    @media (max-width: 768px) {
+      .mobile-menu-toggle {
+        display: block;
+      }
+
+      .main-nav {
+        position: fixed;
+        top: 84px;
+        left: 0;
+        width: 100%;
+        background: var(--navy);
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 20px;
+        gap: 0;
+        transform: translateX(-100%);
+        transition: transform 0.3s ease;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+      }
+
+      .main-nav.active {
+        transform: translateX(0);
+      }
+
+      .main-nav a {
+        width: 100%;
+        padding: 15px 0;
+        border-bottom: 1px solid rgba(255,255,255,0.1);
+      }
+
+      .main-nav a:last-child {
+        border-bottom: none;
+      }
+
+      .card {
+        padding: 20px;
+      }
+
+      .card h1 {
+        font-size: 1.8rem;
+      }
+
+      .card h2 {
+        font-size: 1.5rem;
+      }
+
+      .focus-areas {
+        grid-template-columns: 1fr;
+      }
+
+      .team-member-content {
+        flex-direction: column;
+      }
+
+      .team-member-img {
+        width: 100%;
+        max-width: 400px;
+        height: auto;
+        max-height: 400px;
+      }
+
+      .team-member-info {
+        min-width: 100%;
+      }
+
+      .values-grid {
+        grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+      }
+
+      .impact-highlights {
+        grid-template-columns: 1fr;
+      }
+
+      .footer-inner {
+        grid-template-columns: 1fr;
+        gap: 30px;
+      }
+
+      .footer-contact form {
+        flex-direction: column;
+      }
+
+      .footer-contact input {
+        border-radius: 6px;
+        margin-bottom: 10px;
+      }
+
+      .footer-contact button {
+        border-radius: 6px;
+        width: 100%;
+      }
+
+      .resources-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .card {
+        padding: 15px;
+      }
+
+      .card h1 {
+        font-size: 1.6rem;
+      }
+
+      .values-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="container">
+    <div class="logo-container">
+      <img src="logo.jpeg" alt="EJF logo">
+      <div class="logo-text">
+        <div class="logo-title">Economic Justice Forum (EJF)</div>
+        <div class="logo-subtitle">Equity • Justice • Prosperity</div>
+      </div>
+    </div>
+    <button class="mobile-menu-toggle" id="mobileMenuToggle">☰</button>
+    <nav class="main-nav" id="mainNav" aria-label="Main navigation">
+      <a href="index.html">Home</a>
+      <a href="about.html">About</a>
+      <a href="pillars.html">Pillars</a>
+      <a href="programs.html">Programs</a>
+      <a href="research.html">Research</a>
+      <a href="events.html">Events</a>
+      <a href="profile.html">Profile</a>
+      <a href="donate.html" class="btn btn-gold">Donate</a>
+    </nav>
+  </div>
+</header>
+
+<main class="container">
+  <section class="card">
+    <h1>About the Economic Justice Forum (EJF)</h1>
+    <p>The Economic Justice Forum (EJF) is a people-powered platform for Economic, Climate, Resource, Social, and Digital Justice, advancing equitable development, ethical leadership, and sustainable prosperity for all.</p>
+    
+  </section>
+  
+  <section class="card">
+    <h2>Vision & Mission</h2>
+    <div class="focus-item">
+      <h3>Our Vision</h3>
+      <p>A just, equitable, sustainable, and digitally inclusive Kenya where every person — including those in rural, coastal, and marginalized communities — enjoys dignity, opportunity, and prosperity.</p>
+    </div>
+    <div class="focus-item">
+      <h3>Our Mission</h3>
+      <p>To advance Economic and Social Justice by empowering communities, promoting systemic reforms, ensuring transparent and fair management of resources, and fostering sustainable development — locally, nationally, and globally.</p>
+    </div>
+  </section>
+  
+  <section class="card">
+    <h2>Strategic Focus Areas</h2>
+    <div class="focus-areas">
+      <div class="focus-item">
+        <h3>Economic & Resource Justice</h3>
+        <p>Championing transparent, accountable, and fair management of public resources for the benefit of all. We work to ensure natural resource revenues are equitably distributed between national and county governments, and that communities benefit directly from resources in their regions.</p>
+      </div>
+      <div class="focus-item">
+        <h3>Governance, Civic & Research Justice</h3>
+        <p>Strengthening constitutionalism, integrity, public participation, and data-driven advocacy to empower citizens and institutions. We promote accountable governance through civic education, participatory budgeting, and evidence-based policy recommendations.</p>
+      </div>
+      <div class="focus-item">
+        <h3>Social, Climate, Digital & Economic Empowerment Justice</h3>
+        <p>Driving inclusive growth through climate-smart entrepreneurship, equitable digital access, and ethical technology governance. We link environmental conservation with economic opportunities, particularly for youth and marginalized communities.</p>
+      </div>
+    </div>
+  </section>
+  
+  <section class="card">
+    <h2>Core Values</h2>
+    <div class="values-grid">
+      <div class="value-item">Equity & Social Justice</div>
+      <div class="value-item">Transparency & Integrity</div>
+      <div class="value-item">Inclusion</div>
+      <div class="value-item">Sustainability</div>
+      <div class="value-item">Collaboration</div>
+      <div class="value-item">Digital Fairness</div>
+    </div>
+  </section>
+  
+  <section class="card">
+    <h2>Geographic Focus</h2>
+    
+<ul>
+  <li>Coastal Regions: Marine resources, blue economy, and coastal community rights.</li>
+  <li>Arid & Semi-Arid Regions: Climate resilience, sustainable resource use, and adaptation.</li>
+  <li>Urban Centers: Digital inclusion, innovation, and equitable access to economic opportunities.</li>
+  <li>Rural & Resource-Rich Counties: Fair benefit-sharing, environmental protection, and local empowerment.</li>
+</ul>
+
+
+    
+    <div class="impact-highlights">
+      <div class="impact-item">
+        <div class="impact-icon">🏝️</div>
+        <h3>Coastal Counties</h3>
+        <p>Taita Taveta, Kilifi, Kwale, Lamu, Tana-River</p>
+      </div>
+      <div class="impact-item">
+        <div class="impact-icon">🌵</div>
+        <h3>Arid & Semi-Arid</h3>
+        <p>Turkana, Isiolo, Samburu</p>
+      </div>
+      <div class="impact-item">
+        <div class="impact-icon">⛰️</div>
+        <h3>Resource-Rich Areas</h3>
+        <p>Kajiado, Laikipia, Nyandarua</p>
+      </div>
+      <div class="impact-item">
+        <div class="impact-icon">🏙️</div>
+        <h3>Urban Centers</h3>
+        <p>Nairobi, Mombasa</p>
+      </div>
+    </div>
+  </section>
+  
+  <section class="card">
+    <h2>Partnerships and Collaboration</h2>
+    <p>EJF collaborates with development partners, philanthropic foundations, governments, academia, civil society, and media to reform systems that perpetuate inequality and co-create a just economy that serves people and the planet.</p>
+    
+    <div class="values-grid" style="margin-top:20px;">
+      <div class="value-item" style="background:var(--gold); color:var(--navy);">Development Partners</div>
+      <div class="value-item" style="background:var(--gold); color:var(--navy);">Philanthropic Foundations</div>
+      <div class="value-item" style="background:var(--gold); color:var(--navy);">Government Institutions</div>
+      <div class="value-item" style="background:var(--gold); color:var(--navy);">Academic Institutions</div>
+      <div class="value-item" style="background:var(--gold); color:var(--navy);">Civil Society Organizations</div>
+      <div class="value-item" style="background:var(--gold); color:var(--navy);">Media Partners</div>
+    </div>
+  </section>
+  
+  <section class="card">
+    <h2>Founding Team</h2>
+    <img src="team_photo.jpg" alt="EJF team photo" style="width:100%;max-width:600px;border-radius:8px; display:block; margin:0 auto 25px;"/>
+    
+    <div class="team-member">
+      <h3>Hon. Christopher Mwambingu — Founder & Coordinator</h3>
+      <div class="team-member-content">
+        <img src="chris.jpeg" alt="Hon. Christopher Mwambingu" class="team-member-img"/>
+        <div class="team-member-info">
+          <p>Mr. Christopher Mwambingu is an independent leader, former Member of the County Assembly of Taita Taveta, and 2022 Mwatate MP candidate. A committed advocate of economic justice, human rights, and the protection of both people's and environmental rights, he has dedicated his life to defending the rights of rural and marginalized communities and ensuring they achieve economic freedom. Christopher believes that true justice and lasting freedom cannot exist without economic empowerment, and he works tirelessly to create opportunities that enable communities to thrive. Drawing on his experience in governance, public service, and community organizing, he combines vision, integrity, and transformative leadership to advance equity, accountability, and sustainable development for all.</p>
+        </div>
+      </div>
+    </div>
+
+    <h3 style="margin-top:30px;">Co-Founders</h3>
+    
+    <div class="team-member">
+      <h3>Hon. Amriya Boy Juma</h3>
+      <div class="team-member-content">
+        <img src="amriyah.jpeg" alt="Hon. Amriya Boy Juma" class="team-member-img"/>
+        <div class="team-member-info">
+          <p>Hon. Amriya Boy Juma, fondly known as Wakili Mtetezi, is the first elected female Member of the County Assembly (MCA) for Mjambere Ward, Mombasa County, renowned for her commitment to justice, equity, and community empowerment. She is a distinguished Advocate of the High Court of Kenya, holding an LL.B. from the University of Nairobi and a Postgraduate Diploma in Law from the Kenya School of Law, and is the founder of Amriya Juma Boy and Company Advocates, championing human rights, gender equality, legal aid expansion, and community legal education. Elected in 2022 to chair the Lands Committee, she continues to advocate for land rights, good governance, social justice, and equitable resource distribution, inspiring communities and nurturing future leaders.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="team-member">
+      <h3>Moses Macharia</h3>
+      <div class="team-member-content">
+        <img src="moses.jpeg" alt="Moses Macharia" class="team-member-img"/>
+        <div class="team-member-info">
+          <p>Mr. Moses Macharia Bakari is a visionary leader and firm believer in selfless and dedicated leadership aimed at transforming the nation. He sees leadership as a God-ordained responsibility, grounded in service, integrity, and the pursuit of positive change. Moses is committed to empowering communities, fostering equity, and driving sustainable development for the greater good. He is an alumnus of Njabini Boys High School and a Political Science graduate from the University of Nairobi, where he gained the knowledge and skills that continue to guide his leadership journey.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="team-member">
+      <h3>Reverend Isaac Mwambingu</h3>
+      <div class="team-member-content">
+        <img src="issac.jpeg" alt="Reverend Isaac Mwambingu" class="team-member-img"/>
+        <div class="team-member-info">
+          <p>Rev. Isaac Mwambingu is an Anglican Minister in the Diocese of Taita/Taveta, Kenya, with a track record of fostering positive development across five parishes. He is a passionate advocate for human rights, social justice, and poverty eradication, serving as Secretary of Social Justice Ambassadors and Director of Wahudumu SACCO. A standing committee member of the Diocesan Synod and board member of Mwambonu, Kitumbi, and Ngangao High Schools, Rev. Mwambingu embodies transformative leadership that integrates service to God, humanity, and the environment.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="team-member">
+      <h3>Hassan Maghanga</h3>
+      <div class="team-member-content">
+        <img src="hassan.jpeg" alt="Hassan Maghanga" class="team-member-img"/>
+        <div class="team-member-info">
+          <p>Hassan Maghanga is a community entrepreneur and leader committed to empowering the transportation sector in Taita Taveta, with a focus on the motorbike and taxi industry. Through his work, he supports local drivers, fosters economic opportunities, and promotes sustainable growth within the sector. Hassan's leadership is anchored in community development, innovation, and ensuring that the transportation industry serves as a vehicle for economic empowerment for marginalized communities.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="team-member">
+      <h3>Egwa Arnold</h3>
+      <div class="team-member-content">
+        <img src="arnold.jpeg" alt="Egwa Arnold" class="team-member-img"/>
+        <div class="team-member-info">
+          <p>Arnold Egwa is a young tech leader, AI expert, and Program Director for Digital Rights at the Economic Justice Forum, committed to advancing digital justice and economic equity. He champions data privacy, combats digital monopolies, and ensures that technology empowers communities rather than deepens disparities. Driven by a belief that technology should serve humanity, Arnold works to close the digital divide and create systems and policies that allow all communities to thrive in the digital age.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+  
+  <section class="card">
+    <h2>Organizational Structure</h2>
+    <p>EJF operates through a coordinated secretariat guided by a governance board, thematic working groups, and regional focal points that facilitate collaboration, advocacy, and research across Kenya's diverse regions.</p>
+    
+    <div class="impact-highlights">
+      <div class="impact-item">
+        <div class="impact-icon">👥</div>
+        <h3>Governance Board</h3>
+        <p>Strategic oversight and guidance</p>
+      </div>
+      <div class="impact-item">
+        <div class="impact-icon">🔬</div>
+        <h3>Thematic Working Groups</h3>
+        <p>Specialized focus on key justice areas</p>
+      </div>
+      <div class="impact-item">
+        <div class="impact-icon">🗺️</div>
+        <h3>Regional Focal Points</h3>
+        <p>Local implementation and advocacy</p>
+      </div>
+    </div>
+  </section>
+</main>
+ <!-- Resources Section -->
+  <div class="resources-section">
+    <div class="container">
+      <h2 style="text-align: center; color: var(--navy); margin-bottom: 10px;">Helpful Resources</h2>
+      <p style="text-align: center; margin-bottom: 30px; max-width: 600px; margin-left: auto; margin-right: auto;">
+        Access our latest publications, research papers, and educational materials to learn more about economic justice.
+      </p>
+      
+      <div class="resources-grid">
+        <div class="resource-card">
+          <div class="resource-icon">📚</div>
+          <h3>Publications</h3>
+          <p>Download our latest research papers, policy briefs, and annual reports.</p>
+          <ul class="resource-links">
+            <li><a href="#">Annual Report 2023</a></li>
+            <li><a href="#">Climate Justice Policy</a></li>
+            <li><a href="#">Economic Equity Study</a></li>
+            <li><a href="#">Digital Inclusion Paper</a></li>
+          </ul>
+        </div>
+        
+        <div class="resource-card">
+          <div class="resource-icon">🎥</div>
+          <h3>Media Resources</h3>
+          <p>Access photos, videos, and media kits for press and partners.</p>
+          <ul class="resource-links">
+            <li><a href="#">Photo Gallery</a></li>
+            <li><a href="#">Video Library</a></li>
+            <li><a href="#">Press Releases</a></li>
+            <li><a href="#">Media Kit</a></li>
+          </ul>
+        </div>
+        
+        <div class="resource-card">
+          <div class="resource-icon">📊</div>
+          <h3>Data & Research</h3>
+          <p>Explore our data visualizations and research findings.</p>
+          <ul class="resource-links">
+            <li><a href="#">Impact Dashboard</a></li>
+            <li><a href="#">Research Database</a></li>
+            <li><a href="#">Case Studies</a></li>
+            <li><a href="#">Statistics</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+<footer class="site-footer">
+  <div class="container footer-inner">
+    <div class="footer-about">
+      <img src="logo.jpeg" alt="EJF logo" class="logo-sm" />
+      <p><strong>Economic Justice Forum (EJF)</strong><br/>Equity. Justice. Prosperity.</p>
+      <p>Equity • Justice • Prosperity</p>
+      
+      <div class="social-media">
+        <h4>Follow Us</h4>
+        <div class="social-links">
+          <a href="https://www.facebook.com/share/17Zf49Rkb9/?mibextid=wwXIfr" class="social-link facebook" aria-label="Facebook">
+            <i>f</i>
+          </a>
+          <a href=" https://x.com/Economicjusti?t=PsvaT0beGOqlZEs4COyiOQ&s=08" class="social-link twitter" aria-label="Twitter">
+            <i>𝕏</i>
+          </a>
+          <a href="https://www.instagram.com/invites/contact/?utm_source=ig_contact_invite&utm_medium=copy_link&utm_content=zqovetx" class="social-link instagram" aria-label="Instagram">
+            <i class="fab fa-instagram"></i>
+          </a>
+          <a href="https://www.linkedin.com/in/economic-justice-forum-65758238b?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app" class="social-link linkedin" aria-label="LinkedIn">
+            <i>in</i>
+          </a>
+          <a href="#" class="social-link youtube" aria-label="YouTube">
+            <i>▶</i>
+          </a>
+        </div>
+      </div>
+    </div>
+    
+    <div class="footer-links">
+      <h4>Explore</h4>
+      <a href="about.html">About</a><br/>
+      <a href="pillars.html">Pillars</a><br/>
+      <a href="programs.html">Programs</a><br/>
+      <a href="research.html">Research</a><br/>
+      <a href="events.html">Events</a><br/>
+      <a href="donate.html">Donate</a>
+      
+      <div class="footer-quick-links">
+        <a href="#" class="quick-link">Annual Report</a>
+        <a href="#" class="quick-link">Newsletter</a>
+        <a href="#" class="quick-link">Careers</a>
+        <a href="#" class="quick-link">FAQs</a>
+      </div>
+    </div>
+    
+    <div class="footer-resources">
+      <h4>Resources</h4>
+      <a href="research.html">Publications</a><br/>
+      <a href="#">Policy Briefs</a><br/>
+      <a href="#">Case Studies</a><br/>
+      <a href="#">Research Papers</a><br/>
+      <a href="#">Annual Reports</a><br/>
+      <a href="#">Media Kit</a>
+      
+      <div class="download-resources">
+        <a href="#" class="download-btn">📥 EJF Brochure</a>
+        <a href="#" class="download-btn">📥 Impact Report</a>
+      </div>
+    </div>
+    
+    <div class="footer-contact">
+      <h4>Subscribe</h4>
+      <form id="newsletter" action="#" method="post">
+        <input type="email" placeholder="Email address" required/>
+        <button class="btn btn-primary">Subscribe</button>
+      </form>
+      
+      <div class="contact-info">
+        <div class="contact-item">
+          <i class="far fa-envelope"></i> economicsjusticeforums@gmail.com
+        </div>
+        <div class="contact-item">
+          <i class="fas fa-phone"></i> +254 741 357 830
+        </div>
+        <div class="contact-item">
+          <i>📍</i> Taita-Taveta Kenya
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <div class="footer-legal">
+    <p>&copy; 2024 Economic Justice Forum (EJF) — Building a Future of Justice, Equity, and Prosperity</p>
+    <div style="margin-top: 10px;">
+      <a href="#" style="color: rgba(255,255,255,0.7); margin: 0 10px; font-size: 12px;">Privacy Policy</a>
+      <a href="#" style="color: rgba(255,255,255,0.7); margin: 0 10px; font-size: 12px;">Terms of Service</a>
+      <a href="#" style="color: rgba(255,255,255,0.7); margin: 0 10px; font-size: 12px;">Accessibility</a>
+    </div>
+  </div>
+</footer>
+
+<!-- Mobile Menu Script -->
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const mobileMenuToggle = document.getElementById('mobileMenuToggle');
+    const mainNav = document.getElementById('mainNav');
+    
+    mobileMenuToggle.addEventListener('click', function() {
+      mainNav.classList.toggle('active');
+      this.textContent = mainNav.classList.contains('active') ? '✕' : '☰';
+    });
+    
+    // Close mobile menu when clicking on a link
+    const navLinks = mainNav.querySelectorAll('a');
+    navLinks.forEach(link => {
+      link.addEventListener('click', () => {
+        mainNav.classList.remove('active');
+        mobileMenuToggle.textContent = '☰';
+      });
+    });
+
+    // Back to Top functionality
+    const backToTopButton = document.createElement('a');
+    backToTopButton.href = '#';
+    backToTopButton.className = 'back-to-top';
+    backToTopButton.innerHTML = '↑';
+    document.body.appendChild(backToTopButton);
+
+    window.addEventListener('scroll', () => {
+      if (window.pageYOffset > 300) {
+        backToTopButton.classList.add('visible');
+      } else {
+        backToTopButton.classList.remove('visible');
+      }
+    });
+
+    backToTopButton.addEventListener('click', (e) => {
+      e.preventDefault();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+  });
+</script>
+</body>
+</html>

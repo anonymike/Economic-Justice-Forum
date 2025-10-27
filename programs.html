@@ -1,0 +1,866 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Programs | EJF</title>
+  <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+  <link rel="manifest" href="site.webmanifest">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    /* Base Styles */
+    :root {
+      --navy: #00264d;
+      --gold: #d9a21c;
+      --text: #333333;
+      --light-gray: #f8f9fa;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      line-height: 1.6;
+      color: var(--text);
+      overflow-x: hidden;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 15px;
+    }
+
+    /* Header & Navigation */
+    .site-header {
+      background: var(--navy);
+      padding: 15px 0;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+
+    .site-header .container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo-container {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .logo-container img {
+      height: 54px;
+      width: auto;
+      object-fit: contain;
+      border-radius: 6px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    }
+
+    .logo-text {
+      color: white;
+    }
+
+    .logo-title {
+      font-weight: 700;
+      font-size: 16px;
+    }
+
+    .logo-subtitle {
+      font-size: 14px;
+      opacity: 0.9;
+      text-align: center;
+      margin-top: 4px;
+      font-weight: 500;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+    }
+
+    /* Mobile Navigation */
+    .mobile-menu-toggle {
+      display: none;
+      background: none;
+      border: none;
+      color: white;
+      font-size: 24px;
+      cursor: pointer;
+      padding: 5px;
+    }
+
+    .main-nav {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .main-nav a {
+      color: white;
+      text-decoration: none;
+      font-weight: 500;
+      transition: color 0.3s;
+      white-space: nowrap;
+    }
+
+    .main-nav a:hover {
+      color: var(--gold);
+    }
+
+    .btn {
+      display: inline-block;
+      padding: 10px 20px;
+      border-radius: 6px;
+      text-decoration: none;
+      font-weight: 600;
+      text-align: center;
+      transition: all 0.3s ease;
+      border: none;
+      cursor: pointer;
+    }
+
+    .btn-primary {
+      background: var(--navy);
+      color: white;
+    }
+
+    .btn-secondary {
+      background: var(--gold);
+      color: var(--navy);
+    }
+
+    .btn-gold {
+      background: var(--gold);
+      color: var(--navy);
+    }
+
+    /* Main Content */
+    main {
+      padding: 60px 0;
+    }
+
+    .card {
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+      padding: 30px;
+      margin-bottom: 30px;
+    }
+
+    .card h1, .card h2 {
+      color: var(--navy);
+      margin-top: 0;
+      margin-bottom: 20px;
+    }
+
+    .card h1 {
+      font-size: 2.2rem;
+    }
+
+    .card h2 {
+      font-size: 1.8rem;
+    }
+
+    .card h3, .card h4 {
+      color: var(--navy);
+      margin-top: 0;
+      margin-bottom: 15px;
+    }
+
+    /* Focus Areas */
+    .focus-areas {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 25px;
+      margin-top: 20px;
+    }
+
+    .focus-item {
+      background: white;
+      border-radius: 8px;
+      padding: 20px;
+      box-shadow: 0 3px 10px rgba(0,0,0,0.05);
+      border-top: 3px solid var(--gold);
+    }
+
+    /* Values Grid */
+    .values-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 15px;
+    }
+
+    .value-item {
+      background: var(--light-gray);
+      padding: 15px;
+      border-radius: 8px;
+      text-align: center;
+      font-weight: 600;
+      color: var(--navy);
+    }
+
+    /* Stats Grid */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 30px;
+      text-align: center;
+      margin: 20px 0;
+    }
+
+    .counter {
+      font-size: 2.5rem;
+      font-weight: 700;
+      color: var(--navy);
+      margin-bottom: 10px;
+    }
+
+    /* Images */
+    .program-image {
+      width: 100%;
+      border-radius: 8px;
+      margin-bottom: 20px;
+      height: auto;
+      max-height: 400px;
+      object-fit: cover;
+    }
+
+    /* Footer */
+    .site-footer {
+      background: var(--navy);
+      color: white;
+      padding: 60px 0 20px;
+    }
+
+    .footer-inner {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 40px;
+    }
+
+    .footer-about img {
+      height: 60px;
+      width: auto;
+      margin-bottom: 15px;
+      border-radius: 6px;
+    }
+
+    .social-media h4 {
+      margin-bottom: 15px;
+    }
+
+    .social-links {
+      display: flex;
+      gap: 10px;
+    }
+
+    .social-link {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 40px;
+      height: 40px;
+      background: rgba(255,255,255,0.1);
+      border-radius: 50%;
+      color: white;
+      text-decoration: none;
+      font-weight: bold;
+      transition: background 0.3s;
+    }
+
+    .social-link:hover {
+      background: var(--gold);
+      color: var(--navy);
+    }
+
+    .footer-links a, .footer-resources a {
+      color: rgba(255,255,255,0.8);
+      text-decoration: none;
+      margin-bottom: 10px;
+      display: inline-block;
+    }
+
+    .footer-links a:hover, .footer-resources a:hover {
+      color: white;
+    }
+
+    .footer-links h4, .footer-resources h4, .footer-contact h4 {
+      margin-bottom: 20px;
+      color: white;
+    }
+
+    .footer-quick-links, .download-resources {
+      margin-top: 20px;
+    }
+
+    .quick-link, .download-btn {
+      display: block;
+      margin-bottom: 8px;
+      font-size: 14px;
+    }
+
+    .footer-contact form {
+      display: flex;
+      margin-bottom: 20px;
+    }
+
+    .footer-contact input {
+      flex: 1;
+      padding: 10px 15px;
+      border: none;
+      border-radius: 6px 0 0 6px;
+    }
+
+    .footer-contact button {
+      border-radius: 0 6px 6px 0;
+      white-space: nowrap;
+    }
+
+    .contact-info {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .contact-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    /* Resources Section */
+    .resources-section {
+      background: white;
+      padding: 60px 0;
+      margin-top: 40px;
+    }
+
+    .resources-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 30px;
+    }
+
+    .resource-card {
+      background: var(--light-gray);
+      padding: 30px;
+      border-radius: 10px;
+      text-align: center;
+    }
+
+    .resource-icon {
+      font-size: 3rem;
+      margin-bottom: 20px;
+    }
+
+    .resource-card h3 {
+      color: var(--navy);
+      margin-bottom: 15px;
+    }
+
+    .resource-links {
+      list-style: none;
+      padding: 0;
+      margin-top: 20px;
+    }
+
+    .resource-links li {
+      margin-bottom: 8px;
+    }
+
+    .resource-links a {
+      color: var(--navy);
+      text-decoration: none;
+    }
+
+    .resource-links a:hover {
+      text-decoration: underline;
+    }
+
+    .footer-legal {
+      text-align: center;
+      margin-top: 40px;
+      padding-top: 20px;
+      border-top: 1px solid rgba(255,255,255,0.1);
+      font-size: 14px;
+    }
+
+    .footer-legal a {
+      color: rgba(255,255,255,0.7);
+      text-decoration: none;
+      margin: 0 10px;
+    }
+
+    .footer-legal a:hover {
+      color: white;
+    }
+
+    /* Mobile Responsive Styles */
+    @media (max-width: 768px) {
+      .mobile-menu-toggle {
+        display: block;
+      }
+
+      .main-nav {
+        position: fixed;
+        top: 84px;
+        left: 0;
+        width: 100%;
+        background: var(--navy);
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 20px;
+        gap: 0;
+        transform: translateX(-100%);
+        transition: transform 0.3s ease;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+      }
+
+      .main-nav.active {
+        transform: translateX(0);
+      }
+
+      .main-nav a {
+        width: 100%;
+        padding: 15px 0;
+        border-bottom: 1px solid rgba(255,255,255,0.1);
+      }
+
+      .main-nav a:last-child {
+        border-bottom: none;
+      }
+
+      .card {
+        padding: 20px;
+      }
+
+      .card h1 {
+        font-size: 1.8rem;
+      }
+
+      .card h2 {
+        font-size: 1.5rem;
+      }
+
+      .focus-areas {
+        grid-template-columns: 1fr;
+      }
+
+      .values-grid {
+        grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+      }
+
+      .stats-grid {
+        grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+        gap: 20px;
+      }
+
+      .counter {
+        font-size: 2rem;
+      }
+
+      .program-image {
+        max-height: 300px;
+      }
+
+      .footer-inner {
+        grid-template-columns: 1fr;
+        gap: 30px;
+      }
+
+      .footer-contact form {
+        flex-direction: column;
+      }
+
+      .footer-contact input {
+        border-radius: 6px;
+        margin-bottom: 10px;
+      }
+
+      .footer-contact button {
+        border-radius: 6px;
+        width: 100%;
+      }
+
+      .resources-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .card {
+        padding: 15px;
+      }
+
+      .card h1 {
+        font-size: 1.6rem;
+      }
+
+      .values-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .stats-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .counter {
+        font-size: 1.8rem;
+      }
+
+      .program-image {
+        max-height: 250px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="container">
+    <div class="logo-container">
+      <img src="logo.jpeg" alt="EJF logo">
+      <div class="logo-text">
+        <div class="logo-title">Economic Justice Forum (EJF)</div>
+        <div class="logo-subtitle">Equity • Justice • Prosperity</div>
+      </div>
+    </div>
+    <button class="mobile-menu-toggle" id="mobileMenuToggle">☰</button>
+    <nav class="main-nav" id="mainNav" aria-label="Main navigation">
+      <a href="index.html">Home</a>
+      <a href="about.html">About</a>
+      <a href="pillars.html">Pillars</a>
+      <a href="programs.html">Programs</a>
+      <a href="research.html">Research</a>
+      <a href="events.html">Events</a>
+      <a href="profile.html">Profile</a>
+      <a href="donate.html" class="btn btn-gold">Donate</a>
+    </nav>
+  </div>
+</header>
+
+<main class="container">
+  <section class="card">
+    <h1>Our Programs & Projects</h1>
+    <p>EJF implements targeted programs that address our strategic pillars through community-centered approaches, research-driven advocacy, and multi-stakeholder partnerships.</p>
+  </section>
+
+  <section class="card" id="trees">
+    <h2>Our Trees, Our Future</h2>
+    <img src="tree.jpeg" alt="Our Trees Our Future banner" class="program-image"/>
+    <p><em>Growing Leaders, Growing Trees</em></p>
+    <p>Our Trees, Our Future links environmental conservation with youth leadership and civic empowerment. Through partnerships with schools, public benefit organizations, and business partners, students adopt and grow trees while learning about environmental stewardship, leadership, and civic responsibility.</p>
+    
+    <h3>Program Components</h3>
+    <div class="focus-areas">
+      <div class="focus-item">
+        <h4>Tree Adoption & Growing</h4>
+        <p>Students adopt tree seedlings and commit to nurturing them to maturity, learning practical conservation skills.</p>
+      </div>
+      <div class="focus-item">
+        <h4>Leadership Training</h4>
+        <p>Comprehensive training in environmental leadership, climate action, and community engagement.</p>
+      </div>
+      <div class="focus-item">
+        <h4>Community Engagement</h4>
+        <p>Extending conservation efforts beyond schools to involve entire communities in environmental protection.</p>
+      </div>
+    </div>
+    
+    <h3>Impact Highlights</h3>
+    <div class="stats-grid">
+      <div><div class="counter">20,000</div><div>Trees Grown</div></div>
+      <div><div class="counter">20,000</div><div>Tree Champions Inducted</div></div>
+      <div><div class="counter">30</div><div>Schools Engaged</div></div>
+    </div>
+    
+    <ul style="margin-top:20px;">
+      <li><strong>20,000 Trees Grown</strong> – Each tree represents a Tree Champion committed to environmental conservation.</li>
+      <li><strong>20,000 Tree Champions Inducted</strong> – Youth trained in leadership, climate action, and sustainability.</li>
+      <li><strong>100,000 People Reached</strong> – Through civic engagement forums, local & coastal FM radio, and social media campaigns.</li>
+      <li><strong>30 Schools Engaged</strong> – Across Mwatate and neighboring counties, creating a network of environmental champions.</li>
+    </ul>
+    
+    <div class="focus-item" style="margin-top:25px;">
+      <h4>Supported By:</h4>
+      <p><strong>Wildlife Works</strong> (main supporter - donated seedlings) and other conservation partners committed to youth environmental education.</p>
+    </div>
+  </section>
+  
+  <section class="card" id="civic">
+    <h2>Civic Engagement on Economic & Climate Justice</h2>
+    <p>This project strengthens public participation, community voice, and civic leadership in economic, fiscal, and climate justice. It empowers citizens to influence policies, monitor public spending, and demand accountability in natural resource management and climate finance.</p>
+    
+    <h3>Key Focus Areas</h3>
+    <div class="values-grid">
+      <div class="value-item" style="background:var(--gold); color:var(--navy);">Economic & Fiscal Justice</div>
+      <div class="value-item" style="background:var(--gold); color:var(--navy);">Climate Justice</div>
+      <div class="value-item" style="background:var(--gold); color:var(--navy);">Public Participation</div>
+      <div class="value-item" style="background:var(--gold); color:var(--navy);">Research-Driven Advocacy</div>
+    </div>
+    
+    <h3>Program Activities</h3>
+    <div class="focus-areas">
+      <div class="focus-item">
+        <h4>Civic Education Forums</h4>
+        <p>Community dialogues on economic rights, climate justice, and participatory governance.</p>
+      </div>
+      <div class="focus-item">
+        <h4>Policy Monitoring</h4>
+        <p>Training citizens to monitor public spending and policy implementation in natural resource management.</p>
+      </div>
+      <div class="focus-item">
+        <h4>Media Engagement</h4>
+        <p>Using radio, social media, and community media to amplify citizen voices and advocacy messages.</p>
+      </div>
+    </div>
+    
+    <h3>Impact</h3>
+    <div class="stats-grid">
+      <div><div class="counter">100+</div><div>Civic Dialogues Conducted</div></div>
+      <div><div class="counter">100,000+</div><div>Citizens Reached</div></div>
+      <div><div class="counter">15</div><div>Community Networks Strengthened</div></div>
+    </div>
+    
+    <ul style="margin-top:20px;">
+      <li>100+ civic dialogues and policy forums conducted across target counties</li>
+      <li><strong>Over 100,000 citizens reached and engaged</strong> through civic education, advocacy, radio and social media outreach</li>
+      <li>Strengthened citizen networks demanding transparency and accountability in resource management</li>
+      <li>Enhanced community capacity to engage with county and national governments on development priorities</li>
+    </ul>
+  </section>
+  
+  <section class="card">
+    <h2>Digital Justice & Inclusion Program</h2>
+    <p>Bridging the digital divide by promoting equitable access to digital technologies, digital literacy, and ethical technology governance, particularly for marginalized and rural communities.</p>
+    
+    <h3>Program Components</h3>
+    <div class="focus-areas">
+      <div class="focus-item">
+        <h4>Digital Literacy Training</h4>
+        <p>Basic digital skills training for youth, women, and elders in underserved communities.</p>
+      </div>
+      <div class="focus-item">
+        <h4>Community Digital Hubs</h4>
+        <p>Establishing community access points with internet connectivity and digital resources.</p>
+      </div>
+      <div class="focus-item">
+        <h4>Digital Rights Advocacy</h4>
+        <p>Promoting policies that protect digital rights and ensure equitable technology access.</p>
+      </div>
+    </div>
+  </section>
+  
+  <section class="card">
+    <h2>Women's Economic Empowerment Program</h2>
+    <p>Promoting women's participation in economic decision-making, entrepreneurship, and leadership through targeted capacity building, access to resources, and policy advocacy.</p>
+    
+    <h3>Key Initiatives</h3>
+    <div class="focus-areas">
+      <div class="focus-item">
+        <h4>Women's Entrepreneurship Support</h4>
+        <p>Business skills training, mentorship, and access to seed funding for women-led enterprises.</p>
+      </div>
+      <div class="focus-item">
+        <h4>Leadership Development</h4>
+        <p>Capacity building for women's participation in community leadership and decision-making.</p>
+      </div>
+      <div class="focus-item">
+        <h4>Policy Advocacy</h4>
+        <p>Advocating for gender-responsive policies in economic planning and resource allocation.</p>
+      </div>
+    </div>
+  </section>
+</main>
+  
+  <!-- Resources Section -->
+  <div class="resources-section">
+    <div class="container">
+      <h2 style="text-align: center; color: var(--navy); margin-bottom: 10px;">Helpful Resources</h2>
+      <p style="text-align: center; margin-bottom: 30px; max-width: 600px; margin-left: auto; margin-right: auto;">
+        Access our latest publications, research papers, and educational materials to learn more about economic justice.
+      </p>
+      
+      <div class="resources-grid">
+        <div class="resource-card">
+          <div class="resource-icon">📚</div>
+          <h3>Publications</h3>
+          <p>Download our latest research papers, policy briefs, and annual reports.</p>
+          <ul class="resource-links">
+            <li><a href="#">Annual Report 2023</a></li>
+            <li><a href="#">Climate Justice Policy</a></li>
+            <li><a href="#">Economic Equity Study</a></li>
+            <li><a href="#">Digital Inclusion Paper</a></li>
+          </ul>
+        </div>
+        
+        <div class="resource-card">
+          <div class="resource-icon">🎥</div>
+          <h3>Media Resources</h3>
+          <p>Access photos, videos, and media kits for press and partners.</p>
+          <ul class="resource-links">
+            <li><a href="#">Photo Gallery</a></li>
+            <li><a href="#">Video Library</a></li>
+            <li><a href="#">Press Releases</a></li>
+            <li><a href="#">Media Kit</a></li>
+          </ul>
+        </div>
+        
+        <div class="resource-card">
+          <div class="resource-icon">📊</div>
+          <h3>Data & Research</h3>
+          <p>Explore our data visualizations and research findings.</p>
+          <ul class="resource-links">
+            <li><a href="#">Impact Dashboard</a></li>
+            <li><a href="#">Research Database</a></li>
+            <li><a href="#">Case Studies</a></li>
+            <li><a href="#">Statistics</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+<footer class="site-footer">
+  <div class="container footer-inner">
+    <div class="footer-about">
+      <img src="logo.jpeg" alt="EJF logo" class="logo-sm" />
+      <p><strong>Economic Justice Forum (EJF)</strong><br/>Equity. Justice. Prosperity.</p>
+      <p>Equity • Justice • Prosperity</p>
+      
+      <div class="social-media">
+        <h4>Follow Us</h4>
+        <div class="social-links">
+          <a href="https://www.facebook.com/share/17Zf49Rkb9/?mibextid=wwXIfr" class="social-link facebook" aria-label="Facebook">
+            <i>f</i>
+          </a>
+          <a href=" https://x.com/Economicjusti?t=PsvaT0beGOqlZEs4COyiOQ&s=08" class="social-link twitter" aria-label="Twitter">
+            <i>𝕏</i>
+          </a>
+                    <a href="https://www.instagram.com/invites/contact/?utm_source=ig_contact_invite&utm_medium=copy_link&utm_content=zqovetx" class="social-link instagram" aria-label="Instagram">
+            <i class="fab fa-instagram"></i>
+          </a>
+          <a href="https://www.linkedin.com/in/economic-justice-forum-65758238b?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app" class="social-link linkedin" aria-label="LinkedIn">
+            <i>in</i>
+          </a>
+          <a href="#" class="social-link youtube" aria-label="YouTube">
+            <i>▶</i>
+          </a>
+        </div>
+      </div>
+    </div>
+    
+    <div class="footer-links">
+      <h4>Explore</h4>
+      <a href="about.html">About</a><br/>
+      <a href="pillars.html">Pillars</a><br/>
+      <a href="programs.html">Programs</a><br/>
+      <a href="research.html">Research</a><br/>
+      <a href="events.html">Events</a><br/>
+      <a href="donate.html">Donate</a>
+      
+      <div class="footer-quick-links">
+        <a href="#" class="quick-link">Annual Report</a>
+        <a href="#" class="quick-link">Newsletter</a>
+        <a href="#" class="quick-link">Careers</a>
+        <a href="#" class="quick-link">FAQs</a>
+      </div>
+    </div>
+    
+    <div class="footer-resources">
+      <h4>Resources</h4>
+      <a href="research.html">Publications</a><br/>
+      <a href="#">Policy Briefs</a><br/>
+      <a href="#">Case Studies</a><br/>
+      <a href="#">Research Papers</a><br/>
+      <a href="#">Annual Reports</a><br/>
+      <a href="#">Media Kit</a>
+      
+      <div class="download-resources">
+        <a href="#" class="download-btn">📥 EJF Brochure</a>
+        <a href="#" class="download-btn">📥 Impact Report</a>
+      </div>
+    </div>
+    
+    <div class="footer-contact">
+      <h4>Subscribe</h4>
+      <form id="newsletter" action="#" method="post">
+        <input type="email" placeholder="Email address" required/>
+        <button class="btn btn-primary">Subscribe</button>
+      </form>
+      
+      <div class="contact-info">
+        <div class="contact-item">
+          <i class="far fa-envelope"></i> economicsjusticeforums@gmail.com
+        </div>
+        <div class="contact-item">
+          <i class="fas fa-phone"></i> +254 741 357 830
+        </div>
+        <div class="contact-item">
+          <i>📍</i> Taita-Taveta, Kenya
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <div class="footer-legal">
+    <p>&copy; 2025 Economic Justice Forum (EJF) — Building a Future of Justice, Equity, and Prosperity</p>
+    <div style="margin-top: 10px;">
+      <a href="#" style="color: rgba(255,255,255,0.7); margin: 0 10px; font-size: 12px;">Privacy Policy</a>
+      <a href="#" style="color: rgba(255,255,255,0.7); margin: 0 10px; font-size: 12px;">Terms of Service</a>
+      <a href="#" style="color: rgba(255,255,255,0.7); margin: 0 10px; font-size: 12px;">Accessibility</a>
+    </div>
+  </div>
+</footer>
+
+<!-- Mobile Menu Script -->
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const mobileMenuToggle = document.getElementById('mobileMenuToggle');
+    const mainNav = document.getElementById('mainNav');
+    
+    mobileMenuToggle.addEventListener('click', function() {
+      mainNav.classList.toggle('active');
+      this.textContent = mainNav.classList.contains('active') ? '✕' : '☰';
+    });
+    
+    // Close mobile menu when clicking on a link
+    const navLinks = mainNav.querySelectorAll('a');
+    navLinks.forEach(link => {
+      link.addEventListener('click', () => {
+        mainNav.classList.remove('active');
+        mobileMenuToggle.textContent = '☰';
+      });
+    });
+
+    // Back to Top functionality
+    const backToTopButton = document.createElement('a');
+    backToTopButton.href = '#';
+    backToTopButton.className = 'back-to-top';
+    backToTopButton.innerHTML = '↑';
+    document.body.appendChild(backToTopButton);
+
+    window.addEventListener('scroll', () => {
+      if (window.pageYOffset > 300) {
+        backToTopButton.classList.add('visible');
+      } else {
+        backToTopButton.classList.remove('visible');
+      }
+    });
+
+    backToTopButton.addEventListener('click', (e) => {
+      e.preventDefault();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+  });
+</script>
+</body>
+</html>
