@@ -1350,21 +1350,62 @@
 
     <!-- Add this section after the "About Us" section and before "Our Core Values" -->
 
-<section class="card">
+<section class="card pillars-card" id="home-pillars">
   <h2>Our Core Pillars</h2>
   <div class="three-col">
     <div class="cols">
-      <div class="col">
-        <h3 style="color: var(--navy);">🌍 Climate & Resource Justice</h3>
-        <p>Advocating for Natural Resources Benefit-Sharing Legislation covering minerals, marine resources, water, renewable energy, and conservation areas. Promoting sustainable economies, climate resilience, and Debt-for-Climate Swaps to invest in reforestation, clean energy, and ecosystem restoration.</p>
+      <div class="col pillar-item">
+        <h3 style="color: var(--navy);">1️⃣ Economic, Fiscal & Debt Justice</h3>
+        <p>EJF promotes fair taxation, debt transparency, and citizen-led budgeting to ensure that public finance serves people, not power. We advocate for:</p>
+        <ul>
+          <li>Debt cancellation campaigns and social audits of public borrowing and spending.</li>
+          <li>Progressive tax reforms that reduce inequality and fund quality social services.</li>
+          <li>40% equitable allocation of the national budget to county governments.</li>
+          <li>65% of county budgets dedicated to development rather than administration.</li>
+          <li>Participatory budgeting and citizen scorecards for accountability in all public funds.</li>
+        </ul>
       </div>
-      <div class="col">
-        <h3 style="color: var(--navy);">💻 Democracy, Digital Justice & Devolution</h3>
-        <p>Promoting transparent electronic voting, efficient county governments, digital inclusion, and ethical AI. Establishing leadership academies and advancing e-governance tools for enhanced citizen participation and accountability in the digital age.</p>
+      <div class="col pillar-item">
+        <h3 style="color: var(--navy);">2️⃣ Climate & Resource Justice</h3>
+        <p>We champion equitable and sustainable management of Kenya’s natural and environmental wealth, ensuring communities benefit fairly from their resources. EJF works to:</p>
+        <ul>
+          <li>Secure fair benefit-sharing frameworks for resource-rich counties and communities, covering extractives, marine, water, wind, natural gas, national parks, and ports.</li>
+          <li>Promote sustainable mining, renewable energy, and conservation economies that create local, climate-resilient jobs.</li>
+          <li>Strengthen climate resilience in arid, semi-arid, and coastal regions.</li>
+          <li>Integrate climate action with equity, accountability, and financial fairness through initiatives like Debt-for-Climate Swaps — converting debt repayments into investments in:
+            <ul>
+              <li>Reforestation, renewable energy, and sustainable livelihoods in counties like Taita-Taveta and Marsabit.</li>
+              <li>Climate-smart agriculture, carbon farming, and circular economy enterprises led by youth and women.</li>
+              <li>Ecosystem restoration, clean water, and biodiversity protection.</li>
+            </ul>
+          </li>
+          <li>Advocate for Direct Climate Finance flows to counties and community organizations.</li>
+          <li>Establish a People’s Climate Dividend, ensuring communities protecting natural resources receive guaranteed benefits.</li>
+          <li>Advocate globally for a UN Framework/Convention on Natural Resource Benefit-Sharing to advance peace, equity, and poverty eradication, particularly for rural grassroots and marginalized communities.</li>
+        </ul>
+        <p><em>💡 True climate justice ensures that those who protect the planet are the first to benefit from its preservation.</em></p>
       </div>
-      <div class="col">
-        <h3 style="color: var(--navy);">🌐 Global Advocacy & Governance Reform</h3>
-        <p>Championing UN frameworks for Natural Resource Benefit-Sharing, reforming international financial institutions, establishing Debt and Tax Justice protocols, and advocating for UN Security Council reforms to ensure Africa's voice in global decision-making.</p>
+      <div class="col pillar-item">
+        <h3 style="color: var(--navy);">3️⃣ Democracy, Digital Justice, Leadership & Devolution</h3>
+        <p>EJF strengthens democracy, ethical leadership, digital inclusion, and devolution as pillars of accountable governance and people-centered development. Our work includes:</p>
+        <ul>
+          <li>Promoting simple, verifiable electronic voting systems for transparent elections.</li>
+          <li>Restructuring devolution to ensure lean, efficient, and development-focused county governments.</li>
+          <li>Expanding digital justice — bridging the digital divide, ensuring fair access to digital opportunities, and protecting citizens’ rights in the digital age.</li>
+          <li>Advocating for equitable and ethical Artificial Intelligence (AI) that serves humanity, protects the planet, and promotes equity, accountability, and sustainability.</li>
+          <li>Establishing a Leadership Academy for civic education, youth empowerment, and women’s leadership.</li>
+          <li>Advancing e-governance tools and civic tech innovations to enhance participation and transparency.</li>
+        </ul>
+      </div>
+      <div class="col pillar-item">
+        <h3 style="color: var(--navy);">4️⃣ Global Advocacy & Governance Reform</h3>
+        <p>EJF connects local realities to global justice movements to reshape international systems in favor of people and planet. We advocate for:</p>
+        <ul>
+          <li>A UN Framework/Convention on Natural Resource Benefit-Sharing.</li>
+          <li>Reforms of international financial institutions (IMF, World Bank, WTO) to make global finance transparent, fair, and sustainable.</li>
+          <li>A UN Framework on Debt and Tax Justice to prevent exploitation and ensure responsible lending and borrowing.</li>
+          <li>UN Security Council reforms — granting Africa permanent seats with veto powers and ensuring grassroots communities have a voice in global decision-making.</li>
+        </ul>
       </div>
     </div>
   </div>
@@ -2288,6 +2329,47 @@ window.addEventListener('scroll', () => {
   }
 });
 </script>
+
+<script>
+// Pillars reveal on scroll - home page only
+(function() {
+  const container = document.getElementById('home-pillars');
+  if (!container) return;
+  const items = container.querySelectorAll('.pillar-item');
+
+  // initial hidden state via inline style classes
+  items.forEach((el, i) => {
+    el.classList.add('pillar-hidden');
+    el.style.transitionDelay = (i * 120) + 'ms';
+  });
+
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        items.forEach(el => el.classList.add('pillar-show'));
+        io.disconnect();
+      }
+    });
+  }, { threshold: 0.25 });
+
+  io.observe(container);
+})();
+</script>
+
+<style>
+/* Pillars reveal animation */
+.pillars-card .pillar-item.pillar-hidden {
+  opacity: 0;
+  transform: translateY(24px) scale(0.98);
+  filter: blur(2px);
+}
+.pillars-card .pillar-item.pillar-show {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+  filter: blur(0);
+  transition: opacity 600ms ease, transform 600ms ease, filter 600ms ease;
+}
+</style>
 
 </body>
 </html>
