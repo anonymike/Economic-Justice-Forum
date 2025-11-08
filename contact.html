@@ -1,0 +1,457 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Contact — Economic Justice Forum</title>
+    <link rel="stylesheet" href="ejf_styles.css" />
+    <script>
+      // Initialize the scroll behavior when the DOM is loaded
+      document.addEventListener('DOMContentLoaded', function() {
+        let lastScrollY = window.scrollY;
+        let ticking = false;
+
+        function updateHeader() {
+          const header = document.querySelector('.site-header');
+          const currentScrollY = window.scrollY;
+          
+          if (currentScrollY > 100) { // Only hide after scrolling down 100px
+            if (currentScrollY > lastScrollY) {
+              // Scrolling down
+              header.classList.add('nav-hidden');
+            } else {
+              // Scrolling up
+              header.classList.remove('nav-hidden');
+            }
+          } else {
+            // At the top
+            header.classList.remove('nav-hidden');
+          }
+          
+          // Add/remove background based on scroll position
+          if (currentScrollY > 50) {
+            header.classList.add('scrolled');
+          } else {
+            header.classList.remove('scrolled');
+          }
+          
+          lastScrollY = currentScrollY;
+          ticking = false;
+        }
+
+        window.addEventListener('scroll', () => {
+          if (!ticking) {
+            window.requestAnimationFrame(() => {
+              updateHeader();
+              ticking = false;
+            });
+            ticking = true;
+          }
+        });
+
+        // Initial check
+        updateHeader();
+      });
+    </script>
+    <style>
+      /* Header scroll behavior */
+      .site-header {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        z-index: 1000;
+        transition: all 0.3s ease-in-out;
+        background: transparent;
+        backdrop-filter: blur(8px);
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      }
+      
+      .site-header.scrolled {
+        background: rgba(255, 255, 255, 0.95);
+        border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      }
+
+      .site-header.nav-hidden {
+        transform: translateY(-100%);
+      }
+
+      /* Adjust header text colors */
+      .site-header .logo-title,
+      .site-header .logo-subtitle,
+      .site-header .main-nav a:not(.btn) {
+        color: white;
+        transition: color 0.3s ease;
+      }
+
+      .site-header.scrolled .logo-title,
+      .site-header.scrolled .logo-subtitle,
+      .site-header.scrolled .main-nav a:not(.btn) {
+        color: #333;
+      }
+      
+      /* Contact page: stack contact sections vertically and style map */
+      .contact-grid {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+      }
+
+      .contact-card {
+        width: 100%;
+      }
+
+      /* Make the form rows stack on narrow widths (keeps inputs comfortable) */
+      .contact-form .form-row {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+      }
+
+      .map-embed {
+        width: 100%;
+        height: 260px;
+        border: 0;
+        border-radius: 8px;
+      }
+
+      /* Hero image layout with full overlay effect */
+      .contact-hero { 
+        position: relative; 
+        overflow: hidden;
+        min-height: 600px;
+        display: flex;
+        align-items: center;
+        color: white;
+        margin-top: -80px; /* Offset for header height */
+        padding-top: 80px; /* Add padding to account for header */
+      }
+      .contact-hero::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: linear-gradient(to bottom, rgba(0,0,0,0.7), rgba(0,0,0,0.5));
+        z-index: 1;
+      }
+      .contact-hero .container { 
+        position: relative;
+        z-index: 2;
+        text-align: center;
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 60px 20px;
+      }
+      .hero-inner { 
+        position: relative;
+      }
+      .contact-hero-image { 
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: 0;
+        bottom: 0;
+        z-index: 0;
+      }
+      .contact-hero-image img { 
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+
+      @media (max-width: 768px) {
+        .contact-hero {
+          min-height: 500px;
+        }
+        .contact-hero .container {
+          padding: 60px 20px;
+        }
+        .contact-hero::before {
+          background: linear-gradient(to bottom, rgba(0,0,0,0.8), rgba(0,0,0,0.6));
+        }
+      }
+
+      @media (min-width: 900px) {
+        /* On wide screens, keep cards centered */
+        .contact-grid { max-width: 900px; margin: 0 auto; }
+      }
+    </style>
+  </head>
+  <body>
+
+    <!-- Header / Nav -->
+    <header class="site-header">
+      <div class="container">
+        <div class="header-brand">
+          <a href="index.html"><img src="logo.jpeg" alt="EJF logo" class="logo"/></a>
+          <div class="logo-text">
+            <span class="logo-title">Economic Justice Forum</span>
+            <span class="logo-subtitle">Justice, Equity & Prosperity</span>
+          </div>
+        </div>
+
+        <button class="menu-toggle" aria-label="Toggle navigation">
+          <span></span><span></span><span></span>
+        </button>
+
+        <nav class="main-nav" aria-label="Main navigation">
+          <a href="index.html">Home</a>
+          <a href="about.html">About</a>
+          <a href="programs.html">Programs</a>
+          <a href="events.html">Events</a>
+          <a href="pillars.html">Pillars</a>
+          <a href="research.html">Research</a>
+          <a href="donate.html" class="btn-gold">Donate</a>
+          <a href="contact.html" class="btn btn-primary" aria-current="page">Contact</a>
+        </nav>
+      </div>
+    </header>
+
+    <main>
+      <!-- Hero -->
+      <section class="contact-hero">
+        <div class="contact-hero-image" aria-hidden="true">
+          <img src="images-projects/contact_us.jpg" alt="Contact us" />
+        </div>
+        <div class="container">
+          <div class="hero-inner">
+            <h1 style="margin-bottom: 20px; font-size: 2.5em;">Get in touch</h1>
+            <p style="font-size: 1.2em; line-height: 1.6; max-width: 600px; margin: 0 auto;">We'd love to hear from you — questions, partnership ideas, volunteering, or media inquiries. Fill the form or use the details on this page.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Contact content -->
+      <section class="contact-section container">
+        <div class="contact-grid">
+          <div class="contact-card fade-in-up stagger-1">
+            <h3>Contact Us</h3>
+            <p class="contact-info">We're available Monday to Friday, 9am — 5pm.</p>
+            <p class="contact-info"><strong>Emails:</strong></p>
+            <ul class="contact-emails" style="margin:6px 0 0 18px; padding:0; list-style:disc;">
+              <li><a href="mailto:mbingu@economicjusticeforum.org">mbingu@economicjusticeforum.org</a> — Hon. Christopher Mwambingu</li>
+              <li><a href="mailto:moses@economicjusticeforum.org">moses@economicjusticeforum.org</a> — Moses Macharia</li>
+              <li><a href="mailto:egwaarnold@economicjusticeforum.org">egwaarnold@economicjusticeforum.org</a> — Egwa Arnold</li>
+              <li><a href="mailto:amriyajuma@economicjusticeforum.org">amriyajuma@economicjusticeforum.org</a> — Amriya Boy Juma</li>
+            </ul>
+            <p class="contact-info" style="margin-top:10px;"><strong>Phone:</strong> <a href="tel:+254741357830">+25474135730</a></p>
+            <div class="social-media">
+              <div class="social-links">
+                <a class="social-link facebook" href="#" aria-label="Facebook">F</a>
+                <a class="social-link twitter" href="#" aria-label="Twitter">T</a>
+                <a class="social-link instagram" href="#" aria-label="Instagram">I</a>
+              </div>
+            </div>
+          </div>
+
+          <div class="contact-card fade-in-up stagger-2">
+            <h3>Send a message</h3>
+            <form id="contactForm" class="contact-form" novalidate>
+              <div class="form-row">
+                <div style="flex:1">
+                  <label for="name">Name</label>
+                  <input class="focus-ring" id="name" name="name" type="text" required placeholder="Your name" />
+                </div>
+                <div style="flex:1">
+                  <label for="email">Email</label>
+                  <input class="focus-ring" id="email" name="email" type="email" required placeholder="you@example.com" />
+                </div>
+              </div>
+
+              <label for="message">Message</label>
+              <textarea class="focus-ring" id="message" name="message" required placeholder="How can we help?"></textarea>
+
+              <div class="contact-actions">
+                <button type="submit" class="btn btn-primary">Send message</button>
+                <div id="success" class="contact-success" role="status" aria-live="polite">Thanks — your message is queued. We'll respond soon.</div>
+              </div>
+            </form>
+          </div>
+
+          <div class="contact-card fade-in-up stagger-3">
+            <h3>Visit</h3>
+            <p>Economic Justice Forum<br/>123 Community Lane<br/>City, State ZIP</p>
+            <p><strong>Office Hours:</strong><br/>Mon — Fri: 9:00 — 17:00</p>
+            <div style="margin-top:12px">
+              <!-- Embedded map of Taita-Taveta -->
+              <iframe class="map-embed" loading="lazy" title="Map of Taita-Taveta" src="https://www.google.com/maps?q=Taita-Taveta+Kenya&output=embed"></iframe>
+              <p style="font-size:0.9rem; margin-top:8px;"><a href="https://www.google.com/maps/search/?api=1&query=Taita-Taveta+Kenya" target="_blank" rel="noopener">Open larger map on Google Maps</a></p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer-contact">
+      <div class="container footer-inner">
+        <div style="max-width:420px">
+          <img src="logo.jpeg" alt="EJF logo" class="logo-sm" />
+          <p style="margin-top:12px; color:white;">We unite communities to advance economic justice through policy, research, and action.</p>
+        </div>
+
+        <div>
+          <h4 style="color:white; margin-bottom:8px;">Quick links</h4>
+          <nav style="display:flex; flex-direction:column; gap:8px;">
+            <a href="programs.html" style="color:white; text-decoration:none;">Programs</a>
+            <a href="events.html" style="color:white; text-decoration:none;">Events</a>
+            <a href="research.html" style="color:white; text-decoration:none;">Research</a>
+          </nav>
+        </div>
+
+        <div>
+          <h4 style="color:white; margin-bottom:8px;">Contact</h4>
+          <p style="color:white; margin-bottom:6px;">
+            <a href="mailto:mbingu@economicjusticeforum.org" style="color:white; text-decoration:underline;">mbingu@economicjusticeforum.org</a><br/>
+            <a href="mailto:moses@economicjusticeforum.org" style="color:white; text-decoration:underline;">moses@economicjusticeforum.org</a><br/>
+            <a href="mailto:egwaarnold@economicjusticeforum.org" style="color:white; text-decoration:underline;">egwaarnold@economicjusticeforum.org</a><br/>
+            <a href="mailto:amriyajuma@economicjusticeforum.org" style="color:white; text-decoration:underline;">amriyajuma@economicjusticeforum.org</a><br/>
+            <span style="color:white;"></span>+254 741 357 830</span>
+          </p>
+        </div>
+      </div>
+      <div class="footer-legal">© <span id="year"></span> Economic Justice Forum — All rights reserved</div>
+    </footer>
+
+    <script>
+      // Set year in footer
+      document.getElementById('year').textContent = new Date().getFullYear();
+
+      // Mobile nav toggle
+      const menuToggle = document.querySelector('.menu-toggle');
+      const mainNav = document.querySelector('.main-nav');
+      menuToggle && menuToggle.addEventListener('click', function(){
+        menuToggle.classList.toggle('active');
+        mainNav.classList.toggle('active');
+      });
+
+      // Enhanced contact form handler with validation and rate limiting
+      const form = document.getElementById('contactForm');
+      const success = document.getElementById('success');
+      const submitBtn = form.querySelector('button[type="submit"]');
+
+      // Create error message element
+      const errorDiv = document.createElement('div');
+      errorDiv.style.display = 'none';
+      errorDiv.className = 'contact-error';
+      errorDiv.style.color = '#dc3545';
+      errorDiv.style.marginTop = '10px';
+      errorDiv.style.padding = '10px';
+      errorDiv.style.backgroundColor = 'rgba(220, 53, 69, 0.1)';
+      errorDiv.style.borderRadius = '4px';
+      form.querySelector('.contact-actions').appendChild(errorDiv);
+
+      function showError(message) {
+        errorDiv.textContent = message;
+        errorDiv.style.display = 'block';
+        setTimeout(() => errorDiv.style.display = 'none', 5000);
+      }
+
+      function showSuccess(message) {
+        success.textContent = message;
+        success.style.display = 'block';
+        setTimeout(() => success.style.display = 'none', 5000);
+      }
+
+      form && form.addEventListener('submit', async function(e) {
+        e.preventDefault();
+        
+        // Get form data
+        const name = form.name.value.trim();
+        const email = form.email.value.trim();
+        const message = form.message.value.trim();
+        
+        try {
+          // Disable submit button and show loading state
+          submitBtn.disabled = true;
+          submitBtn.textContent = 'Sending...';
+          errorDiv.style.display = 'none';
+          success.style.display = 'none';
+
+          // Send to our API endpoint
+          const response = await fetch('/api/contact', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ name, email, message })
+          });
+
+          const result = await response.json();
+
+          if (!response.ok) {
+            // Handle different types of errors
+            if (response.status === 429) {
+              throw new Error('Too many messages sent. Please try again in an hour.');
+            } else if (response.status === 400 && result.errors) {
+              throw new Error(result.errors.join('\\n'));
+            } else {
+              throw new Error(result.error || 'Failed to send message');
+            }
+          }
+
+          // Show success message and clear form
+          showSuccess(result.message || 'Thanks - your message has been sent. We will respond soon.');
+          form.reset();
+          
+        } catch (error) {
+          console.error('Error:', error);
+          showError(error.message || 'Sorry, there was a problem sending your message. Please try again.');
+        } finally {
+          // Re-enable submit button
+          submitBtn.disabled = false;
+          submitBtn.textContent = 'Send message';
+        }
+      });
+
+            // Small entrance animation on load
+
+      // Header scroll behavior
+      let lastScrollY = window.scrollY;
+      let ticking = false;
+
+      function updateHeader() {
+        const header = document.querySelector('.site-header');
+        const currentScrollY = window.scrollY;
+        
+        if (currentScrollY > lastScrollY) {
+          // Scrolling down
+          header.classList.add('nav-hidden');
+        } else {
+          // Scrolling up
+          header.classList.remove('nav-hidden');
+        }
+        
+        lastScrollY = currentScrollY;
+        ticking = false;
+      }
+
+      window.addEventListener('scroll', () => {
+        if (!ticking) {
+          window.requestAnimationFrame(() => {
+            updateHeader();
+            ticking = false;
+          });
+          ticking = true;
+        }
+      });
+```
+      window.addEventListener('load', function(){
+        document.querySelectorAll('.fade-in-up').forEach((el, i)=>{
+          el.style.opacity = 0;
+          el.style.transform = 'translateY(12px)';
+          setTimeout(()=>{
+            el.style.transition = 'opacity 600ms ease, transform 600ms ease';
+            el.style.opacity = 1;
+            el.style.transform = 'translateY(0)';
+          }, 120 + (i*120));
+        });
+      });
+    </script>
+
+  </body>
+</html>

@@ -1,0 +1,8 @@
+{
+  "name": "economic-justice-forum",
+  "version": "1.0.0",
+  "private": true,
+  "dependencies": {
+    "resend": "^2.0.0"
+  }
+}

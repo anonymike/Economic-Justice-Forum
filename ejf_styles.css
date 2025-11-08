@@ -398,6 +398,52 @@ body {
   gap: 8px;
 }
 
+/* Contact page specific styles */
+.contact-hero{position:relative; min-height:40vh; display:flex; align-items:center; background:linear-gradient(90deg, rgba(0,58,99,0.8), rgba(217,162,28,0.2)); color:white;}
+.contact-hero .container{padding:60px 20px;}
+.contact-hero h1{font-size:2.6rem; margin-bottom:10px;}
+.contact-hero p{opacity:0.95; max-width:780px;}
+
+.contact-section{padding:60px 0;}
+.contact-grid{display:grid; grid-template-columns:repeat(auto-fit,minmax(300px,1fr)); gap:30px; align-items:start;}
+.contact-card{background:white; border-radius:12px; padding:28px; box-shadow:0 10px 30px rgba(0,0,0,0.08);}
+.contact-card h3{color:var(--navy); margin-bottom:10px;}
+.contact-info p{margin-bottom:8px;}
+
+.contact-form label{display:block; font-weight:600; margin-bottom:6px; font-size:0.95rem;}
+.contact-form input[type="text"], .contact-form input[type="email"], .contact-form textarea{width:100%; padding:12px 14px; border-radius:8px; border:1px solid #e6e6e6; margin-bottom:14px; font-size:1rem; transition:box-shadow 0.2s, transform 0.15s;}
+.contact-form textarea{min-height:140px; resize:vertical;}
+.contact-form input:focus, .contact-form textarea:focus{outline:none; box-shadow:0 6px 18px rgba(0,58,99,0.08); transform:translateY(-2px);}
+.contact-form .form-row{display:flex; gap:12px;}
+
+.contact-actions{display:flex; gap:12px; align-items:center; margin-top:8px;}
+.contact-success{display:none; background:rgba(34,139,34,0.08); color: #0a6f0a; padding:12px 14px; border-radius:8px; border:1px solid rgba(34,139,34,0.12);}
+.contact-error{display:none; background:rgba(220,53,69,0.08); color: #dc3545; padding:12px 14px; border-radius:8px; border:1px solid rgba(220,53,69,0.12);}
+
+/* Small animated touches */
+.fade-in-up{animation:fadeUp 700ms ease both;}
+.stagger-1{animation-delay:120ms;}
+.stagger-2{animation-delay:240ms;}
+.stagger-3{animation-delay:360ms;}
+
+/* Footer tweaks for contact page */
+.footer-contact{background:linear-gradient(90deg, rgba(0,58,99,0.97), rgba(217,162,28,0.95)); color:white;}
+.footer-contact .footer-inner{gap:20px;}
+
+/* Responsive adjustments */
+@media (max-width: 900px){
+  .contact-hero .container{padding:40px 16px;}
+  .contact-hero h1{font-size:2rem;}
+}
+
+@media (max-width: 480px){
+  .contact-form .form-row{flex-direction:column;}
+}
+
+/* small helper for accessible focus states */
+.focus-ring:focus{outline:3px solid rgba(217,162,28,0.28); outline-offset:2px;}
+
+
 .resource-links a:hover {
   color: var(--gold);
 }
@@ -687,4 +733,69 @@ form button{margin-top:15px;}
   .gallery{grid-template-columns:1fr;}
   .research-grid{grid-template-columns:1fr;}
   .event-cards{grid-template-columns:1fr;}
+}
+
+/* Research hero banner: image on right for desktop, overlay on mobile */
+.research-hero {
+  display: flex;
+  align-items: center;
+  gap: 30px;
+}
+
+.research-hero-content {
+  flex: 1 1 60%;
+}
+
+.research-hero-content h1 {
+  font-size: 2.2rem;
+  margin-bottom: 8px;
+}
+
+.research-hero-image {
+  flex: 0 0 360px;
+  display: block;
+  position: relative;
+}
+
+.research-hero-image img {
+  width: 100%;
+  height: auto;
+  border-radius: 12px;
+  box-shadow: 0 8px 30px rgba(0,0,0,0.08);
+  object-fit: cover;
+  display: block;
+}
+
+/* Mobile: place image as full-width overlay behind content */
+@media (max-width: 768px) {
+  .research-hero {
+    position: relative;
+    display: block;
+    padding-top: 14px;
+  }
+  .research-hero-image {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 160px;
+    overflow: hidden;
+    z-index: 0;
+    border-radius: 12px 12px 0 0;
+  }
+  .research-hero-image img {
+    width: 100%;
+    height: 160px;
+    object-fit: cover;
+    filter: brightness(0.45) saturate(0.9);
+  }
+  .research-hero-content {
+    position: relative;
+    z-index: 1;
+    padding: 18px 12px 12px 12px;
+    color: #fff;
+  }
+  .research-hero-content h1, .research-hero-content p {
+    color: #fff;
+  }
 }

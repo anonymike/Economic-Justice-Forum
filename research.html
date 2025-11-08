@@ -9,6 +9,9 @@
   <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
   <link rel="manifest" href="site.webmanifest">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="ejf_styles.css">
+  <link rel="stylesheet" href="css/pdf-styles.css">
+  <script src="js/pdf-handler.js" defer></script>
   <style>
     /* Base Styles */
     :root {
@@ -176,14 +179,95 @@
     }
 
     /* Research Grid */
-    .research-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
-      gap: 25px;
-      margin-top: 20px;
-    }
+.research-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 25px;
+  margin: 30px 0;
+}
 
-    .research-item {
+.report-card {
+  background: white;
+  border-radius: 12px;
+  padding: 25px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+  transition: all 0.3s ease;
+  border-left: 4px solid var(--gold);
+  margin-bottom: 25px;
+}
+
+.report-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 30px rgba(0,0,0,0.12);
+}
+
+.report-icon {
+  width: 60px;
+  height: 60px;
+  background: var(--navy);
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.report-icon i {
+  font-size: 24px;
+  color: white;
+}
+
+.report-title {
+  font-size: 1.2rem;
+  color: var(--navy);
+  margin-bottom: 10px;
+  font-weight: 600;
+}
+
+.report-meta {
+  font-size: 0.9rem;
+  color: #666;
+  margin-bottom: 20px;
+}
+
+.download-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--navy);
+  color: white;
+  padding: 10px 20px;
+  border-radius: 6px;
+  text-decoration: none;
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+
+.download-btn:hover {
+  background: var(--gold);
+  transform: translateY(-2px);
+}
+
+.download-btn i {
+  font-size: 18px;
+}
+
+.report-summary {
+  margin: 15px 0;
+  color: #444;
+  line-height: 1.6;
+}
+
+.tag {
+  display: inline-block;
+  padding: 4px 12px;
+  background: rgba(217,162,28,0.1);
+  color: var(--navy);
+  border-radius: 20px;
+  font-size: 0.85rem;
+  margin-right: 8px;
+  margin-bottom: 8px;
+}    .research-item {
       background: var(--light-gray);
       border-radius: 10px;
       padding: 25px;
@@ -553,6 +637,7 @@
       <a href="programs.html">Programs</a>
       <a href="research.html">Research</a>
       <a href="events.html">Events</a>
+      <a href="contact.html">Contact</a>
       <a href="profile.html">Profile</a>
       <a href="donate.html" class="btn btn-gold">Donate</a>
     </nav>
@@ -561,42 +646,219 @@
 
 <main class="container">
   <section class="card">
-    <h1>Research & Publications</h1>
-    <p>Explore EJF's evidence-based research, policy briefs, case studies, and publications that inform our advocacy and contribute to public discourse on economic, climate, social, and digital justice.</p>
-    <p>Our research combines rigorous analysis with community perspectives to develop practical solutions and policy recommendations.</p>
+    <div class="research-hero">
+      <div class="research-hero-content">
+        <h1>Research & Publications</h1>
+        <p>Explore EJF's evidence-based research, policy briefs, case studies, and publications that inform our advocacy and contribute to public discourse on economic, climate, social, and digital justice.</p>
+        <p>Our research combines rigorous analysis with community perspectives to develop practical solutions and policy recommendations.</p>
+      </div>
+      <div class="research-hero-image" aria-hidden="false">
+        <img src="images-projects/Research & Publications.jpg" alt="Research & Publications" />
+      </div>
+    </div>
   </section>
 
   <section class="card">
     <h2>Featured Publications</h2>
+    <!-- Kenya cover moved here: click to open modal or download -->
+    <div class="kenya-cover">
+      <!-- Replace the src with the image you will place in the repo: images-projects/ejf-kenya-cover.jpg -->
+      <div class="cover-image" role="button" tabindex="0" 
+           onclick="openPdfModal('documents/reports/EJF Kenya Climate Financing Analysis Report.pdf','kenya-modal')"
+           onkeypress="if(event.key==='Enter') openPdfModal('documents/reports/EJF Kenya Climate Financing Analysis Report.pdf','kenya-modal')">
+        <div class="cover-overlay">
+          <h3>EJF Kenya Climate Financing Analysis</h3>
+          <p class="cover-cta">Click to view report</p>
+          <button class="download-btn" onclick="trackDownload(event,'Kenya Climate Financing Report');">
+            <a href="documents/reports/EJF%20Kenya%20Climate%20Financing%20Analysis%20Report.pdf" download style="color:inherit; text-decoration:none;">Download</a>
+          </button>
+        </div>
+      </div>
+    </div>
     <div class="research-grid">
-      <div class="research-item">
-        <h3>Benefit-Sharing Frameworks for Natural Resources</h3>
-        <p><strong>Publication Date:</strong> January 2023</p>
-        <p><strong>Summary:</strong> Comprehensive analysis of policy options for equitable distribution of natural resource revenues between national and county governments, with case studies from mining, forestry, and wildlife sectors.</p>
-        <div style="margin-top:15px;">
-          <a class="btn btn-primary" href="Research_Cover.png" download>Download PDF</a>
-          <a class="btn btn-secondary" href="#" style="margin-left:10px;">Executive Summary</a>
+      <div class="report-card">
+        <div class="report-preview">
+          <div class="report-icon">
+            <i class="fas fa-file-pdf"></i>
+          </div>
+          <h3 class="report-title">EJF Kenya Climate Financing Analysis Report</h3>
+          <div class="report-meta">
+            <span class="tag">Climate Finance</span>
+            <span class="tag">Kenya</span>
+            <span class="tag">Policy Analysis</span>
+          </div>
+          <p class="report-summary">Comprehensive analysis of climate finance flows, governance mechanisms, and community access to adaptation funds in Kenya. This report examines the current state of climate financing, identifies challenges, and provides actionable recommendations for improving access and effectiveness.</p>
+          <p><strong>Publication Date:</strong> November 2025</p>
+          <div class="report-actions" style="margin-top:20px; display:flex; gap:10px; flex-wrap:wrap;">
+                <a href="documents/reports/EJF%20Kenya%20Climate%20Financing%20Analysis%20Report.pdf" 
+                   class="download-btn" 
+                   download="EJF_Kenya_Climate_Financing_Report.pdf"
+                   onclick="trackDownload(event, 'Kenya Climate Financing Report')">
+                  <i class="fas fa-download"></i>
+                  Download Full Report
+                </a>
+                <button class="summary-btn" 
+                        onclick="toggleSummary('kenya-climate-summary')"
+                        style="background: var(--gold);">
+                  <i class="fas fa-file-alt"></i>
+                  Executive Summary
+                  <i class="fas fa-chevron-down"></i>
+                </button>
+          </div>
         </div>
-      </div>
+        
+        <!-- Executive Summary Expandable Section -->
+        <div id="kenya-climate-summary" class="summary-content" style="display: none;">
+          <div class="summary-text">
+            <h4>Executive Summary</h4>
+            <p>This report analyzes the current state of climate financing in Kenya, focusing on three key areas:</p>
+            <ul>
+              <li>Assessment of existing climate finance flows and distribution mechanisms</li>
+              <li>Analysis of governance structures and their effectiveness</li>
+              <li>Evaluation of community access to adaptation funds</li>
+            </ul>
+            <p><strong>Key Findings:</strong></p>
+            <ul>
+              <li>Significant gaps in last-mile funding distribution</li>
+              <li>Need for improved coordination between national and county-level initiatives</li>
+              <li>Opportunities for enhanced community participation in fund allocation</li>
+            </ul>
+            <div class="summary-actions">
+              <a href="documents/reports/ejf-kenya-climate-financing-summary.pdf" 
+                 class="download-btn" 
+                 download="EJF_Kenya_Climate_Financing_Summary.pdf"
+                 onclick="trackDownload(event, 'Kenya Climate Financing Summary')">
+                <i class="fas fa-download"></i>
+                Download Summary PDF
+              </a>
+            </div>
+          </div>
+
+        </div>
       
-      <div class="research-item">
-        <h3>Climate Finance Governance in Kenya</h3>
-        <p><strong>Publication Date:</strong> March 2023</p>
-        <p><strong>Summary:</strong> Assessment of climate finance flows, governance mechanisms, and community access to adaptation funds in arid and semi-arid regions of Kenya.</p>
-        <div style="margin-top:15px;">
-          <a class="btn btn-primary" href="#">Download PDF</a>
-          <a class="btn btn-secondary" href="#" style="margin-left:10px;">Executive Summary</a>
-        </div>
-      </div>
-      
-      <div class="research-item">
-        <h3>Digital Inclusion in Coastal Communities</h3>
-        <p><strong>Publication Date:</strong> June 2023</p>
-        <p><strong>Summary:</strong> Research on digital access, literacy, and technology adoption patterns in coastal counties, with recommendations for bridging the digital divide.</p>
-        <div style="margin-top:15px;">
-          <a class="btn btn-primary" href="#">Download PDF</a>
-          <a class="btn btn-secondary" href="#" style="margin-left:10px;">Executive Summary</a>
-        </div>
+          <!-- Report 2 -->
+          <div class="report-card">
+            <div class="report-preview">
+              <div class="report-icon">
+                <i class="fas fa-file-pdf"></i>
+              </div>
+              <h3 class="report-title">Benefit-Sharing Frameworks for Natural Resources</h3>
+              <div class="report-meta">
+                <span class="tag">Natural Resources</span>
+                <span class="tag">Policy</span>
+                <span class="tag">Governance</span>
+              </div>
+              <p class="report-summary">Comprehensive analysis of policy options for equitable distribution of natural resource revenues between national and county governments, with case studies from mining, forestry, and wildlife sectors.</p>
+              <div class="report-actions" style="margin-top:20px; display:flex; gap:10px; flex-wrap:wrap;">
+                  <span class="coming-soon-badge">
+                    <i class="fas fa-clock"></i>
+                    Coming Soon
+                  </span>
+                </div>
+
+              <!-- Executive Summary Expandable Section -->
+              <div id="digital-inclusion-summary" class="summary-content">
+                <div class="summary-text">
+                  <h4>Executive Summary</h4>
+                  <p>This report investigates digital inclusion in coastal communities, examining:</p>
+                  <ul>
+                    <li>Current state of digital access and infrastructure</li>
+                    <li>Digital literacy levels and barriers to adoption</li>
+                    <li>Technology adoption patterns across different demographics</li>
+                  </ul>
+                  <p><strong>Key Findings:</strong></p>
+                  <ul>
+                    <li>Significant digital divide between urban and rural coastal areas</li>
+                    <li>Need for targeted digital literacy programs</li>
+                    <li>Opportunities for mobile-first solutions</li>
+                  </ul>
+                  <div class="summary-actions">
+                    <a href="documents/reports/ejf-digital-inclusion-summary.pdf" 
+                       class="download-btn" 
+                       download="EJF_Digital_Inclusion_Summary.pdf"
+                       onclick="trackDownload(event, 'Digital Inclusion Summary')">
+                      <i class="fas fa-download"></i>
+                      Download Summary PDF
+                    </a>
+                  </div>
+                </div>
+              </div>
+                  <i class="fas fa-download"></i>
+                  Download Full Report
+                </a>
+                <button class="summary-btn" 
+                        onclick="toggleSummary('benefit-sharing-summary')"
+                        style="background: var(--gold);">
+                  <i class="fas fa-file-alt"></i>
+                  Executive Summary
+                  <i class="fas fa-chevron-down"></i>
+                </button>
+              </div>
+            </div>
+
+            <!-- Executive Summary Expandable Section -->
+            <div id="benefit-sharing-summary" class="summary-content">
+              <div class="summary-text">
+                <h4>Executive Summary</h4>
+                <p>This report examines benefit-sharing frameworks for natural resources in Kenya, focusing on:</p>
+                <ul>
+                  <li>Current revenue distribution models between national and county governments</li>
+                  <li>Case studies from mining, forestry, and wildlife sectors</li>
+                  <li>Best practices for equitable resource revenue sharing</li>
+                </ul>
+                <p><strong>Key Findings:</strong></p>
+                <ul>
+                  <li>Variations in revenue sharing models across different sectors</li>
+                  <li>Need for standardized frameworks while maintaining sector-specific considerations</li>
+                  <li>Importance of community involvement in resource management</li>
+                </ul>
+                <div class="summary-actions">
+                  <a href="documents/reports/ejf-benefit-sharing-summary.pdf" 
+                     class="download-btn" 
+                     download="EJF_Benefit_Sharing_Framework_Summary.pdf"
+                     onclick="trackDownload(event, 'Benefit Sharing Framework Summary')">
+                    <i class="fas fa-download"></i>
+                    Download Summary PDF
+                  </a>
+                </div>
+              </div>
+            </div>
+
+            <!-- PDF Preview Container -->
+            <div id="benefit-sharing-report" class="pdf-preview" style="display: none;">
+              <div class="preview-header">
+                <h4>Benefit-Sharing Frameworks for Natural Resources</h4>
+                <button class="close-preview" onclick="closePdfPreview('benefit-sharing-report')">
+                  <i class="fas fa-times"></i>
+                </button>
+              </div>
+              <iframe class="pdf-iframe" data-src="documents/reports/ejf-benefit-sharing-report.pdf"></iframe>
+            </div>
+          </div>
+          <div class="report-card">
+            <div class="report-icon">
+              <i class="fas fa-file-pdf"></i>
+            </div>
+            <h3 class="report-title">Digital Inclusion in Coastal Communities</h3>
+            <div class="report-meta">
+              <span class="tag">Digital Access</span>
+              <span class="tag">Coastal Region</span>
+              <span class="tag">Technology</span>
+            </div>
+            <p class="report-summary">Research on digital access, literacy, and technology adoption patterns in coastal counties, with recommendations for bridging the digital divide.</p>
+            <p><strong>Publication Date:</strong> June 2025</p>
+            <div class="report-actions">
+              <a href="documents/reports/digital-inclusion-report.pdf" class="download-btn" download="EJF_Digital_Inclusion_Report.pdf">
+                <i class="fas fa-download"></i>
+                Download Full Report
+              </a>
+              <button class="summary-btn" onclick="toggleSummary('digital-inclusion-summary')" aria-expanded="false">
+                <i class="fas fa-file-alt"></i>
+                Executive Summary
+                <i class="fas fa-chevron-down"></i>
+              </button>
+            </div>
+          </div>
       </div>
     </div>
   </section>
@@ -606,23 +868,32 @@
     <div class="research-grid">
       <div class="research-item">
         <h3>Fiscal Decentralization and Equity</h3>
-        <p><strong>Issue:</strong> August 2023</p>
+  <p><strong>Issue:</strong> August 2025</p>
         <p>Analysis of revenue sharing formulas and their impact on equitable development across counties.</p>
-        <a class="btn btn-primary" href="#">Read Brief</a>
+        <span class="coming-soon-badge">
+          <i class="fas fa-clock"></i>
+          Coming Soon
+        </span>
       </div>
       
       <div class="research-item">
         <h3>Youth Entrepreneurship in Green Economy</h3>
-        <p><strong>Issue:</strong> October 2023</p>
+  <p><strong>Issue:</strong> October 2025</p>
         <p>Policy recommendations for supporting youth-led green enterprises and climate-smart businesses.</p>
-        <a class="btn btn-primary" href="#">Read Brief</a>
+        <span class="coming-soon-badge">
+          <i class="fas fa-clock"></i>
+          Coming Soon
+        </span>
       </div>
       
       <div class="research-item">
         <h3>Community Land Rights and Investment</h3>
-        <p><strong>Issue:</strong> November 2023</p>
+  <p><strong>Issue:</strong> November 2025</p>
         <p>Balancing investment opportunities with protection of community land rights in resource-rich areas.</p>
-        <a class="btn btn-primary" href="#">Read Brief</a>
+        <span class="coming-soon-badge">
+          <i class="fas fa-clock"></i>
+          Coming Soon
+        </span>
       </div>
     </div>
   </section>
@@ -707,7 +978,7 @@
     <div style="margin-top:25px;">
       <h3>Call for Research Collaboration</h3>
       <p>We welcome partnerships with researchers, academic institutions, and organizations interested in collaborative research on economic, climate, social, and digital justice issues.</p>
-      <a href="donate.html#volunteer" class="btn btn-primary">Contact Us for Collaboration</a>
+      <a href="contact.html" class="btn btn-primary">Contact Us for Collaboration</a>
     </div>
   </section>
 </main>
@@ -726,10 +997,30 @@
           <h3>Publications</h3>
           <p>Download our latest research papers, policy briefs, and annual reports.</p>
           <ul class="resource-links">
-            <li><a href="#">Annual Report 2023</a></li>
-            <li><a href="#">Climate Justice Policy</a></li>
-            <li><a href="#">Economic Equity Study</a></li>
-            <li><a href="#">Digital Inclusion Paper</a></li>
+            <li>
+              <span class="coming-soon-badge">
+                <i class="fas fa-clock"></i>
+                Annual Report 2025
+              </span>
+            </li>
+            <li>
+              <span class="coming-soon-badge">
+                <i class="fas fa-clock"></i>
+                Climate Justice Policy
+              </span>
+            </li>
+            <li>
+              <span class="coming-soon-badge">
+                <i class="fas fa-clock"></i>
+                Economic Equity Study
+              </span>
+            </li>
+            <li>
+              <span class="coming-soon-badge">
+                <i class="fas fa-clock"></i>
+                Digital Inclusion Paper
+              </span>
+            </li>
           </ul>
         </div>
         
@@ -796,6 +1087,7 @@
       <a href="programs.html">Programs</a><br/>
       <a href="research.html">Research</a><br/>
       <a href="events.html">Events</a><br/>
+      <a href="contact.html">Contact</a><br/>
       <a href="donate.html">Donate</a>
       
       <div class="footer-quick-links">
@@ -892,6 +1184,51 @@
       window.scrollTo({ top: 0, behavior: 'smooth' });
     });
   });
+  // Handle PDF downloads
+  document.querySelectorAll('.download-btn').forEach(button => {
+    button.addEventListener('click', function(e) {
+      const originalText = this.innerHTML;
+      const downloadStarted = sessionStorage.getItem(this.href);
+      
+      if (!downloadStarted) {
+        // Show loading state
+        this.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Preparing...';
+        
+        // Track this download
+        sessionStorage.setItem(this.href, 'true');
+        
+        // Reset button after download starts
+        setTimeout(() => {
+          this.innerHTML = originalText;
+        }, 2000);
+      }
+    });
+  });
+
+  // Modal markup control (Kenya report)
+  // Clicking backdrop closes the modal
+  const kenyaBackdrop = document.getElementById('kenya-modal-backdrop');
+  if (kenyaBackdrop) {
+    kenyaBackdrop.addEventListener('click', () => closePdfModal('kenya-modal'));
+  }
 </script>
+<!-- Modal backdrop -->
+<div id="kenya-modal-backdrop" class="modal-backdrop"></div>
+
+<!-- Kenya PDF Modal -->
+<div id="kenya-modal" class="pdf-modal" aria-hidden="true">
+  <div class="modal-header">
+    <h4>EJF Kenya Climate Financing Analysis Report</h4>
+    <div>
+      <a class="download-btn" href="documents/reports/EJF%20Kenya%20Climate%20Financing%20Analysis%20Report.pdf" download onclick="trackDownload(event,'Kenya Climate Financing Report')">
+        <i class="fas fa-download"></i> Download
+      </a>
+      <button class="modal-close" aria-label="Close" onclick="closePdfModal('kenya-modal')">&times;</button>
+    </div>
+  </div>
+  <div class="modal-body">
+    <iframe class="modal-pdf-iframe" src="" title="Kenya Climate Financing Report"></iframe>
+  </div>
+</div>
 </body>
 </html>
