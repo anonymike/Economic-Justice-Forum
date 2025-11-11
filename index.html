@@ -1034,15 +1034,18 @@
         position: fixed;
         top: 84px;
         left: 0;
-        width: 100%;
+        width: 280px;
+        height: calc(100vh - 84px);
         background: var(--navy);
         flex-direction: column;
         align-items: flex-start;
         padding: 20px;
         gap: 0;
+        overflow-y: auto;
         transform: translateX(-100%);
         transition: transform 0.3s ease;
-        box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        box-shadow: 5px 0 15px rgba(0,0,0,0.2);
+        z-index: 999;
       }
 
       .main-nav.active {
@@ -1051,12 +1054,66 @@
 
       .main-nav a {
         width: 100%;
-        padding: 15px 0;
+        padding: 15px 10px;
         border-bottom: 1px solid rgba(255,255,255,0.1);
+        font-size: 15px;
+      }
+
+      .main-nav a.btn-gold {
+        margin-top: 10px;
+        background: var(--gold);
+        color: var(--navy);
+        text-align: center;
+        border-bottom: none;
+        border-radius: 4px;
       }
 
       .main-nav a:last-child {
         border-bottom: none;
+      }
+
+      .user-menu {
+        width: 100%;
+      }
+
+      .user-menu .btn {
+        width: 100%;
+        padding: 12px;
+        font-size: 15px;
+      }
+
+      .user-dropdown {
+        position: static;
+        background: rgba(0,0,0,0.2);
+        box-shadow: none;
+        margin-top: 5px;
+        display: none;
+      }
+
+      .user-dropdown.show {
+        display: flex;
+        flex-direction: column;
+      }
+
+      .user-dropdown a {
+        padding: 12px 10px;
+        border-bottom: 1px solid rgba(255,255,255,0.1);
+      }
+
+      /* Navigation Overlay */
+      .nav-overlay {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.5);
+        z-index: 998;
+      }
+
+      .nav-overlay.active {
+        display: block;
       }
 
       .hero {
@@ -1316,6 +1373,8 @@
     </nav>
   </div>
 </header>
+
+<div class="nav-overlay" id="navOverlay"></div>
 
 <section class="hero" aria-label="Hero">
   <img src="hero.jpeg" alt="Community banner">
@@ -1766,9 +1825,12 @@
   document.addEventListener('DOMContentLoaded', function() {
     const mobileMenuToggle = document.getElementById('mobileMenuToggle');
     const mainNav = document.getElementById('mainNav');
+    const navOverlay = document.getElementById('navOverlay');
     
+    // Toggle menu on hamburger click
     mobileMenuToggle.addEventListener('click', function() {
       mainNav.classList.toggle('active');
+      navOverlay.classList.toggle('active');
       this.textContent = mainNav.classList.contains('active') ? '✕' : '☰';
     });
     
@@ -1777,8 +1839,16 @@
     navLinks.forEach(link => {
       link.addEventListener('click', () => {
         mainNav.classList.remove('active');
+        navOverlay.classList.remove('active');
         mobileMenuToggle.textContent = '☰';
       });
+    });
+    
+    // Close menu when clicking overlay
+    navOverlay.addEventListener('click', function() {
+      mainNav.classList.remove('active');
+      navOverlay.classList.remove('active');
+      mobileMenuToggle.textContent = '☰';
     });
   });
 </script>

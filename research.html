@@ -21,6 +21,58 @@
       --light-gray: #f8f9fa;
     }
 
+    /* Featured cover visuals */
+    .kenya-cover { margin-bottom: 20px; }
+    .cover-image {
+      position: relative;
+      width: 100%;
+      height: 260px;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.12);
+      background: #000; /* fallback */
+    }
+    .cover-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient( to right, rgba(0,0,0,0.55), rgba(0,0,0,0.25) );
+      color: #fff;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 24px;
+      gap: 10px;
+      z-index: 2;
+    }
+    .cover-overlay h3 { margin: 0; font-size: 1.6rem; }
+    .cover-cta { opacity: 0.95; }
+
+    /* Scrolling background using two images */
+    .cover-image.scrolling-bg::before,
+    .cover-image.scrolling-bg::after {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; bottom: 0; right: 0;
+      background-size: cover;
+      background-position: center;
+      transform: translateX(0);
+      will-change: transform;
+      animation: slide-h 18s linear infinite;
+      z-index: 1;
+      opacity: 0.9;
+    }
+    .cover-image.scrolling-bg::before {
+      background-image: url('images-projects/taita-biodiversity.jpg');
+    }
+    .cover-image.scrolling-bg::after {
+      background-image: url('images-projects/taita_biodiversity2.jpg');
+      animation-delay: 9s; /* half offset for seamless swap */
+    }
+    @keyframes slide-h {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-8%); }
+    }
+
     * {
       box-sizing: border-box;
     }
@@ -660,10 +712,26 @@
 
   <section class="card">
     <h2>Featured Publications</h2>
-    <!-- Kenya cover moved here: click to open modal or download -->
+
+    <!-- Taita Taveta Carbon & Biodiversity Opportunities Cover Card (first) -->
     <div class="kenya-cover">
-      <!-- Replace the src with the image you will place in the repo: images-projects/ejf-kenya-cover.jpg -->
-      <div class="cover-image" role="button" tabindex="0" 
+      <div class="cover-image scrolling-bg" role="button" tabindex="0"
+           onclick="window.location.href='documents/reports/Taita_Taveta_Carbon_Biodiversity_Opportunities.docx'"
+           onkeypress="if(event.key==='Enter') window.location.href='documents/reports/Taita_Taveta_Carbon_Biodiversity_Opportunities.docx'">
+        <div class="cover-overlay">
+          <h3>Taita Taveta Carbon & Biodiversity Opportunities</h3>
+          <p class="cover-cta">Click to download</p>
+          <a class="download-btn" href="documents/reports/Taita_Taveta_Carbon_Biodiversity_Opportunities.docx" download>
+            <i class="fas fa-download"></i> Download DOCX
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Kenya cover follows -->
+    <div class="kenya-cover">
+      <div class="cover-image" role="button" tabindex="0"
+           style="background-image: url('images-projects/climate_finance.jpg'); background-size: cover; background-position: center;"
            onclick="openPdfModal('documents/reports/EJF Kenya Climate Financing Analysis Report.pdf','kenya-modal')"
            onkeypress="if(event.key==='Enter') openPdfModal('documents/reports/EJF Kenya Climate Financing Analysis Report.pdf','kenya-modal')">
         <div class="cover-overlay">
