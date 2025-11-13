@@ -13,6 +13,7 @@
   <!-- Add this for AI functionality -->
   <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
   <style>
+
     /* Base Mobile Styles */
     :root {
       --navy: #00264d;
@@ -79,79 +80,7 @@
       font-size: 16px;
     }
 
-    .logo-subtitle {
-      font-size: 14px;
-      opacity: 0.9;
-      text-align: center;
-      margin-top: 4px;
-      font-weight: 500;
-      letter-spacing: 2px;
-      text-transform: uppercase;
-    }
-
-    /* Mobile Navigation */
-    .mobile-menu-toggle {
-      display: none;
-      background: none;
-      border: none;
-      color: white;
-      font-size: 24px;
-      cursor: pointer;
-      padding: 5px;
-    }
-
-    .main-nav {
-      display: flex;
-      align-items: center;
-      gap: 20px;
-    }
-
-    .main-nav a {
-      color: white;
-      text-decoration: none;
-      font-weight: 500;
-      transition: color 0.3s;
-      white-space: nowrap;
-    }
-
-    .main-nav a:hover {
-      color: var(--gold);
-    }
-
-    .btn {
-      display: inline-block;
-      padding: 10px 20px;
-      border-radius: 6px;
-      text-decoration: none;
-      font-weight: 600;
-      text-align: center;
-      transition: all 0.3s ease;
-      border: none;
-      cursor: pointer;
-    }
-
-    .btn-primary {
-      background: var(--navy);
-      color: white;
-    }
-
-    .btn-secondary {
-      background: var(--gold);
-      color: var(--navy);
-    }
-
-    .btn-gold {
-      background: var(--gold);
-      color: var(--navy);
-    }
-
-    .user-menu {
-      position: relative;
-    }
-
-    .user-dropdown {
-      display: none;
-      position: absolute;
+  /* Floating chat widget removed. Placeholder available for Chatbase integration. */
       top: 100%;
       right: 0;
       background: white;
@@ -186,8 +115,8 @@
     /* Hero Section */
     .hero {
       position: relative;
-      height: 70vh;
-      min-height: 500px;
+      height: 100vh;
+      min-height: 600px;
       overflow: hidden;
     }
 
@@ -354,6 +283,33 @@
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
       gap: 30px;
+    }
+
+    /* layout helpers for three-top / single-bottom pattern */
+    .three-col .three-top {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 30px;
+    }
+
+    .three-col .three-bottom {
+      display: flex;
+      justify-content: center;
+      margin-top: 18px;
+    }
+
+    .three-col .three-bottom .col {
+      max-width: 900px;
+      width: 100%;
+    }
+
+    @media (max-width: 1024px) {
+      .three-col .three-top { grid-template-columns: repeat(2, 1fr); }
+    }
+
+    @media (max-width: 768px) {
+      .three-col .three-top { grid-template-columns: 1fr; }
+      .three-col .three-bottom { margin-top: 12px; }
     }
 
     .col {
@@ -1117,7 +1073,7 @@
       }
 
       .hero {
-        height: 60vh;
+        height: 100vh;
         min-height: 400px;
       }
 
@@ -1413,7 +1369,7 @@
 <section class="card pillars-card" id="home-pillars">
   <h2>Our Core Pillars</h2>
   <div class="three-col">
-    <div class="cols">
+    <div class="cols three-top">
       <div class="col pillar-item">
         <h3 style="color: var(--navy);">1️⃣ Economic, Fiscal & Debt Justice</h3>
         <p>EJF promotes fair taxation, debt transparency, and citizen-led budgeting to ensure that public finance serves people, not power. We advocate for:</p>
@@ -1424,8 +1380,8 @@
           <li>65% of county budgets dedicated to development rather than administration.</li>
           <li>Participatory budgeting and citizen scorecards for accountability in all public funds.</li>
         </ul>
-      </div>
-      <div class="col pillar-item">
+  </div>
+  <div class="col pillar-item">
         <h3 style="color: var(--navy);">2️⃣ Climate & Resource Justice</h3>
         <p>We champion equitable and sustainable management of Kenya’s natural and environmental wealth, ensuring communities benefit fairly from their resources. EJF works to:</p>
         <ul>
@@ -1444,8 +1400,8 @@
           <li>Advocate globally for a UN Framework/Convention on Natural Resource Benefit-Sharing to advance peace, equity, and poverty eradication, particularly for rural grassroots and marginalized communities.</li>
         </ul>
         <p><em>💡 True climate justice ensures that those who protect the planet are the first to benefit from its preservation.</em></p>
-      </div>
-      <div class="col pillar-item">
+  </div>
+  <div class="col pillar-item">
         <h3 style="color: var(--navy);">3️⃣ Democracy, Digital Justice, Leadership & Devolution</h3>
         <p>EJF strengthens democracy, ethical leadership, digital inclusion, and devolution as pillars of accountable governance and people-centered development. Our work includes:</p>
         <ul>
@@ -1457,6 +1413,9 @@
           <li>Advancing e-governance tools and civic tech innovations to enhance participation and transparency.</li>
         </ul>
       </div>
+    </div>
+
+    <div class="cols three-bottom">
       <div class="col pillar-item">
         <h3 style="color: var(--navy);">4️⃣ Global Advocacy & Governance Reform</h3>
         <p>EJF connects local realities to global justice movements to reshape international systems in favor of people and planet. We advocate for:</p>
@@ -1467,6 +1426,7 @@
           <li>UN Security Council reforms — granting Africa permanent seats with veto powers and ensuring grassroots communities have a voice in global decision-making.</li>
         </ul>
       </div>
+    </div>
     </div>
   </div>
   <div style="text-align: center; margin-top: 20px;">

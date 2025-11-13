@@ -53,24 +53,43 @@
       content: '';
       position: absolute;
       top: 0; left: 0; bottom: 0; right: 0;
-      background-size: cover;
-      background-position: center;
-      transform: translateX(0);
+      /* use slightly larger background-size so sliding doesn't reveal edges */
+      background-size: 110% cover;
+      background-position: center center;
+      transform: translate3d(0,0,0);
       will-change: transform;
-      animation: slide-h 18s linear infinite;
+      /* smoother back-and-forth animation */
+      animation: slide-h 18s ease-in-out infinite;
       z-index: 1;
-      opacity: 0.9;
+      opacity: 1;
+      -webkit-backface-visibility: hidden;
+      backface-visibility: hidden;
+      -webkit-transform: translateZ(0);
     }
     .cover-image.scrolling-bg::before {
       background-image: url('images-projects/taita-biodiversity.jpg');
     }
     .cover-image.scrolling-bg::after {
       background-image: url('images-projects/taita_biodiversity2.jpg');
-      animation-delay: 9s; /* half offset for seamless swap */
+      /* offset the second layer so the swap feels natural */
+      animation-delay: 9s;
     }
     @keyframes slide-h {
       0% { transform: translateX(0); }
-      100% { transform: translateX(-8%); }
+      50% { transform: translateX(-6%); }
+      100% { transform: translateX(0); }
+    }
+
+    /* Improve rendering for inline img elements (research hero) */
+    .research-hero-image img {
+      width: 100%;
+      height: auto;
+      display: block;
+      object-fit: cover;
+      image-rendering: auto;
+      -webkit-transform: translateZ(0);
+      transform: translateZ(0);
+      -webkit-backface-visibility: hidden;
     }
 
     * {
@@ -246,6 +265,67 @@
   transition: all 0.3s ease;
   border-left: 4px solid var(--gold);
   margin-bottom: 25px;
+}
+
+.report-thumb {
+  width: 100%;
+  height: 160px;
+  border-radius: 8px;
+  background: linear-gradient(135deg, rgba(0,58,99,0.08), rgba(217,162,28,0.06));
+  display: block;
+  margin-bottom: 14px;
+  background-size: cover;
+  background-position: center;
+}
+
+/* Two-up featured cards under the Kenya cover */
+.featured-row {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+  margin: 22px 0 28px;
+}
+
+.featured-card {
+  position: relative;
+  border-radius: 12px;
+  overflow: hidden;
+  height: 220px;
+  background-size: cover;
+  background-position: center;
+  box-shadow: 0 8px 30px rgba(0,0,0,0.12);
+  transition: transform 0.35s ease, box-shadow 0.35s ease;
+}
+
+.featured-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 14px 40px rgba(0,0,0,0.18);
+}
+
+.featured-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(0,0,0,0.25), rgba(0,0,0,0.55));
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  gap: 10px;
+  padding: 18px;
+}
+
+.featured-overlay h4 {
+  margin: 0;
+  font-size: 1.15rem;
+  color: #fff;
+  font-weight: 700;
+}
+
+.featured-overlay .small { font-size: 0.9rem; opacity: 0.95; }
+
+@media (max-width: 768px) {
+  .featured-row { grid-template-columns: 1fr; }
+  .featured-card { height: 180px; }
 }
 
 .report-card:hover {
@@ -720,7 +800,7 @@
            onkeypress="if(event.key==='Enter') window.location.href='documents/reports/Taita_Taveta_Carbon_Biodiversity_Opportunities.docx'">
         <div class="cover-overlay">
           <h3>Taita Taveta Carbon & Biodiversity Opportunities</h3>
-          <p class="cover-cta">Click to download</p>
+          <p class="cover-cta">Click below to download</p>
           <a class="download-btn" href="documents/reports/Taita_Taveta_Carbon_Biodiversity_Opportunities.docx" download>
             <i class="fas fa-download"></i> Download DOCX
           </a>
@@ -736,14 +816,39 @@
            onkeypress="if(event.key==='Enter') openPdfModal('documents/reports/EJF Kenya Climate Financing Analysis Report.pdf','kenya-modal')">
         <div class="cover-overlay">
           <h3>EJF Kenya Climate Financing Analysis</h3>
-          <p class="cover-cta">Click to view report</p>
+          <p class="cover-cta">Click below to download</p>
           <button class="download-btn" onclick="trackDownload(event,'Kenya Climate Financing Report');">
             <a href="documents/reports/EJF%20Kenya%20Climate%20Financing%20Analysis%20Report.pdf" download style="color:inherit; text-decoration:none;">Download</a>
           </button>
         </div>
       </div>
     </div>
-    <div class="research-grid">
+      <!-- Two featured image-overlay cards (left/right) -->
+      <div class="featured-row">
+      <div class="featured-card" role="button" tabindex="0"
+           style="background-image: url('images-projects/Carbon-Markets1.jpg');"
+           onclick="openPdfModal('documents/reports/Kenya%E2%80%99s%20Carbon%20Markets%20Injustice.pdf','kenya-carbon-modal')"
+           onkeypress="if(event.key==='Enter') openPdfModal('documents/reports/Kenya%E2%80%99s%20Carbon%20Markets%20Injustice.pdf','kenya-carbon-modal')">
+        <div class="featured-overlay">
+          <h4>Kenya's Carbon Markets Injustice</h4>
+          <p class="small">Click to view the briefing or download the PDF</p>
+          <a class="btn btn-gold" href="documents/reports/Kenya%E2%80%99s%20Carbon%20Markets%20Injustice.pdf" download onclick="trackDownload(event,'Kenya Carbon Markets Injustice')">Download</a>
+        </div>
+      </div>
+
+      <div class="featured-card" role="button" tabindex="0"
+           style="background-image: url('images-projects/zibaufa1.jpg');"
+           onclick="openPdfModal('documents/reports/usipoziba_ufa_utajenga_ukuta_book_index.pdf','usipoziba-modal')"
+           onkeypress="if(event.key==='Enter') openPdfModal('documents/reports/usipoziba_ufa_utajenga_ukuta_book_index.pdf','usipoziba-modal')">
+          <div class="featured-overlay">
+            <h4>Usipoziba Ufa, Utajenga Ukuta — Index</h4>
+            <p class="small">Community narratives and resources — click to download</p>
+            <a class="btn btn-gold" href="documents/reports/usipoziba_ufa_utajenga_ukuta_book_index.pdf" download onclick="trackDownload(event,'Usipoziba Index')">Download</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="research-grid">
       <div class="report-card">
         <div class="report-preview">
           <div class="report-icon">
@@ -804,7 +909,7 @@
 
         </div>
       
-          <!-- Report 2 -->
+          <!-- Featured publications moved above (two-up layout) -->
           <div class="report-card">
             <div class="report-preview">
               <div class="report-icon">
