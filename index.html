@@ -106,7 +106,7 @@
       color: white;
       font-size: 24px;
       cursor: pointer;
-      padding: 5px;
+      padding: 11px;
       flex-shrink: 0;
     }
 
@@ -1893,31 +1893,6 @@
   </div>
 </footer>
 
-<!-- AI Chat Widget (Floating) -->
-<div id="ai-chat-widget" class="ai-chat-widget">
-  <div id="chat-window" class="chat-window" style="display: none;">
-    <div class="chat-header">
-      <h4>EJF Assistant</h4>
-      <button id="close-chat" class="close-btn">×</button>
-    </div>
-    <div id="widget-messages" class="chat-messages">
-      <div class="message bot-message">
-        <div class="message-avatar">🤖</div>
-        <div class="message-content">
-          <strong>EJF Assistant:</strong> Hi! I can answer questions about EJF and help with registration. How can I assist you?
-        </div>
-      </div>
-    </div>
-    <div class="chat-input-container">
-      <input type="text" id="widget-input" placeholder="Type your question..." class="chat-input">
-      <button id="widget-send" class="btn btn-primary">Send</button>
-    </div>
-  </div>
-  <button id="chat-toggle" class="chat-toggle-btn">
-    <span>🤖</span>
-    <span class="chat-label">EJF Assistant</span>
-  </button>
-</div>
 
 <!-- Mobile Menu Script -->
 <script>
@@ -2226,11 +2201,17 @@ class EJFAssistant {
       if (e.key === 'Enter') this.handleUserInput();
     });
 
-    // Widget chat interface
-    document.getElementById('widget-send').addEventListener('click', () => this.handleWidgetInput());
-    document.getElementById('widget-input').addEventListener('keypress', (e) => {
-      if (e.key === 'Enter') this.handleWidgetInput();
-    });
+    // Widget chat interface (guarded if widget not present)
+    const widgetSendBtn = document.getElementById('widget-send');
+    const widgetInputEl = document.getElementById('widget-input');
+    if (widgetSendBtn) {
+      widgetSendBtn.addEventListener('click', () => this.handleWidgetInput());
+    }
+    if (widgetInputEl) {
+      widgetInputEl.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') this.handleWidgetInput();
+      });
+    }
 
     // Quick action buttons
     document.querySelectorAll('.quick-btn').forEach(btn => {
@@ -2240,15 +2221,21 @@ class EJFAssistant {
       });
     });
 
-    // Chat toggle
-    document.getElementById('chat-toggle').addEventListener('click', () => this.toggleChatWidget());
+    // Chat toggle (guarded)
+    const chatToggleBtn = document.getElementById('chat-toggle');
+    if (chatToggleBtn) {
+      chatToggleBtn.addEventListener('click', () => this.toggleChatWidget());
+    }
 
     // Registration form
     document.getElementById('member-form').addEventListener('submit', (e) => this.handleRegistration(e));
     document.getElementById('cancel-registration').addEventListener('click', () => this.cancelRegistration());
 
-    // Close chat
-    document.getElementById('close-chat').addEventListener('click', () => this.toggleChatWidget());
+    // Close chat (guarded)
+    const closeChatBtn = document.getElementById('close-chat');
+    if (closeChatBtn) {
+      closeChatBtn.addEventListener('click', () => this.toggleChatWidget());
+    }
   }
 
   handleUserInput() {
@@ -2358,7 +2345,8 @@ class EJFAssistant {
     document.getElementById('registration-form').style.display = 'none';
 
     // Also show in widget if open
-    if (document.getElementById('chat-window').style.display !== 'none') {
+    const widgetWindow = document.getElementById('chat-window');
+    if (widgetWindow && widgetWindow.style.display !== 'none') {
       this.addMessage(`Registration completed for ${formData.name} as ${formData.contribution}. Welcome to EJF!`, 'bot', 'widget-input');
     }
   }
@@ -2385,10 +2373,12 @@ class EJFAssistant {
 
   toggleChatWidget() {
     const chatWindow = document.getElementById('chat-window');
+    const toggleBtn = document.getElementById('chat-toggle');
+    if (!chatWindow || !toggleBtn) return;
+
     const isVisible = chatWindow.style.display !== 'none';
     chatWindow.style.display = isVisible ? 'none' : 'block';
-    
-    const toggleBtn = document.getElementById('chat-toggle');
+
     if (!isVisible) {
       toggleBtn.classList.add('active');
     } else {
@@ -2542,5 +2532,10 @@ window.addEventListener('scroll', () => {
 }
 </style>
 
+<script>
+
+(function(){if(!window.chatbase||window.chatbase("getState")!=="initialized"){window.chatbase=(...arguments)=>{if(!window.chatbase.q){window.chatbase.q=[]}window.chatbase.q.push(arguments)};window.chatbase=new Proxy(window.chatbase,{get(target,prop){if(prop==="q"){return target.q}return(...args)=>target(prop,...args)}})}const onLoad=function(){const script=document.createElement("script");script.src="https://www.chatbase.co/embed.min.js";script.id="nTIx8izAgIEB9OJDrpAW2";script.domain="www.chatbase.co";document.body.appendChild(script)};if(document.readyState==="complete"){onLoad()}else{window.addEventListener("load",onLoad)}})();
+
+</script>
 </body>
 </html>
