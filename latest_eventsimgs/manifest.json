@@ -1,0 +1,12 @@
+[
+  { "type": "image", "src": "latest1 18.50.56_551de1ff.jpg", "alt": "Planting trees - site 1", "title": "Tree Planting", "description": "Volunteers planting trees as part of our restoration project." },
+  { "type": "image", "src": "latest2 2025-11-20 at 18.51.03_39cb7bbc.jpg", "alt": "Community meeting", "title": "Planning Meeting", "description": "Community leaders discussing next steps and future plans." },
+  { "type": "image", "src": "latest3.jpg", "alt": "Volunteers with saplings", "title": "Sapling Distribution", "description": "Distributing saplings to local schools and groups." },
+  { "type": "image", "src": "latest4.jpg", "alt": "Workshop session", "title": "Training Workshop", "description": "Digital skills and climate action training for youth." },
+  { "type": "image", "src": "latest5.jpg", "alt": "Community dialogue", "title": "Community Dialogue", "description": "Residents share experiences and priorities for local development." },
+  { "type": "image", "src": "latest6.jpg", "alt": "Group photo", "title": "Group Photo", "description": "Participants and organisers celebrating a successful event." },
+  { "type": "image", "src": "latest7.jpg", "alt": "Field visit", "title": "Field Visit", "description": "Inspection visit to community restoration sites." },
+  { "type": "image", "src": "latest8.jpg", "alt": "Panel session", "title": "Panel Discussion", "description": "Experts discuss climate resilience strategies." },
+  { "type": "image", "src": "latest9.jpg", "alt": "Closing session", "title": "Closing Remarks", "description": "Final reflections and next steps." },
+  { "type": "video", "src": "vid1.mp4", "alt": "Event highlights video", "title": "Event Highlights", "description": "Short highlights reel from the planting and planning events." }
+]

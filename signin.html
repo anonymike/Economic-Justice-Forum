@@ -1,0 +1,181 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Sign in — Economic Justice Forum</title>
+    <link rel="stylesheet" href="ejf_styles.css" />
+    <style>
+      body {
+        margin: 0;
+        padding: 0;
+        background: rgba(0, 0, 0, 0.5);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+      }
+      .auth-container {
+        max-width: 420px;
+        width: 90%;
+        padding: 24px;
+        background: #fff;
+        border-radius: 12px;
+        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+        animation: slideIn 0.3s ease-out;
+      }
+      @keyframes slideIn {
+        from {
+          opacity: 0;
+          transform: translateY(-20px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+      .auth-container h2 {
+        color: #00264d;
+        margin-top: 0;
+        margin-bottom: 8px;
+      }
+      .field {
+        margin-bottom: 12px;
+        width: 100%;
+        padding: 10px;
+        box-sizing: border-box;
+        border: 1px solid #ddd;
+        border-radius: 6px;
+      }
+      .btn {
+        background: #d9a21c;
+        color: #001a33;
+        padding: 10px 16px;
+        border-radius: 6px;
+        border: none;
+        cursor: pointer;
+        width: 100%;
+        font-weight: 500;
+      }
+      .btn:hover {
+        background: #c5921a;
+      }
+      .status {
+        margin-top: 12px;
+        color: #666;
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <div class="auth-container">
+        <h2>Sign in</h2>
+        <div>
+          <label>Email</label>
+          <input id="email" type="email" class="field" />
+        </div>
+        <div>
+          <label>Password</label>
+          <input id="password" type="password" class="field" />
+        </div>
+        <button id="signinBtn" class="btn">Sign in</button>
+        <div class="status" id="status"></div>
+        <p style="margin-top:12px">Don't have an account? <a href="signup.html">Sign up</a></p>
+      </div>
+    </main>
+
+    <script type="module">
+      import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm'
+
+      async function getConfig() {
+        const res = await fetch('/api/supabase-config');
+        return await res.json();
+      }
+
+      const cfg = await getConfig();
+      const supabase = createClient(cfg.url, cfg.anonKey);
+
+      // Redirect to dashboard if already signed in
+      async function checkLoggedIn() {
+        try {
+          const { data } = await supabase.auth.getUser();
+          if (data && data.user) {
+            window.location.href = '/dashboard.html';
+          }
+        } catch (e) {
+          // ignore
+        }
+      }
+
+      await checkLoggedIn();
+
+      document.getElementById('signinBtn').addEventListener('click', async () => {
+        const status = document.getElementById('status');
+        status.textContent = 'Signing in...';
+        status.style.color = '#666';
+        const email = document.getElementById('email').value;
+        const password = document.getElementById('password').value;
+        try {
+          const { data, error } = await supabase.auth.signInWithPassword({ email, password });
+          if (error) throw error;
+          status.textContent = 'Signed in. Redirecting...';
+          window.location.href = '/dashboard.html';
+        } catch (err) {
+          status.textContent = err.message || 'Sign in error';
+          status.style.color = '#d32f2f';
+        }
+      });
+
+      // Google OAuth button
+      const googleBtn = document.createElement('button');
+      googleBtn.textContent = 'Continue with Google';
+      googleBtn.className = 'btn';
+      googleBtn.style.marginTop = '8px';
+      googleBtn.id = 'googleSignIn';
+      document.querySelector('.auth-container').insertBefore(googleBtn, document.querySelector('.status'));
+
+      document.getElementById('googleSignIn').addEventListener('click', async () => {
+        // Use your Supabase callback URL configured in Supabase
+        const callback = 'https://darchpgmjwzupynayagx.supabase.co/auth/v1/callback';
+        await supabase.auth.signInWithOAuth({ provider: 'google', options: { redirectTo: callback } });
+      });
+
+      // Password reset UI
+      const forgot = document.createElement('p');
+      forgot.innerHTML = '<a href="#" id="forgotLink">Forgot password?</a>';
+      forgot.style.marginTop = '8px';
+      document.querySelector('.auth-container').appendChild(forgot);
+
+      const resetBox = document.createElement('div');
+      resetBox.style.display = 'none';
+      resetBox.style.marginTop = '10px';
+      resetBox.innerHTML = `
+        <input id="resetEmail" type="email" placeholder="Your email" class="field" />
+        <button id="resetBtn" class="btn">Send reset email</button>
+        <div id="resetStatus" class="status"></div>
+      `;
+      document.querySelector('.auth-container').appendChild(resetBox);
+
+      document.getElementById('forgotLink').addEventListener('click', (e) => {
+        e.preventDefault();
+        resetBox.style.display = resetBox.style.display === 'none' ? 'block' : 'none';
+      });
+
+      document.addEventListener('click', async (e) => {
+        if (e.target && e.target.id === 'resetBtn') {
+          const email = document.getElementById('resetEmail').value;
+          const resetStatus = document.getElementById('resetStatus');
+          resetStatus.textContent = 'Sending reset email...';
+          try {
+            const { data, error } = await supabase.auth.resetPasswordForEmail(email, { redirectTo: window.location.origin + '/signin.html' });
+            if (error) throw error;
+            resetStatus.textContent = 'Password reset email sent. Check your inbox.';
+          } catch (err) {
+            resetStatus.textContent = err.message || 'Error sending reset email.';
+            resetStatus.style.color = '#d32f2f';
+          }
+        }
+      });
+    </script>
+  </body>
+</html>

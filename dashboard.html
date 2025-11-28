@@ -1,0 +1,587 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Dashboard — Economic Justice Forum</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <link rel="stylesheet" href="ejf_styles.css" />
+    <style>
+      * { box-sizing: border-box; }
+
+      body {
+        margin: 0;
+        padding: 0;
+        font-family: 'Montserrat', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+        background: #f8f9fa;
+        color: #333;
+      }
+
+      /* Splash Screen (Loading Animation) */
+      .splash-screen {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(135deg, #00264d, #003a63);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        z-index: 10000;
+        animation: fadeOut 0.6s ease-out 3.4s forwards;
+      }
+
+      .splash-content {
+        text-align: center;
+        color: white;
+      }
+
+      .splash-logo {
+        font-size: 60px;
+        margin-bottom: 20px;
+        animation: slideDown 0.8s ease-out;
+      }
+
+      .splash-title {
+        font-size: 32px;
+        font-weight: 700;
+        margin: 0 0 10px 0;
+        animation: slideDown 0.8s ease-out 0.2s backwards;
+      }
+
+      .splash-subtitle {
+        font-size: 16px;
+        opacity: 0.9;
+        margin: 0;
+        animation: slideDown 0.8s ease-out 0.4s backwards;
+      }
+
+      .spinner {
+        margin-top: 40px;
+        width: 50px;
+        height: 50px;
+        border: 4px solid rgba(255, 255, 255, 0.3);
+        border-top-color: #d9a21c;
+        border-radius: 50%;
+        animation: spin 1s linear infinite;
+      }
+
+      @keyframes spin {
+        to { transform: rotate(360deg); }
+      }
+
+      @keyframes slideDown {
+        from {
+          opacity: 0;
+          transform: translateY(-20px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      @keyframes fadeOut {
+        to {
+          opacity: 0;
+          visibility: hidden;
+        }
+      }
+
+      /* Dashboard Content */
+      .dashboard {
+        opacity: 0;
+        animation: fadeIn 0.8s ease-out 3.4s forwards;
+      }
+
+      @keyframes fadeIn {
+        to {
+          opacity: 1;
+        }
+      }
+
+      /* Header */
+      .dashboard-header {
+        background: linear-gradient(135deg, #00264d, #003a63);
+        color: white;
+        padding: 40px 20px;
+        text-align: center;
+      }
+
+      .dashboard-header h1 {
+        margin: 0 0 10px 0;
+        font-size: 2.5rem;
+        font-weight: 700;
+      }
+
+      .dashboard-header .user-greeting {
+        font-size: 18px;
+        opacity: 0.95;
+        margin: 0;
+      }
+
+      .dashboard-header .highlight {
+        color: #d9a21c;
+        font-weight: 600;
+      }
+
+      /* Main Container */
+      .dashboard-container {
+        max-width: 1200px;
+        margin: -60px auto 40px;
+        padding: 0 20px;
+      }
+
+      /* User Card */
+      .user-card {
+        background: white;
+        padding: 30px;
+        border-radius: 12px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+        margin-bottom: 30px;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 30px;
+        align-items: center;
+      }
+
+      .user-avatar {
+        width: 120px;
+        height: 120px;
+        background: linear-gradient(135deg, #00264d, #003a63);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #d9a21c;
+        font-size: 48px;
+        margin: 0 auto;
+      }
+
+      .user-details h2 {
+        margin: 0 0 15px 0;
+        color: #00264d;
+        font-size: 24px;
+      }
+
+      .user-details p {
+        margin: 8px 0;
+        color: #666;
+        font-size: 14px;
+      }
+
+      .user-details strong {
+        color: #00264d;
+      }
+
+      /* Grid Layout */
+      .dashboard-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 30px;
+        margin-bottom: 40px;
+      }
+
+      /* Cards */
+      .card {
+        background: white;
+        padding: 25px;
+        border-radius: 12px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+      }
+
+      .card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+      }
+
+      .card h3 {
+        margin: 0 0 15px 0;
+        color: #00264d;
+        font-size: 18px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .card-icon {
+        color: #d9a21c;
+        font-size: 20px;
+      }
+
+      .card p {
+        margin: 0 0 10px 0;
+        color: #666;
+        font-size: 14px;
+        line-height: 1.6;
+      }
+
+      .card-link {
+        color: #00264d;
+        text-decoration: none;
+        font-weight: 600;
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+        margin-top: 10px;
+      }
+
+      .card-link:hover {
+        color: #d9a21c;
+      }
+
+      /* Buttons */
+      .btn-primary {
+        background: #d9a21c;
+        color: #001a33;
+        padding: 12px 24px;
+        border-radius: 8px;
+        border: none;
+        cursor: pointer;
+        font-weight: 600;
+        font-size: 14px;
+        transition: all 0.3s ease;
+        margin-top: 15px;
+      }
+
+      .btn-primary:hover {
+        background: #c5921a;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(217, 162, 28, 0.3);
+      }
+
+      .btn-danger {
+        background: #dc3545;
+        color: white;
+        padding: 12px 24px;
+        border-radius: 8px;
+        border: none;
+        cursor: pointer;
+        font-weight: 600;
+        font-size: 14px;
+        transition: all 0.3s ease;
+        margin-top: 15px;
+      }
+
+      .btn-danger:hover {
+        background: #c82333;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(220, 53, 69, 0.3);
+      }
+
+      /* Activity Section */
+      .activity-list {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+      }
+
+      .activity-item {
+        padding: 12px 0;
+        border-bottom: 1px solid #eee;
+        font-size: 14px;
+        color: #666;
+      }
+
+      .activity-item:last-child {
+        border-bottom: none;
+      }
+
+      .activity-time {
+        color: #999;
+        font-size: 12px;
+        margin-top: 5px;
+      }
+
+      /* Footer */
+      .dashboard-footer {
+        text-align: center;
+        padding: 30px 20px;
+        color: #666;
+        font-size: 14px;
+        border-top: 1px solid #eee;
+        margin-top: 60px;
+      }
+
+      /* Responsive */
+      @media (max-width: 768px) {
+        .dashboard-header h1 {
+          font-size: 2rem;
+        }
+
+        .user-card {
+          grid-template-columns: 1fr;
+          gap: 20px;
+        }
+
+        .dashboard-grid {
+          grid-template-columns: 1fr;
+          gap: 20px;
+        }
+
+        .splash-title {
+          font-size: 24px;
+        }
+
+        .splash-subtitle {
+          font-size: 14px;
+        }
+      }
+
+      @media (max-width: 480px) {
+        .dashboard-header {
+          padding: 30px 15px;
+        }
+
+        .dashboard-header h1 {
+          font-size: 1.5rem;
+        }
+
+        .dashboard-container {
+          margin: -40px auto 20px;
+          padding: 0 15px;
+        }
+
+        .user-card,
+        .card {
+          padding: 20px 15px;
+        }
+
+        .user-avatar {
+          width: 90px;
+          height: 90px;
+          font-size: 36px;
+        }
+
+        .splash-logo {
+          font-size: 48px;
+        }
+
+        .splash-title {
+          font-size: 20px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Splash Screen (4 seconds) -->
+    <div class="splash-screen">
+      <div class="splash-content">
+        <div class="splash-logo">🤝</div>
+        <h1 class="splash-title">Economic Justice Forum</h1>
+        <p class="splash-subtitle">Preparing your dashboard...</p>
+        <div class="spinner"></div>
+      </div>
+    </div>
+
+    <!-- Dashboard Content -->
+    <div class="dashboard">
+      <!-- Header -->
+      <div class="dashboard-header">
+        <h1>Welcome Back</h1>
+        <p class="user-greeting">Hi, <span class="highlight" id="userName">User</span>! 👋</p>
+      </div>
+
+      <!-- Main Container -->
+      <div class="dashboard-container">
+        <!-- User Card -->
+        <div class="user-card">
+          <div class="user-avatar">
+            <i class="fas fa-user"></i>
+          </div>
+          <div class="user-details">
+            <h2 id="userNameFull">User Name</h2>
+            <p><strong>Email:</strong> <span id="userEmail">user@example.com</span></p>
+            <p><strong>User ID:</strong> <span id="userId" style="font-family: monospace; font-size: 12px;">N/A</span></p>
+            <p><strong>Member Since:</strong> <span id="loginTime">Just now</span></p>
+            <button id="signoutBtn" class="btn-danger">Sign Out</button>
+          </div>
+        </div>
+
+        <!-- Dashboard Grid -->
+        <div class="dashboard-grid">
+          <!-- Profile Card -->
+          <div class="card">
+            <h3><i class="fas fa-user-circle card-icon"></i>Profile</h3>
+            <p>Manage your account settings and personal information.</p>
+            <a href="#" class="card-link">View Profile <i class="fas fa-arrow-right"></i></a>
+          </div>
+
+          <!-- Updates Card -->
+          <div class="card">
+            <h3><i class="fas fa-bell card-icon"></i>Recent Updates</h3>
+            <p>Stay informed with the latest news and announcements from EJF.</p>
+            <a href="#" class="card-link">See Updates <i class="fas fa-arrow-right"></i></a>
+          </div>
+
+          <!-- Events Card -->
+          <div class="card">
+            <h3><i class="fas fa-calendar-alt card-icon"></i>Upcoming Events</h3>
+            <p>Discover and register for upcoming forums and seminars.</p>
+            <a href="#" class="card-link">View Events <i class="fas fa-arrow-right"></i></a>
+          </div>
+
+          <!-- Resources Card -->
+          <div class="card">
+            <h3><i class="fas fa-book card-icon"></i>Resources</h3>
+            <p>Access research, articles, and educational materials.</p>
+            <a href="#" class="card-link">Browse Resources <i class="fas fa-arrow-right"></i></a>
+          </div>
+
+          <!-- Programs Card -->
+          <div class="card">
+            <h3><i class="fas fa-project-diagram card-icon"></i>Programs</h3>
+            <p>Learn about our initiatives and ongoing programs.</p>
+            <a href="#" class="card-link">Explore Programs <i class="fas fa-arrow-right"></i></a>
+          </div>
+
+          <!-- Community Card -->
+          <div class="card">
+            <h3><i class="fas fa-users card-icon"></i>Community</h3>
+            <p>Connect with other members and share your perspectives.</p>
+            <a href="#" class="card-link">Join Community <i class="fas fa-arrow-right"></i></a>
+          </div>
+        </div>
+
+        <!-- Activity Section -->
+        <div class="card">
+          <h3><i class="fas fa-history card-icon"></i>Recent Activity</h3>
+          <ul class="activity-list">
+            <li class="activity-item">
+              ✓ Account created
+              <div class="activity-time" id="activityTime">Just now</div>
+            </li>
+            <li class="activity-item">
+              ✓ Email verified
+              <div class="activity-time">Just now</div>
+            </li>
+            <li class="activity-item">
+              ✓ Dashboard access granted
+              <div class="activity-time">Just now</div>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Footer -->
+      <div class="dashboard-footer">
+        <p>&copy; 2024 Economic Justice Forum. All rights reserved.</p>
+        <p>Empowering equity, justice, and prosperity in our communities.</p>
+      </div>
+    </div>
+
+    <script type="module">
+      import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm';
+
+      let supabase;
+
+      async function initSupabase() {
+        try {
+          const res = await fetch('/api/supabase-config');
+          const config = await res.json();
+          supabase = createClient(config.url, config.anonKey);
+        } catch (err) {
+          console.error('Supabase init error:', err);
+          // Fall back to localStorage data
+        }
+      }
+
+      async function loadDashboard() {
+        await initSupabase();
+
+        // Try Supabase first, then fall back to localStorage
+        let user = null;
+        let session = null;
+
+        if (supabase) {
+          try {
+            const sessionResp = await supabase.auth.getSession();
+            session = sessionResp.data.session;
+            if (session) {
+              const userResp = await supabase.auth.getUser();
+              user = userResp.data.user;
+            }
+          } catch (err) {
+            console.error('Supabase error:', err);
+          }
+        }
+
+        // Fallback to localStorage
+        if (!user) {
+          const storedUser = localStorage.getItem('ejfUser');
+          if (storedUser) {
+            try {
+              const userData = JSON.parse(storedUser);
+              user = {
+                email: userData.email,
+                user_metadata: { full_name: userData.name },
+                id: userData.userId || 'guest-' + Date.now(),
+              };
+            } catch (err) {
+              console.error('localStorage parse error:', err);
+              redirectToSignup();
+              return;
+            }
+          } else {
+            redirectToSignup();
+            return;
+          }
+        }
+
+        // Display user data
+        const name = user.user_metadata?.full_name || user.email.split('@')[0] || 'User';
+        const email = user.email || 'No email';
+        const userId = user.id || 'N/A';
+
+        document.getElementById('userName').textContent = name.split(' ')[0];
+        document.getElementById('userNameFull').textContent = name;
+        document.getElementById('userEmail').textContent = email;
+        document.getElementById('userId').textContent = userId;
+
+        // Format login time
+        const storedUser = localStorage.getItem('ejfUser');
+        if (storedUser) {
+          const userData = JSON.parse(storedUser);
+          const loginDate = new Date(userData.loginTime);
+          const today = new Date();
+          const isToday = loginDate.toDateString() === today.toDateString();
+          document.getElementById('loginTime').textContent = isToday ? 'Today' : loginDate.toLocaleDateString();
+          document.getElementById('activityTime').textContent = 'Just now';
+        }
+      }
+
+      function redirectToSignup() {
+        window.location.href = '/signup.html';
+      }
+
+      // Sign out handler
+      document.getElementById('signoutBtn').addEventListener('click', async () => {
+        if (supabase) {
+          try {
+            await supabase.auth.signOut();
+          } catch (err) {
+            console.error('Sign out error:', err);
+          }
+        }
+        localStorage.removeItem('ejfUser');
+        localStorage.removeItem('ejfGuestUser');
+        window.location.href = '/signup.html';
+      });
+
+      // Listen for auth state changes
+      if (supabase) {
+        supabase.auth.onAuthStateChange((event, session) => {
+          if (event === 'SIGNED_OUT') {
+            redirectToSignup();
+          }
+        });
+      }
+
+      // Load dashboard content
+      loadDashboard();
+    </script>
+  </body>
+</html>

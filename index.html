@@ -606,240 +606,6 @@
       color: white;
     }
 
-    /* Authentication Styles */
-    .auth-container {
-      background: white;
-      border-radius: 20px;
-      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
-      overflow: hidden;
-      width: 100%;
-      max-width: 420px;
-      position: fixed;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      z-index: 10000;
-      display: none;
-    }
-
-    .auth-overlay {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(0, 0, 0, 0.7);
-      z-index: 9999;
-      display: none;
-    }
-
-    .auth-header {
-      background: var(--navy);
-      color: white;
-      padding: 30px;
-      text-align: center;
-      position: relative;
-    }
-
-    .auth-header::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      height: 4px;
-      background: var(--gold);
-    }
-
-    .auth-logo {
-      width: 80px;
-      height: 80px;
-      background: white;
-      border-radius: 50%;
-      margin: 0 auto 15px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 24px;
-      font-weight: bold;
-      color: var(--navy);
-    }
-
-    .auth-body {
-      padding: 40px;
-    }
-
-    .auth-tabs {
-      display: flex;
-      margin-bottom: 30px;
-      background: #f8f9fa;
-      border-radius: 10px;
-      padding: 4px;
-    }
-
-    .auth-tab {
-      flex: 1;
-      padding: 12px;
-      text-align: center;
-      background: none;
-      border: none;
-      border-radius: 8px;
-      cursor: pointer;
-      font-weight: 600;
-      transition: all 0.3s ease;
-    }
-
-    .auth-tab.active {
-      background: var(--navy);
-      color: white;
-    }
-
-    .auth-form-group {
-      margin-bottom: 20px;
-    }
-
-    .auth-form-group label {
-      display: block;
-      margin-bottom: 8px;
-      font-weight: 600;
-      color: var(--navy);
-    }
-
-    .auth-form-control {
-      width: 100%;
-      padding: 12px 16px;
-      border: 2px solid #e1e5e9;
-      border-radius: 10px;
-      font-size: 16px;
-      transition: all 0.3s ease;
-    }
-
-    .auth-form-control:focus {
-      outline: none;
-      border-color: var(--gold);
-      box-shadow: 0 0 0 3px rgba(217, 162, 28, 0.1);
-    }
-
-    .auth-btn {
-      width: 100%;
-      padding: 14px;
-      border: none;
-      border-radius: 10px;
-      font-size: 16px;
-      font-weight: 600;
-      cursor: pointer;
-      transition: all 0.3s ease;
-    }
-
-    .auth-btn-primary {
-      background: var(--navy);
-      color: white;
-    }
-
-    .auth-btn-primary:hover {
-      background: #002a4a;
-      transform: translateY(-2px);
-    }
-
-    .auth-btn-secondary {
-      background: var(--gold);
-      color: var(--navy);
-      margin-top: 10px;
-    }
-
-    .auth-btn-secondary:hover {
-      background: #c19116;
-      transform: translateY(-2px);
-    }
-
-    .auth-divider {
-      text-align: center;
-      margin: 25px 0;
-      position: relative;
-    }
-
-    .auth-divider::before {
-      content: '';
-      position: absolute;
-      top: 50%;
-      left: 0;
-      right: 0;
-      height: 1px;
-      background: #e1e5e9;
-    }
-
-    .auth-divider span {
-      background: white;
-      padding: 0 15px;
-      color: #6c757d;
-      font-size: 14px;
-    }
-
-    .auth-footer {
-      text-align: center;
-      margin-top: 25px;
-      padding-top: 20px;
-      border-top: 1px solid #e1e5e9;
-    }
-
-    .auth-footer a {
-      color: var(--navy);
-      text-decoration: none;
-      font-weight: 600;
-    }
-
-    .auth-footer a:hover {
-      text-decoration: underline;
-    }
-
-    .auth-alert {
-      padding: 12px 16px;
-      border-radius: 8px;
-      margin-bottom: 20px;
-      font-size: 14px;
-    }
-
-    .auth-alert-success {
-      background: #d4edda;
-      color: #28a745;
-      border: 1px solid #c3e6cb;
-    }
-
-    .auth-alert-error {
-      background: #f8d7da;
-      color: #dc3545;
-      border: 1px solid #f5c6cb;
-    }
-
-    .guest-features {
-      background: #f8f9fa;
-      padding: 20px;
-      border-radius: 10px;
-      margin-top: 20px;
-    }
-
-    .guest-features h4 {
-      color: var(--navy);
-      margin-bottom: 10px;
-    }
-
-    .guest-features ul {
-      list-style: none;
-      padding-left: 0;
-    }
-
-    .guest-features li {
-      padding: 5px 0;
-      color: #6c757d;
-    }
-
-    .guest-features li::before {
-      content: '✓';
-      color: #28a745;
-      font-weight: bold;
-      margin-right: 10px;
-    }
-
     /* AI Registration Section */
     .ai-registration-container {
       display: grid;
@@ -1285,18 +1051,7 @@
         grid-template-columns: 1fr;
       }
 
-      .auth-body {
-        padding: 30px 20px;
-      }
-      
-      .auth-header {
-        padding: 20px;
-      }
-
-      .auth-container {
-        width: 95%;
-        max-width: none;
-      }
+      /* Removed legacy auth modal CSS */
 
       .ai-registration-container {
         grid-template-columns: 1fr;
@@ -1341,101 +1096,6 @@
   </style>
 </head>
 <body>
-
-<!-- Authentication Modal -->
-<div class="auth-overlay" id="authOverlay"></div>
-<div class="auth-container" id="authContainer">
-  <div class="auth-header">
-    <div class="auth-logo">EJF</div>
-    <h1 id="authTitle">Welcome Back</h1>
-    <p id="authSubtitle">Continue your journey with Economic Justice Forum</p>
-  </div>
-  
-  <div class="auth-body">
-    <div class="auth-tabs">
-      <button class="auth-tab active" onclick="switchAuthTab('login')">Login</button>
-      <button class="auth-tab" onclick="switchAuthTab('signup')">Sign Up</button>
-    </div>
-
-    <!-- Login Form -->
-    <form id="loginForm" class="auth-form">
-      <div class="auth-form-group">
-        <label for="loginEmail">Email Address</label>
-        <input type="email" id="loginEmail" class="auth-form-control" placeholder="Enter your email" required>
-      </div>
-      
-      <div class="auth-form-group">
-        <label for="loginPassword">Password</label>
-        <input type="password" id="loginPassword" class="auth-form-control" placeholder="Enter your password" required>
-      </div>
-
-      <div class="auth-form-group" style="display: flex; justify-content: space-between; align-items: center;">
-        <label style="margin: 0;">
-          <input type="checkbox" id="rememberMe"> Remember me
-        </label>
-        <a href="#" style="color: var(--navy); text-decoration: none; font-size: 14px;">Forgot password?</a>
-      </div>
-
-      <button type="submit" class="auth-btn auth-btn-primary">Sign In</button>
-    </form>
-
-    <!-- Signup Form -->
-    <form id="signupForm" class="auth-form" style="display: none;">
-      <div class="auth-form-group">
-        <label for="signupName">Full Name</label>
-        <input type="text" id="signupName" class="auth-form-control" placeholder="Enter your full name" required>
-      </div>
-
-      <div class="auth-form-group">
-        <label for="signupEmail">Email Address</label>
-        <input type="email" id="signupEmail" class="auth-form-control" placeholder="Enter your email" required>
-      </div>
-      
-      <div class="auth-form-group">
-        <label for="signupPassword">Password</label>
-        <input type="password" id="signupPassword" class="auth-form-control" placeholder="Create a password" required>
-      </div>
-
-      <div class="auth-form-group">
-        <label for="confirmPassword">Confirm Password</label>
-        <input type="password" id="confirmPassword" class="auth-form-control" placeholder="Confirm your password" required>
-      </div>
-
-      <div class="auth-form-group">
-        <label style="font-weight: normal; font-size: 14px;">
-          <input type="checkbox" id="agreeTerms" required>
-          I agree to the <a href="#" style="color: var(--navy);">Terms of Service</a> and <a href="#" style="color: var(--navy);">Privacy Policy</a>
-        </label>
-      </div>
-
-      <button type="submit" class="auth-btn auth-btn-primary">Create Account</button>
-    </form>
-
-    <div class="auth-divider">
-      <span>Or continue as</span>
-    </div>
-
-    <button class="auth-btn auth-btn-secondary" onclick="continueAsGuest()">
-      🎯 Continue as Guest
-    </button>
-
-    <div class="guest-features">
-      <h4>Guest Access Includes:</h4>
-      <ul>
-        <li>Browse all EJF content</li>
-        <li>Access research materials</li>
-        <li>Use AI assistant</li>
-        <li>View events and programs</li>
-        <li>Limited interactions</li>
-      </ul>
-    </div>
-
-    <div class="auth-footer">
-      <p>By continuing, you agree to our <a href="#">Terms</a> and <a href="#">Privacy Policy</a></p>
-    </div>
-  </div>
-</div>
-
 <header class="site-header">
   <div class="container">
     <div class="logo-container">
@@ -1458,11 +1118,11 @@
       <a href="donate.html" class="btn btn-gold">Donate</a>
       <!-- Authentication Button -->
       <div class="user-menu">
-        <button class="btn btn-primary" id="authButton" onclick="toggleAuthModal()">Login</button>
+        <a href="signup.html" class="btn btn-primary" id="authButton">Login</a>
         <div class="user-dropdown" id="userDropdown">
-          <a href="profile.html" id="profileLink">Profile</a>
+          <a href="dashboard.html" id="profileLink">Dashboard</a>
           <a href="#" id="settingsLink">Settings</a>
-          <a href="#" onclick="logout()">Logout</a>
+          <a href="#" id="logoutLink" onclick="logoutUser(event)">Logout</a>
         </div>
       </div>
     </nav>
@@ -1791,7 +1451,7 @@
           <p>Explore our data visualizations and research findings.</p>
           <ul class="resource-links">
             <li><a href="#">Impact Dashboard</a></li>
-            <li><a href="#">Research Database</a></li>
+            <li><a href="research-database.html">Research Database</a></li>
             <li><a href="#">Case Studies</a></li>
             <li><a href="#">Statistics</a></li>
           </ul>
@@ -1950,15 +1610,6 @@ class AuthSystem {
     }
 
     setupEventListeners() {
-        // Login form
-        document.getElementById('loginForm').addEventListener('submit', (e) => this.handleLogin(e));
-        
-        // Signup form
-        document.getElementById('signupForm').addEventListener('submit', (e) => this.handleSignup(e));
-        
-        // Close modal when clicking overlay
-        document.getElementById('authOverlay').addEventListener('click', () => this.hideAuthModal());
-        
         // User dropdown
         document.addEventListener('click', (e) => {
             if (!e.target.closest('.user-menu')) {
@@ -1982,20 +1633,11 @@ class AuthSystem {
                 this.showWelcomeBack();
             }
         } else {
-            authButton.innerHTML = 'Login';
-            authButton.onclick = () => this.showAuthModal();
+          authButton.innerHTML = 'Login';
+          authButton.onclick = () => { window.location.href = 'signup.html'; };
         }
     }
-
-    showAuthModal() {
-        document.getElementById('authOverlay').style.display = 'block';
-        document.getElementById('authContainer').style.display = 'block';
-    }
-
-    hideAuthModal() {
-        document.getElementById('authOverlay').style.display = 'none';
-        document.getElementById('authContainer').style.display = 'none';
-    }
+    
 
     handleLogin(e) {
         e.preventDefault();
@@ -2058,7 +1700,6 @@ class AuthSystem {
         
         localStorage.setItem('ejfUser', JSON.stringify(this.user));
         this.showAlert('Welcome! Continuing as guest.', 'success');
-        this.hideAuthModal();
         this.updateUI();
     }
 
@@ -2070,50 +1711,86 @@ class AuthSystem {
     }
 
     showAlert(message, type) {
-        // Remove existing alerts
-        const existingAlert = document.querySelector('.auth-alert');
-        if (existingAlert) {
-            existingAlert.remove();
-        }
-        
-        const alert = document.createElement('div');
-        alert.className = `auth-alert auth-alert-${type}`;
-        alert.textContent = message;
-        
-        const authBody = document.querySelector('.auth-body');
-        authBody.insertBefore(alert, authBody.firstChild);
-        
-        setTimeout(() => {
-            if (alert.parentNode) {
-                alert.remove();
-            }
-        }, 5000);
+      // Remove existing site alerts
+      const existingAlert = document.querySelector('.site-alert');
+      if (existingAlert) existingAlert.remove();
+
+      const alert = document.createElement('div');
+      alert.className = `site-alert site-alert-${type}`;
+      alert.textContent = message;
+
+      // Inline styles to ensure visibility without modal CSS
+      if (type === 'success') {
+        alert.style.cssText = 'padding:12px 16px;border-radius:8px;margin:8px;background:#d4edda;color:#155724;font-weight:600;';
+      } else {
+        alert.style.cssText = 'padding:12px 16px;border-radius:8px;margin:8px;background:#f8d7da;color:#721c24;font-weight:600;';
+      }
+
+      // Insert at top of body so it's visible on all pages
+      document.body.insertBefore(alert, document.body.firstChild);
+
+      setTimeout(() => {
+        if (alert.parentNode) alert.remove();
+      }, 5000);
     }
 
     showGuestNotification() {
-        const notification = document.createElement('div');
-        notification.style.cssText = `
-            position: fixed;
-            top: 80px;
-            right: 20px;
-            background: var(--gold);
-            color: var(--navy);
-            padding: 10px 15px;
-            border-radius: 8px;
-            font-size: 14px;
-            font-weight: 600;
-            z-index: 1000;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-        `;
-        notification.innerHTML = '👋 Welcome, Guest! <span style="margin-left: 8px; cursor: pointer; text-decoration: underline;" onclick="authSystem.showAuthModal()">Upgrade</span>';
-        
-        document.body.appendChild(notification);
-        
-        setTimeout(() => {
-            if (notification.parentNode) {
-                notification.remove();
-            }
-        }, 5000);
+      // Remove existing banner if present
+      const existing = document.getElementById('guestUpgradeBanner');
+      if (existing) existing.remove();
+
+      const banner = document.createElement('div');
+      banner.id = 'guestUpgradeBanner';
+      banner.style.cssText = `
+        position: fixed;
+        top: 64px;
+        left: 0;
+        right: 0;
+        width: 100%;
+        background: linear-gradient(90deg, rgba(217,162,28,0.98), rgba(245,200,90,0.98));
+        color: var(--navy);
+        padding: 12px 0;
+        z-index: 12000;
+        box-shadow: 0 4px 18px rgba(0,0,0,0.12);
+      `;
+
+      const inner = document.createElement('div');
+      inner.className = 'container';
+      inner.style.cssText = 'display:flex;align-items:center;justify-content:space-between;gap:12px;';
+
+      const msg = document.createElement('div');
+      msg.innerHTML = `<strong>Welcome, Guest.</strong> Upgrade your experience — create an account to access full features.`;
+      msg.style.cssText = 'font-size:14px;';
+
+      const actions = document.createElement('div');
+      actions.style.cssText = 'display:flex;gap:10px;align-items:center;';
+
+      const upgradeBtn = document.createElement('button');
+      upgradeBtn.className = 'btn btn-gold';
+      upgradeBtn.textContent = 'Upgrade Now';
+      upgradeBtn.onclick = () => {
+        // Navigate to signup page
+        window.location.href = 'signup.html';
+      };
+
+      const closeBtn = document.createElement('button');
+      closeBtn.textContent = '✕';
+      closeBtn.style.cssText = 'background:transparent;border:none;font-size:18px;cursor:pointer;color:var(--navy);padding:4px 8px;border-radius:6px;';
+      closeBtn.onclick = () => banner.remove();
+
+      actions.appendChild(upgradeBtn);
+      actions.appendChild(closeBtn);
+
+      inner.appendChild(msg);
+      inner.appendChild(actions);
+      banner.appendChild(inner);
+
+      document.body.appendChild(banner);
+
+      // Auto-dismiss after 10 seconds
+      setTimeout(() => {
+        if (banner.parentNode) banner.remove();
+      }, 10000);
     }
 
     showWelcomeBack() {
@@ -2122,42 +1799,6 @@ class AuthSystem {
 }
 
 // Global functions for HTML onclick attributes
-function switchAuthTab(tab) {
-    const loginForm = document.getElementById('loginForm');
-    const signupForm = document.getElementById('signupForm');
-    const tabs = document.querySelectorAll('.auth-tab');
-    const authTitle = document.getElementById('authTitle');
-    const authSubtitle = document.getElementById('authSubtitle');
-    
-    tabs.forEach(t => t.classList.remove('active'));
-    
-    if (tab === 'login') {
-        loginForm.style.display = 'block';
-        signupForm.style.display = 'none';
-        tabs[0].classList.add('active');
-        authTitle.textContent = 'Welcome Back';
-        authSubtitle.textContent = 'Continue your journey with Economic Justice Forum';
-    } else {
-        loginForm.style.display = 'none';
-        signupForm.style.display = 'block';
-        tabs[1].classList.add('active');
-        authTitle.textContent = 'Join EJF';
-        authSubtitle.textContent = 'Become part of the movement for economic justice';
-    }
-}
-
-function toggleAuthModal() {
-    if (window.authSystem.user) {
-        document.getElementById('userDropdown').classList.toggle('show');
-    } else {
-        window.authSystem.showAuthModal();
-    }
-}
-
-function continueAsGuest() {
-    window.authSystem.continueAsGuest();
-}
-
 function logout() {
     window.authSystem.logout();
     document.getElementById('userDropdown').classList.remove('show');
@@ -2531,6 +2172,110 @@ window.addEventListener('scroll', () => {
   transition: opacity 600ms ease, transform 600ms ease, filter 600ms ease;
 }
 </style>
+
+<script>
+
+// Supabase Auth Detection
+async function initAuthUI() {
+  try {
+    // Load supabase client from CDN
+    const { createClient } = await import('https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm');
+    
+    // Get config
+    const configRes = await fetch('/api/supabase-config');
+    const cfg = await configRes.json();
+    const supabase = createClient(cfg.url, cfg.anonKey);
+
+    // Check if user is logged in
+    const { data: { user } } = await supabase.auth.getUser();
+    const authButton = document.getElementById('authButton');
+    const userDropdown = document.getElementById('userDropdown');
+
+    if (user) {
+      // User is logged in - hide login button, show dropdown
+      if (authButton) {
+        authButton.style.display = 'none';
+      }
+      if (userDropdown) {
+        userDropdown.style.display = 'block';
+      }
+    } else {
+      // User is not logged in - show login button, hide dropdown
+      if (authButton) {
+        authButton.style.display = 'block';
+      }
+      if (userDropdown) {
+        userDropdown.style.display = 'none';
+      }
+    }
+
+    // Listen for auth state changes
+    supabase.auth.onAuthStateChange((event, session) => {
+      if (session) {
+        authButton.style.display = 'none';
+        userDropdown.style.display = 'block';
+      } else {
+        authButton.style.display = 'block';
+        userDropdown.style.display = 'none';
+      }
+    });
+
+    // Wire dashboard, settings and logout links for expected behavior
+    const profileLink = document.getElementById('profileLink');
+    const settingsLink = document.getElementById('settingsLink');
+    const logoutLink = document.getElementById('logoutLink');
+
+    if (profileLink) profileLink.setAttribute('href', '/dashboard.html');
+    if (settingsLink) {
+      // If there's a dedicated settings page, go there; otherwise open profile
+      settingsLink.addEventListener('click', (e) => {
+        e.preventDefault();
+        // Prefer a settings route if available
+        const settingsPage = '/profile.html';
+        window.location.href = settingsPage;
+      });
+    }
+
+    if (logoutLink) {
+      // ensure logout performs a proper sign-out via Supabase
+      logoutLink.addEventListener('click', (e) => {
+        e.preventDefault();
+        // Use the logoutUser helper defined later in the file
+        if (typeof logoutUser === 'function') logoutUser();
+        else {
+          // fallback: clear localStorage and reload
+          localStorage.removeItem('ejfUser');
+          window.location.href = '/index.html';
+        }
+      });
+    }
+  } catch (err) {
+    console.error('Auth init error:', err);
+  }
+}
+
+async function logoutUser(e) {
+  if (e) e.preventDefault();
+  try {
+    const { createClient } = await import('https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm');
+    const configRes = await fetch('/api/supabase-config');
+    const cfg = await configRes.json();
+    const supabase = createClient(cfg.url, cfg.anonKey);
+    await supabase.auth.signOut();
+    window.location.href = '/index.html';
+  } catch (err) {
+    console.error('Logout error:', err);
+  }
+}
+
+// Initialize when DOM is ready
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', initAuthUI);
+} else {
+  initAuthUI();
+}
+
+</script>
 
 <script>
 

@@ -118,6 +118,137 @@
         /* On wide screens, keep cards centered */
         .contact-grid { max-width: 900px; margin: 0 auto; }
       }
+
+      /* Beautiful Success Alert Modal */
+      .success-modal {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.5);
+        z-index: 2000;
+        align-items: center;
+        justify-content: center;
+        animation: fadeIn 0.3s ease;
+      }
+
+      .success-modal.show {
+        display: flex;
+      }
+
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+        }
+        to {
+          opacity: 1;
+        }
+      }
+
+      .success-modal-content {
+        background: white;
+        border-radius: 12px;
+        padding: 40px;
+        max-width: 400px;
+        text-align: center;
+        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+        animation: slideUp 0.4s ease;
+      }
+
+      @keyframes slideUp {
+        from {
+          transform: translateY(50px);
+          opacity: 0;
+        }
+        to {
+          transform: translateY(0);
+          opacity: 1;
+        }
+      }
+
+      .success-icon {
+        width: 80px;
+        height: 80px;
+        margin: 0 auto 20px;
+        background: linear-gradient(135deg, #d9a21c, #f4c430);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 40px;
+        animation: scaleIn 0.5s ease 0.1s both;
+      }
+
+      @keyframes scaleIn {
+        from {
+          transform: scale(0);
+          opacity: 0;
+        }
+        to {
+          transform: scale(1);
+          opacity: 1;
+        }
+      }
+
+      .success-modal-content h2 {
+        color: var(--navy);
+        font-size: 24px;
+        margin: 0 0 12px 0;
+        animation: fadeIn 0.5s ease 0.2s both;
+      }
+
+      .success-modal-content p {
+        color: #666;
+        font-size: 16px;
+        margin: 0 0 24px 0;
+        line-height: 1.5;
+        animation: fadeIn 0.5s ease 0.3s both;
+      }
+
+      .success-button {
+        background: linear-gradient(135deg, var(--navy), #001a33);
+        color: white;
+        border: none;
+        padding: 12px 32px;
+        border-radius: 6px;
+        font-size: 16px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        animation: fadeIn 0.5s ease 0.4s both;
+      }
+
+      .success-button:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(0, 38, 77, 0.3);
+      }
+
+      .success-button:active {
+        transform: translateY(0);
+      }
+
+      @media (max-width: 480px) {
+        .success-modal-content {
+          margin: 20px;
+          padding: 30px;
+        }
+
+        .success-icon {
+          width: 60px;
+          height: 60px;
+          font-size: 30px;
+        }
+
+        .success-modal-content h2 {
+          font-size: 20px;
+        }
+
+        .success-modal-content p {
+          font-size: 14px;
+        }
+      }
     </style>
   </head>
   <body>
@@ -149,6 +280,16 @@
     <div class="nav-overlay" id="navOverlay"></div>
 
     <main>
+
+      <!-- Success Alert Modal -->
+      <div class="success-modal" id="successModal">
+        <div class="success-modal-content">
+          <div class="success-icon">✓</div>
+          <h2>Message Sent!</h2>
+          <p>Thank you for reaching out. We've received your message and will get back to you shortly.</p>
+          <button class="success-button" onclick="document.getElementById('successModal').classList.remove('show')">Close</button>
+        </div>
+      </div>
 
       <!-- Mobile Menu Script (from homepage) -->
       <script>
@@ -214,26 +355,58 @@
 
           <div class="contact-card fade-in-up stagger-2">
             <h3>Send a message</h3>
-            <form id="contactForm" class="contact-form" novalidate>
-              <div class="form-row">
-                <div style="flex:1">
-                  <label for="name">Name</label>
-                  <input class="focus-ring" id="name" name="name" type="text" required placeholder="Your name" />
-                </div>
-                <div style="flex:1">
-                  <label for="email">Email</label>
-                  <input class="focus-ring" id="email" name="email" type="email" required placeholder="you@example.com" />
-                </div>
-              </div>
+            <section id="contact-section">
+              <h2>Contact Us</h2>
+              <form id="contactForm">
+                <label for="name">Name:</label>
+                <input type="text" id="name" name="name" required>
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" required>
+                <label for="message">Message:</label>
+                <textarea id="message" name="message" required></textarea>
+                <button type="submit">Send Message</button>
+              </form>
+              <div id="contactStatus"></div>
+            </section>
 
-              <label for="message">Message</label>
-              <textarea class="focus-ring" id="message" name="message" required placeholder="How can we help?"></textarea>
-
-              <div class="contact-actions">
-                <button type="submit" class="btn btn-primary">Send message</button>
-                <div id="success" class="contact-success" role="status" aria-live="polite">Thanks — your message is queued. We'll respond soon.</div>
-              </div>
-            </form>
+            <script>
+              document.getElementById('contactForm').addEventListener('submit', async function(e) {
+                e.preventDefault();
+                const status = document.getElementById('contactStatus');
+                const modal = document.getElementById('successModal');
+                status.textContent = 'Sending...';
+                status.style.color = '#666';
+                const data = {
+                  name: this.name.value,
+                  email: this.email.value,
+                  message: this.message.value
+                };
+                try {
+                  const res = await fetch('/api/contact', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(data)
+                  });
+                  const result = await res.json();
+                  if (res.ok) {
+                    // Show success modal
+                    modal.classList.add('show');
+                    this.reset();
+                    status.textContent = '';
+                    // Auto-close modal after 4 seconds
+                    setTimeout(() => {
+                      modal.classList.remove('show');
+                    }, 4000);
+                  } else {
+                    status.textContent = result.error || 'Failed to send message.';
+                    status.style.color = '#d32f2f';
+                  }
+                } catch (err) {
+                  status.textContent = 'Network error.';
+                  status.style.color = '#d32f2f';
+                }
+              });
+            </script>
           </div>
 
           <div class="contact-card fade-in-up stagger-3">
@@ -418,6 +591,11 @@
           }, 120 + (i*120));
         });
       });
+    </script>
+
+    <!-- Chatbase Embed -->
+    <script>
+      (function(){if(!window.chatbase||window.chatbase("getState")!=="initialized"){window.chatbase=(...arguments)=>{if(!window.chatbase.q){window.chatbase.q=[]}window.chatbase.q.push(arguments)};window.chatbase=new Proxy(window.chatbase,{get(target,prop){if(prop==="q"){return target.q}return(...args)=>target(prop,...args)}})}const onLoad=function(){const script=document.createElement("script");script.src="https://www.chatbase.co/embed.min.js";script.id="nTIx8izAgIEB9OJDrpAW2";script.domain="www.chatbase.co";document.body.appendChild(script)};if(document.readyState==="complete"){onLoad()}else{window.addEventListener("load",onLoad)}})();
     </script>
 
   </body>

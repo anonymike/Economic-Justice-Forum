@@ -227,6 +227,121 @@
       transform: scale(1.03);
     }
 
+    /* Scrolling Gallery for Latest Events */
+    .scroll-gallery {
+      overflow: hidden;
+      width: 100%;
+      margin-top: 20px;
+    }
+
+    .scroll-wrapper {
+      display: flex;
+      gap: 18px;
+      animation: scroll-ltr 30s linear infinite;
+      will-change: transform;
+      min-width: max-content;
+    }
+
+    .scroll-wrapper:hover {
+      animation-play-state: paused;
+    }
+
+    /* Animate scroll left-to-right for Latest Events */
+    @keyframes scroll-ltr {
+      0% { transform: translateX(-100%); }
+      100% { transform: translateX(0); }
+    }
+
+    /* Image expansion effect */
+    .thumb-wrap img {
+      cursor: zoom-in;
+      transition: transform 0.3s ease;
+    }
+
+    .thumb-wrap:hover img {
+      transform: scale(1.08);
+    }
+
+    /* Stylish video button overlay */
+    .video-play-btn {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: linear-gradient(135deg, var(--gold), #e8b923);
+      color: var(--navy);
+      padding: 12px 24px;
+      border: none;
+      border-radius: 50px;
+      font-weight: 700;
+      font-size: 0.85rem;
+      cursor: pointer;
+      z-index: 10;
+      opacity: 0;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 15px rgba(217, 162, 28, 0.3);
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+
+    .thumb-wrap:hover .video-play-btn {
+      opacity: 1;
+      transform: translate(-50%, -50%) scale(1.05);
+      box-shadow: 0 6px 20px rgba(217, 162, 28, 0.5);
+    }
+
+    .video-play-btn:active {
+      transform: translate(-50%, -50%) scale(0.98);
+    }
+
+    /* Typewriter animation for gallery intro */
+    .gallery-intro {
+      font-size: 2.5rem;
+      background: linear-gradient(135deg, var(--gold), #d9a21c);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      font-weight: 800;
+      margin-bottom: 30px;
+      text-align: center;
+      min-height: 5em;
+      letter-spacing: 2px;
+      line-height: 1.8;
+      font-family: 'Segoe UI', 'Arial Black', sans-serif;
+      text-transform: uppercase;
+    }
+
+    .gallery-intro.typing {
+      overflow: visible;
+      border-right: 4px solid var(--gold);
+      white-space: pre-wrap;
+      animation: blink-cursor 0.7s infinite, celebrationPulse 0.8s ease-out forwards;
+    }
+
+    @keyframes blink-cursor {
+      0%, 49% { border-right-color: var(--gold); }
+      50%, 100% { border-right-color: transparent; }
+    }
+
+    @keyframes celebrationPulse {
+      0% { transform: scale(0.8); opacity: 0; }
+      50% { transform: scale(1.02); }
+      100% { transform: scale(1); opacity: 1; }
+    }
+
+    @keyframes confetti {
+      0% { transform: translateY(-100px) rotate(0deg); opacity: 1; }
+      100% { transform: translateY(400px) rotate(360deg); opacity: 0; }
+    }
+
+    .celebration-confetti {
+      position: fixed;
+      pointer-events: none;
+      font-size: 2rem;
+      animation: confetti 3s ease-out forwards;
+    }
+
     /* Focus Areas */
     .focus-areas {
       display: grid;
@@ -269,9 +384,9 @@
 
     .social-links {
       display: flex;
-      gap: 10px;
+      gap: 18px;
+      animation: scroll-ltr 30s linear infinite;
     }
-
     .social-link {
       display: inline-flex;
       align-items: center;
@@ -469,8 +584,15 @@
       }
 
       .gallery {
-        grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+        grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
       }
+
+      /* Responsive intro and thumbnail tweaks */
+      .gallery-intro { font-size: 1.6rem; min-height: 4em; margin-bottom: 18px; }
+      .thumb-wrap { width: 160px; height: 160px; }
+      .video-play-btn { padding: 10px 18px; font-size: 0.75rem; }
+      .celebration-confetti { font-size: 1.6rem !important; }
+      .scroll-wrapper { animation-duration: 35s; }
 
       .focus-areas {
         grid-template-columns: 1fr;
@@ -506,16 +628,28 @@
       }
 
       .card h1 {
-        font-size: 1.6rem;
+        font-size: 1.4rem;
       }
 
       .gallery {
         grid-template-columns: 1fr 1fr;
+        gap: 12px;
       }
 
-      .gallery img {
-        height: 150px;
-      }
+      .gallery img { height: 130px; }
+
+      /* Mobile-specific intro + thumbnails */
+      .gallery-intro { font-size: 1.2rem; min-height: 3.2em; margin-bottom: 12px; letter-spacing: 1px; }
+      .thumb-wrap { width: 130px; height: 130px; }
+      .video-play-btn { padding: 8px 12px; font-size: 0.7rem; border-radius: 40px; }
+      .celebration-confetti { font-size: 1.2rem !important; }
+      .scroll-wrapper { animation-duration: 45s; }
+      .thumb-wrap img, .thumb-wrap video { border-radius: 14px; }
+    }
+
+    /* Improve touch interaction: make the video button tap-friendly */
+    @media (hover: none) {
+      .video-play-btn { opacity: 1; transform: translate(-50%, -50%) scale(1); }
     }
   </style>
 </head>
@@ -596,20 +730,24 @@
       <p><strong>Want to stay updated on all our events?</strong></p>
       <a href="#newsletter" class="btn btn-gold">Subscribe to Our Newsletter</a>
     </div>
+
+    <!-- Latest Events (thumbnails from latest_eventsimgs) -->
+    <section class="card" aria-label="Latest events">
+      <h2>Latest Events</h2>
+      <p style="margin-bottom:10px; color:#555;">Latest photos and videos from our most recent events. Click any thumbnail to view.</p>
+      <div class="gallery-intro typing" id="galleryIntro"></div>
+      <div id="latest-event-gallery" class="gallery" aria-live="polite"></div>
+    </section>
   </section>
 
   <section class="card">
     <h2>Past Events Gallery</h2>
     <p>Take a look at some of our recent events, forums, and community engagements across Kenya.</p>
     
-    <div class="gallery">
-      <img src="com event.jpeg" alt="Community forum on economic justice" />
-      <img src="plant.jpeg" alt="Tree planting ceremony with students" />
-      <img src="tm.jpeg" alt="EJF team at policy advocacy workshop" />
-      <img src="comm dia.jpeg" alt="Community dialogue session" />
-      <img src="youth ev.jpeg" alt="Youth environmental leadership training" />
-      <img src="eme.jpeg" alt="Research dissemination workshop" />
+    <div id="event-gallery" class="gallery" aria-live="polite">
+      <!-- Gallery thumbnails will be populated by JS. If you'd rather hardcode thumbnails, edit this section. -->
     </div>
+    <p style="text-align:center; color: #666; margin-top:10px;">Click any image or video to open the slideshow.</p>
     
     <div style="margin-top:25px;">
       <h3>Recent Event Highlights</h3>
@@ -657,7 +795,7 @@
     </div>
     
     <div style="margin-top:25px; text-align:center;">
-      <a href="donate.html#volunteer" class="btn btn-primary">Request an Event in Your Community</a>
+      <a href="contact.html#contact" class="btn btn-primary">Request an Event in Your Community</a>
     </div>
   </section>
 </main>
@@ -702,7 +840,7 @@
           <p>Explore our data visualizations and research findings.</p>
           <ul class="resource-links">
             <li><a href="#">Impact Dashboard</a></li>
-            <li><a href="#">Research Database</a></li>
+            <li><a href="research-database.html">Research Database</a></li>
             <li><a href="#">Case Studies</a></li>
             <li><a href="#">Statistics</a></li>
           </ul>
@@ -803,6 +941,256 @@
     </div>
   </div>
 </footer>
+
+  <!-- Lightbox styles and gallery script -->
+  <style>
+    .gallery img, .gallery video { width:100%; height:200px; object-fit:cover; border-radius:8px; cursor:pointer; display:block; }
+    #lightbox { position:fixed; inset:0; background:rgba(0,0,0,0.9); display:flex; align-items:center; justify-content:center; z-index:2000; opacity:0; visibility:hidden; transition:opacity .25s ease; }
+    #lightbox.show { opacity:1; visibility:visible; }
+    #lightbox .media { max-width:90%; max-height:85%; }
+    #lightbox img, #lightbox video { width:100%; height:auto; border-radius:6px; display:block; }
+    .lb-controls { position:absolute; top:50%; left:20px; transform:translateY(-50%); font-size:36px; color:#fff; cursor:pointer; user-select:none }
+    .lb-controls.right { left:auto; right:20px }
+    .lb-close { position:absolute; top:18px; right:20px; font-size:28px; color:#fff; cursor:pointer }
+    .gallery-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(220px,1fr)); gap:18px; justify-items:center }
+    /* Circular thumbnails with overlay caption and entrance animation */
+    .gallery-grid .thumb-wrap { position: relative; width: 200px; height: 200px; overflow: hidden; border-radius: 50%; display:flex; align-items:center; justify-content:center; background: #f6f6f6; box-shadow: 0 6px 18px rgba(0,0,0,0.08); }
+    .gallery-grid .thumb-wrap img, .gallery-grid .thumb-wrap video { width: 100%; height: 100%; object-fit: cover; border-radius: 50%; display:block; transition: transform .45s cubic-bezier(.2,.9,.2,1); }
+    .gallery-grid .thumb-wrap:hover img, .gallery-grid .thumb-wrap:hover video { transform: scale(1.05); }
+    .thumb-caption { position:absolute; left:0; right:0; bottom:0; padding:10px 12px; background: linear-gradient(180deg, rgba(0,0,0,0) 0%, rgba(0,0,0,0.6) 100%); color:#fff; font-weight:600; text-align:center; font-size:0.95rem; opacity:0; transform: translateY(8px); transition: all .28s ease; border-bottom-left-radius: 50%; border-bottom-right-radius: 50%; }
+    .gallery-grid .thumb-wrap:hover .thumb-caption { opacity:1; transform: translateY(0); }
+    @keyframes thumbEntrance { from { opacity:0; transform: translateY(18px) scale(.98);} to { opacity:1; transform: translateY(0) scale(1);} }
+    .thumb-wrap.animated { animation: thumbEntrance .52s ease forwards; }
+    @media (max-width:480px){ .gallery img, .gallery video { height:140px } }
+  </style>
+
+  <div id="lightbox" role="dialog" aria-modal="true" aria-hidden="true">
+    <div class="lb-close" aria-label="Close" id="lbClose">✕</div>
+    <div class="lb-controls left" id="lbPrev" aria-hidden="false">◀</div>
+    <div class="lb-controls right" id="lbNext" aria-hidden="false">▶</div>
+    <div style="max-width:1100px; width:100%; position:relative;">
+      <div class="media" id="lbMediaWrapper"></div>
+      <div id="lbOverlay" style="position:absolute; left:0; bottom:0; right:0; background:linear-gradient(0deg, rgba(0,0,0,0.75), rgba(0,0,0,0.2)); color:#fff; padding:18px 20px; display:flex; flex-direction:column; gap:6px;">
+        <div id="lbTitle" style="font-size:1.2rem; font-weight:700"></div>
+        <div id="lbDesc" style="font-size:0.95rem; opacity:0.95"></div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+  document.addEventListener('DOMContentLoaded', function(){
+    const galleryEl = document.getElementById('event-gallery'); // Past Events Gallery (fallback)
+    const latestGalleryEl = document.getElementById('latest-event-gallery'); // Latest Events (from uploads)
+    const galleryIntroEl = document.getElementById('galleryIntro'); // Gallery intro text
+    const manifestPath = './latest_eventsimgs/manifest.json';
+    const introText = 'THIS IS OUR LATEST EVENT WHICH HAPPEND AT TTNP\nHOLD ON AS THE GALLERY OPENS BELOW AND ENJOY';
+
+    // Typewriter effect for gallery intro
+    function typewriter(element, text, speed = 50) {
+      element.innerHTML = '';
+      element.classList.add('typing');
+      let index = 0;
+      
+      function type() {
+        if (index < text.length) {
+          element.textContent += text[index];
+          index++;
+          setTimeout(type, speed);
+        } else {
+          element.classList.remove('typing');
+          setTimeout(() => {
+            element.style.borderRight = 'none';
+            // Trigger celebration animation
+            createCelebration();
+          }, 300);
+        }
+      }
+      type();
+    }
+
+    // Celebration animation with confetti
+    function createCelebration() {
+      const confettiEmojis = ['🎉', '🎊', '✨', '🌟', '⭐', '🎈', '🏆', '💫'];
+      
+      for (let i = 0; i < 20; i++) {
+        setTimeout(() => {
+          const confetti = document.createElement('div');
+          confetti.className = 'celebration-confetti';
+          confetti.textContent = confettiEmojis[Math.floor(Math.random() * confettiEmojis.length)];
+          confetti.style.left = Math.random() * 100 + '%';
+          confetti.style.top = '-50px';
+          confetti.style.zIndex = '999';
+          document.body.appendChild(confetti);
+          
+          setTimeout(() => confetti.remove(), 3000);
+        }, i * 100);
+      }
+    }
+
+    // Default fallback media list (existing images in repo)
+    const fallback = [
+      { type: 'image', src: 'com event.jpeg', alt: 'Community forum on economic justice' },
+      { type: 'image', src: 'plant.jpeg', alt: 'Tree planting ceremony with students' },
+      { type: 'image', src: 'tm.jpeg', alt: 'EJF team at policy advocacy workshop' },
+      { type: 'image', src: 'comm dia.jpeg', alt: 'Community dialogue session' },
+      { type: 'image', src: 'youth ev.jpeg', alt: 'Youth environmental leadership training' },
+      { type: 'image', src: 'eme.jpeg', alt: 'Research dissemination workshop' }
+    ];
+
+    // Build UI from an array of media objects
+    function buildGallery(targetEl, items){
+      if(!targetEl) return;
+      targetEl.innerHTML = '';
+
+      if(targetEl.id === 'latest-event-gallery'){
+        // Scrolling gallery for latest events (no duplicate for instant load)
+        targetEl.classList.add('scroll-gallery');
+        const scrollWrapper = document.createElement('div');
+        scrollWrapper.className = 'scroll-wrapper';
+        items.forEach((item, idx) => {
+          const wrapper = document.createElement('div');
+          wrapper.className = 'thumb-wrap';
+          wrapper.setAttribute('data-index', idx);
+          if(item.type === 'video'){
+            const vid = document.createElement('video');
+            vid.src = encodeURI(item.src);
+            vid.muted = true;
+            vid.playsInline = true;
+            vid.preload = 'metadata';
+            vid.setAttribute('aria-label', item.alt || 'Event video');
+            vid.addEventListener('mouseenter', () => vid.play());
+            vid.addEventListener('mouseleave', () => { vid.pause(); vid.currentTime = 0; });
+            wrapper.appendChild(vid);
+            const btn = document.createElement('button');
+            btn.className = 'video-play-btn';
+            btn.innerHTML = 'A MESSAGE FROM OUR EJF PRESIDENT';
+            btn.setAttribute('aria-label', 'Play video — opens in viewer');
+            btn.setAttribute('tabindex', '0');
+            // Button opens the lightbox directly and prevents the wrapper click from firing twice
+            btn.addEventListener('click', (e) => { e.stopPropagation(); openLightbox(items, idx); });
+            wrapper.appendChild(btn);
+          } else {
+            const img = document.createElement('img');
+            img.src = encodeURI(item.src);
+            img.alt = item.alt || '';
+            wrapper.appendChild(img);
+          }
+          wrapper.addEventListener('click', () => openLightbox(items, idx));
+          scrollWrapper.appendChild(wrapper);
+        });
+        targetEl.appendChild(scrollWrapper);
+      } else {
+        // Regular grid gallery for past events
+        targetEl.classList.add('gallery-grid');
+        items.forEach((item, idx) => {
+          const wrapper = document.createElement('div');
+          wrapper.className = 'thumb-wrap';
+          wrapper.setAttribute('data-index', idx);
+
+          if(item.type === 'video'){
+            const vid = document.createElement('video');
+            vid.src = encodeURI(item.src);
+            vid.muted = true;
+            vid.playsInline = true;
+            vid.preload = 'metadata';
+            vid.setAttribute('aria-label', item.alt || 'Event video');
+            vid.addEventListener('mouseenter', () => vid.play());
+            vid.addEventListener('mouseleave', () => { vid.pause(); vid.currentTime = 0; });
+            wrapper.appendChild(vid);
+          } else {
+            const img = document.createElement('img');
+            img.src = encodeURI(item.src);
+            img.alt = item.alt || '';
+            wrapper.appendChild(img);
+          }
+
+          wrapper.addEventListener('click', () => openLightbox(items, idx));
+          targetEl.appendChild(wrapper);
+        });
+      }
+    }
+
+    // Lightbox
+    const lightbox = document.getElementById('lightbox');
+    const lbMediaWrapper = document.getElementById('lbMediaWrapper');
+    const lbClose = document.getElementById('lbClose');
+    const lbPrev = document.getElementById('lbPrev');
+    const lbNext = document.getElementById('lbNext');
+    let currentItems = [];
+    let currentIndex = 0;
+
+    function openLightbox(items, index){
+      currentItems = items;
+      currentIndex = index;
+      showMedia();
+      lightbox.classList.add('show');
+      lightbox.setAttribute('aria-hidden','false');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeLightbox(){
+      lightbox.classList.remove('show');
+      lightbox.setAttribute('aria-hidden','true');
+      lbMediaWrapper.innerHTML = '';
+      document.body.style.overflow = '';
+    }
+
+    function showMedia(){
+      lbMediaWrapper.innerHTML = '';
+      const item = currentItems[currentIndex];
+      if(!item) return;
+      if(item.type === 'video'){
+        const v = document.createElement('video');
+        v.src = encodeURI(item.src);
+        v.controls = true;
+        v.autoplay = true;
+        v.style.maxHeight = '80vh';
+        lbMediaWrapper.appendChild(v);
+      } else {
+        const i = document.createElement('img');
+        i.src = encodeURI(item.src);
+        i.alt = item.alt || '';
+        lbMediaWrapper.appendChild(i);
+      }
+    }
+
+    function next(){ currentIndex = (currentIndex + 1) % currentItems.length; showMedia(); }
+    function prev(){ currentIndex = (currentIndex - 1 + currentItems.length) % currentItems.length; showMedia(); }
+
+    lbClose.addEventListener('click', closeLightbox);
+    lbNext.addEventListener('click', next);
+    lbPrev.addEventListener('click', prev);
+    lightbox.addEventListener('click', (e)=>{ if(e.target === lightbox) closeLightbox(); });
+    document.addEventListener('keydown', (e)=>{
+      if(lightbox.classList.contains('show')){
+        if(e.key === 'Escape') closeLightbox();
+        if(e.key === 'ArrowRight') next();
+        if(e.key === 'ArrowLeft') prev();
+      }
+    });
+
+    // Build Past Events gallery immediately from fallback (keeps existing page behavior)
+    buildGallery(galleryEl, fallback);
+
+    // Start typewriter animation for latest events
+    typewriter(galleryIntroEl, introText, 40);
+
+    // Inline manifest for latest events gallery
+    const latestManifest = [
+      { type: 'image', src: 'latest_eventsimgs/latest1 18.50.56_551de1ff.jpg', alt: 'Planting trees - site 1', title: 'Tree Planting', description: 'Volunteers planting trees as part of our restoration project.' },
+      { type: 'image', src: 'latest_eventsimgs/latest2 2025-11-20 at 18.51.03_39cb7bbc.jpg', alt: 'Community meeting', title: 'Planning Meeting', description: 'Community leaders discussing next steps and future plans.' },
+      { type: 'image', src: 'latest_eventsimgs/latest3.jpg', alt: 'Volunteers with saplings', title: 'Sapling Distribution', description: 'Distributing saplings to local schools and groups.' },
+      { type: 'image', src: 'latest_eventsimgs/latest4.jpg', alt: 'Workshop session', title: 'Training Workshop', description: 'Digital skills and climate action training for youth.' },
+      { type: 'image', src: 'latest_eventsimgs/latest5.jpg', alt: 'Community dialogue', title: 'Community Dialogue', description: 'Residents share experiences and priorities for local development.' },
+      { type: 'image', src: 'latest_eventsimgs/latest6.jpg', alt: 'Group photo', title: 'Group Photo', description: 'Participants and organisers celebrating a successful event.' },
+      { type: 'image', src: 'latest_eventsimgs/latest7.jpg', alt: 'Field visit', title: 'Field Visit', description: 'Inspection visit to community restoration sites.' },
+      { type: 'image', src: 'latest_eventsimgs/latest8.jpg', alt: 'Panel session', title: 'Panel Discussion', description: 'Experts discuss climate resilience strategies.' },
+      { type: 'image', src: 'latest_eventsimgs/latest9.jpg', alt: 'Closing session', title: 'Closing Remarks', description: 'Final reflections and next steps.' },
+      { type: 'video', src: 'latest_eventsimgs/vid1.mp4', alt: 'Event highlights video', title: 'Event Highlights', description: 'Short highlights reel from the planting and planning events.' }
+    ];
+    buildGallery(latestGalleryEl, latestManifest);
+  });
+  </script>
 
 <!-- Mobile Menu Script -->
 <script>
