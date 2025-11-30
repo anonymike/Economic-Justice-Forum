@@ -1,0 +1,881 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Green Digital Justice Hub - Support Economic Justice</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --ejf-primary: #1e3a5f;
+            --ejf-secondary: #2d5a8c;
+            --ejf-accent: #e9b949;
+            --ejf-success: #4a8c5a;
+            --ejf-highlight: #d4a574;
+        }
+        
+        .gradient-bg {
+            background: linear-gradient(135deg, var(--ejf-primary) 0%, var(--ejf-secondary) 100%);
+        }
+        
+        .card-hover {
+            transition: all 0.3s ease;
+        }
+        
+        .card-hover:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+        
+        .progress-bar {
+            transition: width 1s ease-in-out;
+        }
+        
+        .donation-option.selected {
+            border-color: var(--ejf-accent);
+            background-color: rgba(233, 185, 73, 0.1);
+        }
+        
+        .payment-method.selected {
+            border-color: var(--ejf-accent);
+            background-color: rgba(233, 185, 73, 0.1);
+        }
+        
+        .btn-primary {
+            background-color: var(--ejf-accent);
+            color: #1e3a5f;
+        }
+        
+        .btn-primary:hover {
+            background-color: #d4a235;
+        }
+        
+        .btn-secondary {
+            background-color: var(--ejf-success);
+            color: white;
+        }
+        
+        .btn-secondary:hover {
+            background-color: #3e7a4c;
+        }
+        
+        .text-ejf-accent {
+            color: var(--ejf-accent);
+        }
+        
+        .bg-ejf-accent {
+            background-color: var(--ejf-accent);
+        }
+        
+        .bg-ejf-highlight {
+            background-color: var(--ejf-highlight);
+        }
+        
+        .text-ejf-highlight {
+            color: var(--ejf-highlight);
+        }
+        
+        .border-ejf-accent {
+            border-color: var(--ejf-accent);
+        }
+        
+        .hero-bg {
+            background-image: linear-gradient(rgba(30, 58, 95, 0.8), rgba(45, 90, 140, 0.8)), url('https://images.unsplash.com/photo-1593113630400-ea4288922497?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80');
+            background-size: cover;
+            background-position: center;
+        }
+
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255,255,255,.3);
+            border-radius: 50%;
+            border-top-color: #fff;
+            animation: spin 1s ease-in-out infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <!-- Navigation -->
+    <nav class="gradient-bg text-white shadow-lg">
+        <div class="container mx-auto px-4 py-3">
+            <div class="flex justify-between items-center">
+                <div class="flex items-center space-x-2">
+                    <div class="w-10 h-10 bg-white rounded-full flex items-center justify-center">
+                        <i class="fas fa-leaf text-ejf-success text-xl"></i>
+                    </div>
+                    <div>
+                        <h1 class="text-xl font-bold">Economic Justice Forum</h1>
+                        <p class="text-blue-100 text-sm">Green Digital Justice Hub</p>
+                    </div>
+                </div>
+                <div>
+                    <a href="admin.html" class="btn-primary px-4 py-2 rounded-lg font-medium transition">
+                        <i class="fas fa-lock mr-2"></i>Admin Login
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero-bg text-white py-16">
+        <div class="container mx-auto px-4 text-center">
+            <h1 class="text-4xl md:text-5xl font-bold mb-6">Green Digital Justice Hub</h1>
+            <p class="text-2xl font-semibold max-w-3xl mx-auto mb-4">Bold Climate Action, Digital Innovation & Inclusive Prosperity</p>
+            <p class="text-xl max-w-3xl mx-auto mb-8">Empowering marginalized communities in Taita Taveta, coastal Kenya, and other arid areas while linking local innovation to global climate action and technology networks.</p>
+            <div class="flex flex-wrap justify-center gap-4">
+                <a href="#donate" class="btn-primary px-8 py-3 rounded-lg font-semibold text-lg transition">
+                    <i class="fas fa-donate mr-2"></i>Donate Now
+                </a>
+                <a href="#why-it-matters" class="bg-white text-ejf-primary px-8 py-3 rounded-lg font-semibold text-lg hover:bg-gray-100 transition">
+                    <i class="fas fa-info-circle mr-2"></i>Learn More
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Why It Matters Section -->
+    <section id="why-it-matters" class="py-12 bg-white">
+        <div class="container mx-auto px-4">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-3xl font-bold text-center text-gray-800 mb-8">Why It Matters</h2>
+                <div class="bg-gray-50 rounded-2xl p-8 mb-8">
+                    <p class="text-lg text-gray-700 mb-6">
+                        The Green Digital Justice Hub (GDJH) will be the first of its kind in grassroots, rural, and marginalized communities, and a model for Africa for community-led, bold climate action for economic justice.
+                    </p>
+                    <p class="text-lg text-gray-700 mb-6">
+                        Marginalized communities in Taita Taveta, the coastal region, and other arid and semi-arid areas protect and conserve natural resources yet face the harshest climate impacts and receive little to nothing.
+                    </p>
+                    <p class="text-lg text-gray-700">
+                        GDJH, led by the Economic Justice Forum (EJF), is a comprehensive, state-of-the-art project that combines:
+                    </p>
+                    <ul class="mt-4 space-y-2 text-gray-700">
+                        <li class="flex items-start">
+                            <i class="fas fa-check text-ejf-success mt-1 mr-2"></i>
+                            <span>Smart and green construction of facilities</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-check text-ejf-success mt-1 mr-2"></i>
+                            <span>Green innovation labs and startup incubators</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-check text-ejf-success mt-1 mr-2"></i>
+                            <span>Digitalized conference and workspace facilities</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-check text-ejf-success mt-1 mr-2"></i>
+                            <span>Green gardens and climate-smart research facilities</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-check text-ejf-success mt-1 mr-2"></i>
+                            <span>Integration with modern technology companies, using the latest digital, AI, and renewable technologies</span>
+                        </li>
+                    </ul>
+                    <p class="text-lg text-gray-700 mt-6">
+                        This hub will act as a community global resource, linking local initiatives to global climate action programs, COP30 commitments, SDGs, UNEP Digital Public Goods initiatives, and other cutting-edge international frameworks.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Progress Section -->
+    <section class="py-12 bg-gray-100">
+        <div class="container mx-auto px-4">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-3xl font-bold text-center text-gray-800 mb-2">Fundraising Progress</h2>
+                <p class="text-center text-gray-600 mb-8">Help us reach our goal to establish the Green Digital Justice Hub</p>
+                
+                <div class="bg-white rounded-2xl p-6 mb-8 shadow-lg">
+                    <div class="flex justify-between mb-2">
+                        <span class="text-gray-700 font-medium">$48,250 raised of $75,000 goal</span>
+                        <span class="text-ejf-accent font-bold">65%</span>
+                    </div>
+                    <div class="w-full bg-gray-300 rounded-full h-4">
+                        <div class="progress-bar bg-ejf-success h-4 rounded-full" style="width: 65%"></div>
+                    </div>
+                    <div class="flex justify-between mt-4 text-sm text-gray-600">
+                        <div class="text-center">
+                            <div class="text-2xl font-bold text-ejf-secondary">327</div>
+                            <div>Donors</div>
+                        </div>
+                        <div class="text-center">
+                            <div class="text-2xl font-bold text-ejf-highlight">28</div>
+                            <div>Days Left</div>
+                        </div>
+                        <div class="text-center">
+                            <div class="text-2xl font-bold text-ejf-success">8</div>
+                            <div>Programs</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Programs & Impact Section -->
+    <section id="programs" class="py-12 bg-white">
+        <div class="container mx-auto px-4">
+            <h2 class="text-3xl font-bold text-center text-gray-800 mb-2">Programs & Impact</h2>
+            <p class="text-center text-gray-600 mb-12">The Green Digital Justice Hub will deliver impact across multiple areas</p>
+            
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Program 1 -->
+                <div class="card-hover bg-white rounded-2xl shadow-lg overflow-hidden border border-gray-200">
+                    <div class="h-48 bg-blue-50 flex items-center justify-center">
+                        <i class="fas fa-cloud-sun-rain text-ejf-secondary text-6xl"></i>
+                    </div>
+                    <div class="p-6">
+                        <div class="flex justify-between items-start mb-2">
+                            <h3 class="text-xl font-bold text-gray-800">Climate Early Warning</h3>
+                            <span class="bg-ejf-success bg-opacity-20 text-ejf-success px-3 py-1 rounded-full text-sm font-medium">Active</span>
+                        </div>
+                        <p class="text-gray-600 mb-4">Real-time weather stations, SMS/WhatsApp alerts, youth trained as Climate Data Stewards.</p>
+                        <div class="flex items-center text-sm text-gray-500">
+                            <i class="fas fa-users mr-2"></i>
+                            <span>1,000+ farmers using climate-informed planning</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Program 2 -->
+                <div class="card-hover bg-white rounded-2xl shadow-lg overflow-hidden border border-gray-200">
+                    <div class="h-48 bg-green-50 flex items-center justify-center">
+                        <i class="fas fa-laptop-code text-ejf-success text-6xl"></i>
+                    </div>
+                    <div class="p-6">
+                        <div class="flex justify-between items-start mb-2">
+                            <h3 class="text-xl font-bold text-gray-800">BPO & Digital Jobs</h3>
+                            <span class="bg-ejf-success bg-opacity-20 text-ejf-success px-3 py-1 rounded-full text-sm font-medium">Active</span>
+                        </div>
+                        <p class="text-gray-600 mb-4">2,000 direct jobs, digital cooperatives, link to global digital economy.</p>
+                        <div class="flex items-center text-sm text-gray-500">
+                            <i class="fas fa-briefcase mr-2"></i>
+                            <span>2,000 direct jobs created</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Program 3 -->
+                <div class="card-hover bg-white rounded-2xl shadow-lg overflow-hidden border border-gray-200">
+                    <div class="h-48 bg-yellow-50 flex items-center justify-center">
+                        <i class="fas fa-robot text-ejf-accent text-6xl"></i>
+                    </div>
+                    <div class="p-6">
+                        <div class="flex justify-between items-start mb-2">
+                            <h3 class="text-xl font-bold text-gray-800">STEM & Coding</h3>
+                            <span class="bg-ejf-success bg-opacity-20 text-ejf-success px-3 py-1 rounded-full text-sm font-medium">Active</span>
+                        </div>
+                        <p class="text-gray-600 mb-4">20 schools, hackathons, mentorship, early STEM interest in rural learners.</p>
+                        <div class="flex items-center text-sm text-gray-500">
+                            <i class="fas fa-graduation-cap mr-2"></i>
+                            <span>20 schools engaged in STEM & coding</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Program 4 -->
+                <div class="card-hover bg-white rounded-2xl shadow-lg overflow-hidden border border-gray-200">
+                    <div class="h-48 bg-teal-50 flex items-center justify-center">
+                        <i class="fas fa-seedling text-ejf-success text-6xl"></i>
+                    </div>
+                    <div class="p-6">
+                        <div class="flex justify-between items-start mb-2">
+                            <h3 class="text-xl font-bold text-gray-800">Green & Blue Innovation</h3>
+                            <span class="bg-ejf-success bg-opacity-20 text-ejf-success px-3 py-1 rounded-full text-sm font-medium">Active</span>
+                        </div>
+                        <p class="text-gray-600 mb-4">Startups incubated, soil breads, high-value seeds, eco-innovation in agriculture & fisheries.</p>
+                        <div class="flex items-center text-sm text-gray-500">
+                            <i class="fas fa-industry mr-2"></i>
+                            <span>Local startups and SMEs launched</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Program 5 -->
+                <div class="card-hover bg-white rounded-2xl shadow-lg overflow-hidden border border-gray-200">
+                    <div class="h-48 bg-purple-50 flex items-center justify-center">
+                        <i class="fas fa-building text-ejf-secondary text-6xl"></i>
+                    </div>
+                    <div class="p-6">
+                        <div class="flex justify-between items-start mb-2">
+                            <h3 class="text-xl font-bold text-gray-800">Smart & Green Facilities</h3>
+                            <span class="bg-ejf-accent bg-opacity-20 text-ejf-accent px-3 py-1 rounded-full text-sm font-medium">Planning</span>
+                        </div>
+                        <p class="text-gray-600 mb-4">Green conference halls, research labs, digital workspaces, climate-smart gardens.</p>
+                        <div class="flex items-center text-sm text-gray-500">
+                            <i class="fas fa-leaf mr-2"></i>
+                            <span>Fully operational green facilities</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Program 6 -->
+                <div class="card-hover bg-white rounded-2xl shadow-lg overflow-hidden border border-gray-200">
+                    <div class="h-48 bg-indigo-50 flex items-center justify-center">
+                        <i class="fas fa-globe text-ejf-primary text-6xl"></i>
+                    </div>
+                    <div class="p-6">
+                        <div class="flex justify-between items-start mb-2">
+                            <h3 class="text-xl font-bold text-gray-800">Global Tech & Knowledge Hub</h3>
+                            <span class="bg-ejf-accent bg-opacity-20 text-ejf-accent px-3py-1 rounded-full text-sm font-medium">Planning</span>
+                        </div>
+                        <p class="text-gray-600 mb-4">Partnerships with modern tech companies, AI, renewable tech, linking local action to global climate programs.</p>
+                        <div class="flex items-center text-sm text-gray-500">
+                            <i class="fas fa-network-wired mr-2"></i>
+                            <span>Connected to global networks</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Impact Section -->
+    <section class="py-12 bg-ejf-primary bg-opacity-5">
+        <div class="container mx-auto px-4">
+            <h2 class="text-3xl font-bold text-center text-gray-800 mb-2">Key Outcomes</h2>
+            <p class="text-center text-gray-600 mb-12">The Green Digital Justice Hub will deliver measurable impact</p>
+            
+            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+                <div class="text-center">
+                    <div class="bg-white rounded-2xl p-6 shadow-lg">
+                        <div class="text-4xl font-bold text-ejf-secondary mb-2">500+</div>
+                        <div class="text-gray-700 font-medium">Youth & Women Trained</div>
+                    </div>
+                </div>
+                <div class="text-center">
+                    <div class="bg-white rounded-2xl p-6 shadow-lg">
+                        <div class="text-4xl font-bold text-ejf-success mb-2">1,000+</div>
+                        <div class="text-gray-700 font-medium">Farmers Using Climate Planning</div>
+                    </div>
+                </div>
+                <div class="text-center">
+                    <div class="bg-white rounded-2xl p-6 shadow-lg">
+                        <div class="text-4xl font-bold text-ejf-accent mb-2">20</div>
+                        <div class="text-gray-700 font-medium">Schools in STEM Programs</div>
+                    </div>
+                </div>
+                <div class="text-center">
+                    <div class="bg-white rounded-2xl p-6 shadow-lg">
+                        <div class="text-4xl font-bold text-ejf-highlight mb-2">2,000</div>
+                        <div class="text-gray-700 font-medium">Direct Jobs Created</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- How Donations Make It Successful -->
+    <section class="py-12 bg-white">
+        <div class="container mx-auto px-4">
+            <h2 class="text-3xl font-bold text-center text-gray-800 mb-2">How Donations Make It Successful</h2>
+            <p class="text-center text-gray-600 mb-12">Your contribution follows a clear path to impact</p>
+            
+            <div class="grid md:grid-cols-3 gap-8 max-w-4xl mx-auto">
+                <div class="text-center">
+                    <div class="bg-ejf-accent bg-opacity-20 w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <span class="text-3xl font-bold text-ejf-accent">1</span>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-800 mb-2">Build</h3>
+                    <p class="text-gray-600">Construct smart, green, and climate-smart facilities: labs, conference halls, workspaces, gardens</p>
+                </div>
+                <div class="text-center">
+                    <div class="bg-ejf-success bg-opacity-20 w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <span class="text-3xl font-bold text-ejf-success">2</span>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-800 mb-2">Equip</h3>
+                    <p class="text-gray-600">Furnish labs with state-of-the-art digital tools, robotics kits, renewable energy systems, AI applications, and weather stations</p>
+                </div>
+                <div class="text-center">
+                    <div class="bg-ejf-secondary bg-opacity-20 w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <span class="text-3xl font-bold text-ejf-secondary">3</span>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-800 mb-2">Empower</h3>
+                    <p class="text-gray-600">Train youth, women, PWDs, farmers, and artisanal miners in digital, green, blue economy skills</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Donation Form Section -->
+    <section id="donate" class="py-12 bg-gray-100">
+        <div class="container mx-auto px-4">
+            <div class="max-w-2xl mx-auto bg-white rounded-2xl shadow-lg overflow-hidden">
+                <div class="gradient-bg text-white p-6">
+                    <h2 class="text-2xl font-bold">Support the Green Digital Justice Hub</h2>
+                    <p>Your contribution empowers marginalized communities in Kenya</p>
+                </div>
+                
+                <form id="donationForm" class="p-6 space-y-6">
+                    <div>
+                        <h3 class="text-lg font-semibold text-gray-800 mb-4">Select Donation Amount</h3>
+                        <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
+                            <button type="button" class="donation-option border-2 border-gray-300 py-3 rounded-lg font-medium hover:border-ejf-accent transition" data-amount="500">
+                                KES 500
+                            </button>
+                            <button type="button" class="donation-option border-2 border-gray-300 py-3 rounded-lg font-medium hover:border-ejf-accent transition" data-amount="1000">
+                                KES 1000
+                            </button>
+                            <button type="button" class="donation-option border-2 border-gray-300 py-3 rounded-lg font-medium hover:border-ejf-accent transition" data-amount="2500">
+                                KES 2500
+                            </button>
+                            <button type="button" class="donation-option border-2 border-gray-300 py-3 rounded-lg font-medium hover:border-ejf-accent transition" data-amount="5000">
+                                KES 5000
+                            </button>
+                        </div>
+                        <div class="mt-4">
+                            <label class="block text-gray-700 mb-2">Or enter custom amount</label>
+                            <div class="relative">
+                                <span class="absolute left-3 top-3 text-gray-500">KES</span>
+                                <input type="number" id="customAmount" class="w-full pl-12 p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-ejf-accent focus:border-ejf-accent" placeholder="Enter amount">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div>
+                        <h3 class="text-lg font-semibold text-gray-800 mb-4">Your Information</h3>
+                        <div class="grid md:grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-gray-700 mb-2">Full Name</label>
+                                <input type="text" id="fullName" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-ejf-accent" placeholder="John Doe" required>
+                            </div>
+                            <div>
+                                <label class="block text-gray-700 mb-2">Email</label>
+                                <input type="email" id="email" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-ejf-accent" placeholder="john@example.com" required>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div>
+                        <h3 class="text-lg font-semibold text-gray-800 mb-4">Payment Method</h3>
+                        <div class="grid grid-cols-3 gap-3">
+                            <button type="button" class="payment-method border-2 border-gray-300 py-3 rounded-lg font-medium hover:border-ejf-accent transition flex flex-col items-center justify-center" data-method="card">
+                                <i class="fas fa-credit-card text-gray-600 text-xl mb-2"></i>
+                                <span>Credit Card</span>
+                            </button>
+                            <button type="button" class="payment-method border-2 border-gray-300 py-3 rounded-lg font-medium hover:border-ejf-accent transition flex flex-col items-center justify-center" data-method="paypal">
+                                <i class="fab fa-paypal text-ejf-secondary text-xl mb-2"></i>
+                                <span>PayPal</span>
+                            </button>
+                            <button type="button" class="payment-method border-2 border-gray-300 py-3 rounded-lg font-medium hover:border-ejf-accent transition flex flex-col items-center justify-center" data-method="mpesa">
+                                <i class="fas fa-mobile-alt text-ejf-success text-xl mb-2"></i>
+                                <span>M-Pesa</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- M-Pesa Specific Fields -->
+                    <div id="mpesaDetails" class="hidden">
+                        <div class="bg-yellow-50 border border-yellow-200 rounded-lg p-4 mb-4">
+                            <div class="flex items-center">
+                                <i class="fas fa-info-circle text-yellow-600 mr-2"></i>
+                                <p class="text-yellow-700 text-sm">You will receive an M-Pesa prompt on your phone to complete the payment</p>
+                            </div>
+                        </div>
+                        <div class="grid gap-4">
+                            <div>
+                                <label class="block text-gray-700 mb-2">M-Pesa Phone Number</label>
+                                <input type="tel" id="phoneNumber" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-ejf-accent" placeholder="07XX XXX XXX" pattern="[0-9]{10}" required>
+                                <p class="text-gray-500 text-sm mt-1">Enter your Safaricom number starting with 07</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Card Payment Fields -->
+                    <div id="cardDetails" class="hidden">
+                        <div class="grid md:grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-gray-700 mb-2">Card Number</label>
+                                <input type="text" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-ejf-accent" placeholder="1234 5678 9012 3456">
+                            </div>
+                            <div>
+                                <label class="block text-gray-700 mb-2">Expiry Date</label>
+                                <input type="text" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-ejf-accent" placeholder="MM/YY">
+                            </div>
+                            <div>
+                                <label class="block text-gray-700 mb-2">CVV</label>
+                                <input type="text" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-ejf-accent" placeholder="123">
+                            </div>
+                            <div>
+                                <label class="block text-gray-700 mb-2">Name on Card</label>
+                                <input type="text" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-ejf-accent" placeholder="John Doe">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="flex items-center">
+                        <input type="checkbox" id="anonymous" class="h-4 w-4 text-ejf-accent rounded focus:ring-ejf-accent">
+                        <label for="anonymous" class="ml-2 text-gray-700">Donate anonymously</label>
+                    </div>
+
+                    <button type="submit" id="submitButton" class="w-full btn-secondary py-4 rounded-lg font-semibold text-lg transition duration-300 flex items-center justify-center">
+                        <i class="fas fa-lock mr-2"></i> Complete Donation
+                    </button>
+
+                    <p class="text-center text-gray-600 text-sm">Your donation is secure and encrypted. EJF is a registered non-profit organization.</p>
+                </form>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- Paystack Processing Modal -->
+<div id="paystackModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
+    <div class="bg-white rounded-2xl p-8 max-w-md w-full mx-4 text-center">
+        <div class="w-16 h-16 bg-ejf-success bg-opacity-20 rounded-full flex items-center justify-center mx-auto mb-4">
+            <i class="fas fa-credit-card text-ejf-success text-2xl"></i>
+        </div>
+        <h3 class="text-2xl font-bold text-gray-800 mb-2">Payment Processing</h3>
+        <p class="text-gray-600 mb-4" id="paystackMessage">Initializing payment...</p>
+        <div id="paystackLoading" class="loading mx-auto mb-4"></div>
+        <div id="paystackSuccess" class="hidden">
+            <div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                <i class="fas fa-check text-green-600 text-2xl"></i>
+            </div>
+            <p class="text-green-600 font-semibold mb-4">Redirecting to Paystack...</p>
+        </div>
+        <div id="paystackError" class="hidden">
+            <div class="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                <i class="fas fa-times text-red-600 text-2xl"></i>
+            </div>
+            <p class="text-red-600 font-semibold mb-4" id="errorMessage">Payment Failed</p>
+        </div>
+        <button id="closePaystackModal" class="btn-primary px-6 py-2 rounded-lg font-medium transition mt-4">
+            Close
+        </button>
+    </div>
+</div>
+
+    <!-- Footer -->
+    <footer class="bg-ejf-primary text-white py-12">
+        <div class="container mx-auto px-4">
+            <div class="grid md:grid-cols-4 gap-8">
+                <div>
+                    <h3 class="text-xl font-bold mb-4">Economic Justice Forum</h3>
+                    <p class="text-blue-100">Advancing equitable development, ethical leadership, and sustainable prosperity for all Kenyans.</p>
+                </div>
+                <div>
+                    <h4 class="font-semibold mb-4">Quick Links</h4>
+                    <ul class="space-y-2 text-blue-100">
+                        <li><a href="#" class="hover:text-white transition">Home</a></li>
+                        <li><a href="#why-it-matters" class="hover:text-white transition">Why It Matters</a></li>
+                        <li><a href="#programs" class="hover:text-white transition">Programs</a></li>
+                        <li><a href="#donate" class="hover:text-white transition">Donate</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-semibold mb-4">Contact Us</h4>
+                    <ul class="space-y-2 text-blue-100">
+                        <li><i class="fas fa-envelope mr-2"></i> cmwambingu@gmail.com</li>
+                        <li><i class="fas fa-globe mr-2"></i> www.economicjusticeforum.org</li>
+                        <li><i class="fas fa-map-marker-alt mr-2"></i> Taita Taveta, Kenya</li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-semibold mb-4">Follow Us</h4>
+                    <div class="flex space-x-4">
+                        <a href="#" class="text-blue-100 hover:text-white transition"><i class="fab fa-twitter text-xl"></i></a>
+                        <a href="#" class="text-blue-100 hover:text-white transition"><i class="fab fa-facebook text-xl"></i></a>
+                        <a href="#" class="text-blue-100 hover:text-white transition"><i class="fab fa-instagram text-xl"></i></a>
+                        <a href="#" class="text-blue-100 hover:text-white transition"><i class="fab fa-linkedin text-xl"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="border-t border-ejf-secondary mt-8 pt-8 text-center text-blue-100">
+                <p>&copy; 2024 Economic Justice Forum. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- M-Pesa Processing Modal -->
+    <div id="mpesaModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
+        <div class="bg-white rounded-2xl p-8 max-w-md w-full mx-4 text-center">
+            <div class="w-16 h-16 bg-ejf-success bg-opacity-20 rounded-full flex items-center justify-center mx-auto mb-4">
+                <i class="fas fa-mobile-alt text-ejf-success text-2xl"></i>
+            </div>
+            <h3 class="text-2xl font-bold text-gray-800 mb-2">M-Pesa Payment</h3>
+            <p class="text-gray-600 mb-4" id="mpesaMessage">Processing your payment...</p>
+            <div id="mpesaLoading" class="loading mx-auto mb-4"></div>
+            <div id="mpesaSuccess" class="hidden">
+                <div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <i class="fas fa-check text-green-600 text-2xl"></i>
+                </div>
+                <p class="text-green-600 font-semibold mb-4">Payment Successful!</p>
+            </div>
+            <div id="mpesaError" class="hidden">
+                <div class="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <i class="fas fa-times text-red-600 text-2xl"></i>
+                </div>
+                <p class="text-red-600 font-semibold mb-4" id="errorMessage">Payment Failed</p>
+            </div>
+            <button id="closeMpesaModal" class="btn-primary px-6 py-2 rounded-lg font-medium transition mt-4">
+                Continue
+            </button>
+        </div>
+    </div>
+
+    <!-- Success Modal -->
+    <div id="successModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
+        <div class="bg-white rounded-2xl p-8 max-w-md w-full mx-4 text-center">
+            <div class="w-16 h-16 bg-ejf-success bg-opacity-20 rounded-full flex items-center justify-center mx-auto mb-4">
+                <i class="fas fa-check text-ejf-success text-2xl"></i>
+            </div>
+            <h3 class="text-2xl font-bold text-gray-800 mb-2">Thank You!</h3>
+            <p class="text-gray-600 mb-6">Your donation has been received. You'll receive a confirmation email shortly.</p>
+            <button id="closeModal" class="btn-primary px-6 py-2 rounded-lg font-medium transition">
+                Continue
+            </button>
+        </div>
+    </div>
+
+    <script>
+    // API Base URL
+    const API_BASE_URL = 'http://localhost:3000';
+
+    // Handle donation amount selection
+    document.querySelectorAll('.donation-option').forEach(button => {
+        button.addEventListener('click', function() {
+            document.querySelectorAll('.donation-option').forEach(btn => {
+                btn.classList.remove('selected');
+            });
+            this.classList.add('selected');
+            document.getElementById('customAmount').value = this.getAttribute('data-amount');
+        });
+    });
+
+    // Handle custom amount input
+    document.getElementById('customAmount').addEventListener('input', function() {
+        document.querySelectorAll('.donation-option').forEach(btn => {
+            btn.classList.remove('selected');
+        });
+    });
+
+    // Handle payment method selection
+    let selectedPaymentMethod = '';
+    document.querySelectorAll('.payment-method').forEach(button => {
+        button.addEventListener('click', function() {
+            document.querySelectorAll('.payment-method').forEach(btn => {
+                btn.classList.remove('selected');
+            });
+            this.classList.add('selected');
+            
+            selectedPaymentMethod = this.getAttribute('data-method');
+            
+            // Show/hide payment details based on selected method
+            document.getElementById('mpesaDetails').classList.add('hidden');
+            document.getElementById('cardDetails').classList.add('hidden');
+            
+            if (selectedPaymentMethod === 'mpesa') {
+                document.getElementById('mpesaDetails').classList.remove('hidden');
+            } else if (selectedPaymentMethod === 'card') {
+                document.getElementById('cardDetails').classList.remove('hidden');
+            }
+        });
+    });
+
+    // Handle Paystack payment initialization
+    async function initializePaystackPayment(amount, email, name, phone) {
+        try {
+            console.log('🔄 Starting Paystack payment initialization...');
+            
+            const response = await fetch(`${API_BASE_URL}/api/paystack/initialize`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    amount: amount,
+                    email: email,
+                    name: name,
+                    phone: phone
+                })
+            });
+
+            const data = await response.json();
+            
+            if (data.success) {
+                console.log('✅ Paystack initialization successful:', data.data);
+                return { success: true, data: data.data };
+            } else {
+                console.error('❌ Paystack initialization failed:', data.error);
+                return { 
+                    success: false, 
+                    error: data.error || 'Payment initialization failed. Please try again.' 
+                };
+            }
+        } catch (error) {
+            console.error('❌ Network error during Paystack initialization:', error);
+            return { 
+                success: false, 
+                error: 'Network error. Please check your connection and try again.' 
+            };
+        }
+    }
+
+    // Handle form submission
+    document.getElementById('donationForm').addEventListener('submit', async function(e) {
+        e.preventDefault();
+        
+        // Get form values
+        const amount = document.getElementById('customAmount').value;
+        const name = document.getElementById('fullName').value;
+        const email = document.getElementById('email').value;
+        const isAnonymous = document.getElementById('anonymous').checked;
+        
+        if (!selectedPaymentMethod) {
+            alert('Please select a payment method');
+            return;
+        }
+        
+        if (!amount || amount <= 0) {
+            alert('Please enter a valid donation amount');
+            return;
+        }
+        
+        if (amount < 100) {
+            alert('Minimum donation amount is KES 100');
+            return;
+        }
+        
+        if (!name || !email) {
+            alert('Please fill in all required fields');
+            return;
+        }
+
+        // Show loading state
+        const submitButton = document.getElementById('submitButton');
+        const originalText = submitButton.innerHTML;
+        submitButton.innerHTML = '<div class="loading"></div> Processing...';
+        submitButton.disabled = true;
+
+        try {
+            // For all payment methods (M-Pesa, Card, PayPal), use Paystack
+            let phone = '';
+            
+            // Get phone number if M-Pesa is selected
+            if (selectedPaymentMethod === 'mpesa') {
+                phone = document.getElementById('phoneNumber').value;
+                if (!phone) {
+                    alert('Please enter your M-Pesa phone number');
+                    submitButton.innerHTML = originalText;
+                    submitButton.disabled = false;
+                    return;
+                }
+                
+                // Format phone number
+                phone = phone.trim();
+                if (phone.startsWith('0')) {
+                    phone = '254' + phone.substring(1);
+                } else if (!phone.startsWith('254')) {
+                    phone = '254' + phone;
+                }
+                
+                // Validate phone number format
+                if (!/^254[17]\d{8}$/.test(phone)) {
+                    alert('Please enter a valid Safaricom phone number starting with 07 or 01');
+                    submitButton.innerHTML = originalText;
+                    submitButton.disabled = false;
+                    return;
+                }
+            }
+
+            // Show Paystack modal
+            document.getElementById('paystackModal').classList.remove('hidden');
+            document.getElementById('paystackLoading').classList.remove('hidden');
+            document.getElementById('paystackSuccess').classList.add('hidden');
+            document.getElementById('paystackError').classList.add('hidden');
+            document.getElementById('paystackMessage').textContent = 'Initializing payment...';
+
+            // Initialize Paystack payment
+            const result = await initializePaystackPayment(amount, email, name, phone);
+            
+            if (result.success) {
+                document.getElementById('paystackLoading').classList.add('hidden');
+                document.getElementById('paystackSuccess').classList.remove('hidden');
+                document.getElementById('paystackMessage').textContent = 'Redirecting to secure payment page...';
+                
+                // Redirect to Paystack payment page after a short delay
+                setTimeout(() => {
+                    window.location.href = result.data.authorizationUrl;
+                }, 1500);
+            } else {
+                document.getElementById('paystackLoading').classList.add('hidden');
+                document.getElementById('paystackError').classList.remove('hidden');
+                document.getElementById('errorMessage').textContent = result.error;
+                document.getElementById('paystackMessage').textContent = 'Unable to process payment';
+                
+                // Show more detailed error for debugging
+                console.error('Payment Error Details:', result);
+            }
+            
+        } catch (error) {
+            console.error('Unexpected payment error:', error);
+            document.getElementById('paystackLoading').classList.add('hidden');
+            document.getElementById('paystackError').classList.remove('hidden');
+            document.getElementById('errorMessage').textContent = 'An unexpected error occurred. Please try again.';
+            document.getElementById('paystackMessage').textContent = 'Payment failed';
+        } finally {
+            // Only reset form if payment was successful
+            if (document.getElementById('paystackSuccess').classList.contains('hidden')) {
+                // If payment failed, don't reset the form so user can try again
+                submitButton.innerHTML = originalText;
+                submitButton.disabled = false;
+            } else {
+                // If payment was successful, reset form
+                this.reset();
+                document.querySelectorAll('.donation-option').forEach(btn => {
+                    btn.classList.remove('selected');
+                });
+                document.querySelectorAll('.payment-method').forEach(btn => {
+                    btn.classList.remove('selected');
+                });
+                document.getElementById('mpesaDetails').classList.add('hidden');
+                document.getElementById('cardDetails').classList.add('hidden');
+                selectedPaymentMethod = '';
+            }
+        }
+    });
+
+    // Close modals
+    document.getElementById('closeModal').addEventListener('click', function() {
+        document.getElementById('successModal').classList.add('hidden');
+    });
+
+    document.getElementById('closeMpesaModal').addEventListener('click', function() {
+        document.getElementById('mpesaModal').classList.add('hidden');
+    });
+
+    document.getElementById('closePaystackModal').addEventListener('click', function() {
+        document.getElementById('paystackModal').classList.add('hidden');
+        // Re-enable submit button when modal is closed
+        const submitButton = document.getElementById('submitButton');
+        submitButton.disabled = false;
+        submitButton.innerHTML = '<i class="fas fa-lock mr-2"></i> Complete Donation';
+    });
+
+    // Test server connection on page load
+    window.addEventListener('load', async () => {
+        try {
+            const response = await fetch(`${API_BASE_URL}/api/health`);
+            const data = await response.json();
+            console.log('Server health:', data);
+            
+            if (!data.paystack.configured) {
+                console.warn('Paystack is not properly configured');
+            }
+        } catch (error) {
+            console.error('Server connection test failed:', error);
+        }
+    });
+</script>
+
+</body>
+</html>

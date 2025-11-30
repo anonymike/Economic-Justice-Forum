@@ -147,105 +147,355 @@
         }
       }
 
-      .success-modal-content {
-        background: white;
-        border-radius: 12px;
-        padding: 40px;
-        max-width: 400px;
-        text-align: center;
-        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
-        animation: slideUp 0.4s ease;
+      /* Success Modal Enhanced Animations */
+      .success-modal {
+        /* Hidden by default; `.show` will make it visible */
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.6);
+        backdrop-filter: blur(4px);
+        align-items: center;
+        justify-content: center;
+        z-index: 5000;
+        opacity: 0;
+        transition: opacity 0.3s ease;
       }
 
-      @keyframes slideUp {
+      /* When shown, the overlay should be displayed and faded in */
+      .success-modal.show {
+        display: flex;
+        opacity: 1;
+      }
+
+      .success-modal-content {
+        background: white;
+        border-radius: 20px;
+        padding: 50px 40px;
+        max-width: 450px;
+        text-align: center;
+        box-shadow: 0 20px 60px rgba(0, 38, 77, 0.25);
+        animation: popInScale 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .success-modal-content::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 4px;
+        background: linear-gradient(90deg, #d9a21c, #00264d, #d9a21c);
+        animation: slideInRight 0.8s ease 0.2s backwards;
+      }
+
+      @keyframes slideInRight {
         from {
-          transform: translateY(50px);
-          opacity: 0;
+          transform: translateX(-100%);
         }
         to {
-          transform: translateY(0);
+          transform: translateX(0);
+        }
+      }
+
+      @keyframes popInScale {
+        0% {
+          transform: scale(0.7) translateY(20px);
+          opacity: 0;
+        }
+        50% {
+          transform: scale(1.05);
+        }
+        100% {
+          transform: scale(1) translateY(0);
           opacity: 1;
         }
       }
 
       .success-icon {
-        width: 80px;
-        height: 80px;
-        margin: 0 auto 20px;
+        width: 100px;
+        height: 100px;
+        margin: 0 auto 25px;
         background: linear-gradient(135deg, #d9a21c, #f4c430);
         border-radius: 50%;
         display: flex;
         align-items: center;
         justify-content: center;
-        font-size: 40px;
-        animation: scaleIn 0.5s ease 0.1s both;
+        font-size: 50px;
+        animation: bounceCheck 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) 0.3s both;
+        box-shadow: 0 8px 25px rgba(217, 162, 28, 0.3);
+        position: relative;
       }
 
-      @keyframes scaleIn {
-        from {
-          transform: scale(0);
+      .success-icon::after {
+        content: '';
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        border-radius: 50%;
+        background: rgba(217, 162, 28, 0.1);
+        animation: pulse 2s ease-out infinite 0.6s;
+      }
+
+      @keyframes bounceCheck {
+        0% {
+          transform: scale(0) rotate(-45deg);
           opacity: 0;
         }
-        to {
+        50% {
+          transform: scale(1.15) rotate(10deg);
+        }
+        100% {
+          transform: scale(1) rotate(0deg);
+          opacity: 1;
+        }
+      }
+
+      @keyframes pulse {
+        0% {
           transform: scale(1);
           opacity: 1;
+        }
+        100% {
+          transform: scale(1.5);
+          opacity: 0;
         }
       }
 
       .success-modal-content h2 {
         color: var(--navy);
-        font-size: 24px;
+        font-size: 28px;
         margin: 0 0 12px 0;
-        animation: fadeIn 0.5s ease 0.2s both;
+        font-weight: 700;
+        animation: slideDownFade 0.6s ease 0.4s both;
+        letter-spacing: -0.5px;
+      }
+
+      @keyframes slideDownFade {
+        from {
+          opacity: 0;
+          transform: translateY(-15px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
       }
 
       .success-modal-content p {
         color: #666;
         font-size: 16px;
-        margin: 0 0 24px 0;
-        line-height: 1.5;
-        animation: fadeIn 0.5s ease 0.3s both;
+        margin: 0 0 30px 0;
+        line-height: 1.6;
+        animation: slideDownFade 0.6s ease 0.5s both;
       }
 
       .success-button {
         background: linear-gradient(135deg, var(--navy), #001a33);
         color: white;
         border: none;
-        padding: 12px 32px;
-        border-radius: 6px;
+        padding: 14px 40px;
+        border-radius: 10px;
         font-size: 16px;
         font-weight: 600;
         cursor: pointer;
-        transition: all 0.3s ease;
-        animation: fadeIn 0.5s ease 0.4s both;
+        transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+        animation: slideUpFade 0.6s ease 0.6s both;
+        box-shadow: 0 6px 20px rgba(0, 38, 77, 0.2);
+        position: relative;
+        overflow: hidden;
+      }
+
+      @keyframes slideUpFade {
+        from {
+          opacity: 0;
+          transform: translateY(15px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .success-button::before {
+        content: '';
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 0;
+        height: 0;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.2);
+        transform: translate(-50%, -50%);
+        transition: width 0.6s, height 0.6s;
+      }
+
+      .success-button:hover::before {
+        width: 300px;
+        height: 300px;
       }
 
       .success-button:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 10px 30px rgba(0, 38, 77, 0.35);
+      }
+
+      .success-button:active {
+        transform: translateY(-1px);
+      }
+
+      /* Confetti Animation */
+      .confetti {
+        position: fixed;
+        pointer-events: none;
+        font-size: 1.5rem;
+        z-index: 4999;
+        animation: confettiFall 3s ease-out forwards;
+      }
+
+      @keyframes confettiFall {
+        to {
+          transform: translateY(100vh) rotate(360deg);
+          opacity: 0;
+        }
+      }
+
+      /* Maintenance Modal Styles */
+      .maintenance-modal {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.5);
+        z-index: 2000;
+        align-items: center;
+        justify-content: center;
+        padding: 20px;
+        animation: fadeIn 0.3s ease;
+      }
+
+      .maintenance-modal.show {
+        display: flex;
+      }
+
+      .maintenance-modal-content {
+        background: white;
+        border-radius: 12px;
+        max-width: 700px;
+        max-height: 90vh;
+        overflow-y: auto;
+        padding: 40px;
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        animation: popInScale 0.4s ease;
+      }
+
+      .maintenance-modal-content h2 {
+        color: var(--navy);
+        font-size: 24px;
+        margin: 0 0 8px 0;
+        font-weight: 700;
+      }
+
+      .maintenance-modal-content .posted-date {
+        color: #999;
+        font-size: 14px;
+        margin-bottom: 20px;
+        padding-bottom: 15px;
+        border-bottom: 1px solid #e0e0e0;
+      }
+
+      .maintenance-modal-content p {
+        color: var(--text);
+        font-size: 15px;
+        line-height: 1.8;
+        margin: 15px 0;
+      }
+
+      .maintenance-modal-content ul {
+        color: var(--text);
+        font-size: 15px;
+        line-height: 1.8;
+        margin: 15px 0 15px 20px;
+        padding: 0;
+      }
+
+      .maintenance-modal-content ul li {
+        margin-bottom: 8px;
+      }
+
+      .maintenance-modal-content .signature {
+        margin-top: 25px;
+        padding-top: 15px;
+        border-top: 1px solid #e0e0e0;
+        color: var(--text);
+        font-size: 14px;
+      }
+
+      .maintenance-modal-close {
+        background: linear-gradient(135deg, var(--navy), #001a33);
+        color: white;
+        border: none;
+        padding: 12px 30px;
+        border-radius: 6px;
+        font-weight: 600;
+        cursor: pointer;
+        margin-top: 20px;
+        transition: all 0.3s ease;
+        font-size: 15px;
+      }
+
+      .maintenance-modal-close:hover {
         transform: translateY(-2px);
         box-shadow: 0 6px 20px rgba(0, 38, 77, 0.3);
       }
 
-      .success-button:active {
-        transform: translateY(0);
+      .maintenance-btn {
+        background: linear-gradient(135deg, #ff6b6b, #ee5a6f);
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 6px;
+        font-weight: 600;
+        cursor: pointer;
+        font-size: 14px;
+        transition: all 0.3s ease;
+        margin: 10px 0;
+      }
+
+      .maintenance-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(255, 107, 107, 0.3);
       }
 
       @media (max-width: 480px) {
         .success-modal-content {
           margin: 20px;
-          padding: 30px;
+          padding: 40px 30px;
         }
 
         .success-icon {
-          width: 60px;
-          height: 60px;
-          font-size: 30px;
+          width: 80px;
+          height: 80px;
+          font-size: 40px;
         }
 
         .success-modal-content h2 {
-          font-size: 20px;
+          font-size: 24px;
         }
 
         .success-modal-content p {
+          font-size: 14px;
+        }
+
+        .success-button {
+          padding: 12px 30px;
           font-size: 14px;
         }
       }
@@ -288,6 +538,58 @@
           <h2>Message Sent!</h2>
           <p>Thank you for reaching out. We've received your message and will get back to you shortly.</p>
           <button class="success-button" onclick="document.getElementById('successModal').classList.remove('show')">Close</button>
+        </div>
+      </div>
+
+      <!-- Maintenance Alert Modal -->
+      <div class="maintenance-modal" id="maintenanceModal">
+        <div class="maintenance-modal-content">
+          <h2>⚠️ Planned US Data Center Maintenance</h2>
+          <div class="posted-date">Posted on November 8, 2025 | Last Updated On November 17, 2025 by Dhinesh Khanna Ramalingam</div>
+          
+          <p><strong>Scheduled Maintenance Dates:</strong></p>
+          <ul>
+            <li>22nd November 2025, between 04:30 PM to 08:30 PM PST</li>
+            <li>6th December 2025, between 04:30 PM to 08:30 PM PST</li>
+          </ul>
+
+          <p>Dear Customers,</p>
+          
+          <p>Our annual infrastructure maintenance for our US Data Center is scheduled for 22nd November 2025, between 04:30 PM and 08:30 PM PST, and on 6th December 2025, between 04:30 PM and 08:30 PM PST.</p>
+
+          <p>This maintenance has been planned during non-business hours, so all Zoho services will continue to be operational.</p>
+
+          <p>We don't expect any major interruption, and you should be able to continue using all Zoho services during this maintenance. We'll keep you informed with updates to this same forum post once the maintenance is complete. If you experience any issues, please feel free to drop us an email at <a href="mailto:support@zohocorp.com">support@zohocorp.com</a> or tweet us at @zohocares, and we'll be quick to help you.</p>
+
+          <p><strong>IP Ranges Update:</strong></p>
+          <p>If you've whitelisted our Zoho IP address, please also add the following IP addresses to the list:</p>
+          
+          <p><strong>IP ranges used in US DC's:</strong></p>
+          <ul>
+            <li>204.141.32.0/23</li>
+            <li>136.143.182.0/23</li>
+            <li>136.143.180.0/23</li>
+            <li>136.143.185.0/24</li>
+            <li>136.143.178.0/23</li>
+            <li>135.84.80.0/24</li>
+            <li>136.143.161.0/24</li>
+            <li>136.143.184.0/24</li>
+            <li>136.143.188.0/24</li>
+            <li>165.173.129.0/24</li>
+            <li>165.173.174.0/23</li>
+            <li>165.173.180.0/24</li>
+            <li>165.173.182.0/24</li>
+          </ul>
+
+          <p>We thank you for your business and continued support. Greetings to you all!!</p>
+
+          <div class="signature">
+            <p><strong>Thank You,</strong><br>
+            Dhinesh Khanna<br>
+            Global Head Customer Success</p>
+          </div>
+
+          <button class="maintenance-modal-close" onclick="document.getElementById('maintenanceModal').classList.remove('show')">Close</button>
         </div>
       </div>
 
@@ -351,6 +653,7 @@
                 <a class="social-link instagram" href="#" aria-label="Instagram">I</a>
               </div>
             </div>
+            <button class="maintenance-btn" onclick="document.getElementById('maintenanceModal').classList.add('show')" style="margin-top: 20px; display: flex; align-items: center; gap: 8px;"><span>⚠️</span> View Maintenance Notice</button>
           </div>
 
           <div class="contact-card fade-in-up stagger-2">
@@ -370,12 +673,32 @@
             </section>
 
             <script>
+              // Confetti animation function
+              function createConfetti() {
+                const confettiPieces = ['🎉', '✨', '🎊', '⭐', '🌟', '💫', '🎈'];
+                for (let i = 0; i < 30; i++) {
+                  const confetti = document.createElement('div');
+                  confetti.className = 'confetti';
+                  confetti.textContent = confettiPieces[Math.floor(Math.random() * confettiPieces.length)];
+                  confetti.style.left = Math.random() * 100 + '%';
+                  confetti.style.animationDelay = Math.random() * 0.3 + 's';
+                  confetti.style.animationDuration = (2 + Math.random() * 1) + 's';
+                  document.body.appendChild(confetti);
+                  setTimeout(() => confetti.remove(), 3500);
+                }
+              }
+
               document.getElementById('contactForm').addEventListener('submit', async function(e) {
                 e.preventDefault();
                 const status = document.getElementById('contactStatus');
                 const modal = document.getElementById('successModal');
+                const btn = this.querySelector('button[type="submit"]');
+                
                 status.textContent = 'Sending...';
                 status.style.color = '#666';
+                btn.disabled = true;
+                btn.textContent = 'Sending...';
+                
                 const data = {
                   name: this.name.value,
                   email: this.email.value,
@@ -389,21 +712,35 @@
                   });
                   const result = await res.json();
                   if (res.ok) {
+                    // Trigger confetti effect
+                    createConfetti();
+                    
                     // Show success modal
-                    modal.classList.add('show');
+                    modal.style.display = 'flex';
+                    setTimeout(() => modal.classList.add('show'), 10);
+                    
+                    // Reset form and button
                     this.reset();
+                    btn.disabled = false;
+                    btn.textContent = 'Send Message';
                     status.textContent = '';
-                    // Auto-close modal after 4 seconds
+                    
+                    // Auto-close modal after 5 seconds
                     setTimeout(() => {
                       modal.classList.remove('show');
-                    }, 4000);
+                      setTimeout(() => modal.style.display = 'none', 300);
+                    }, 5000);
                   } else {
                     status.textContent = result.error || 'Failed to send message.';
                     status.style.color = '#d32f2f';
+                    btn.disabled = false;
+                    btn.textContent = 'Send Message';
                   }
                 } catch (err) {
-                  status.textContent = 'Network error.';
+                  status.textContent = 'Network error. Please try again.';
                   status.style.color = '#d32f2f';
+                  btn.disabled = false;
+                  btn.textContent = 'Send Message';
                 }
               });
             </script>
@@ -469,87 +806,6 @@
         mainNav.classList.toggle('active');
       });
 
-      // Enhanced contact form handler with validation and rate limiting
-      const form = document.getElementById('contactForm');
-      const success = document.getElementById('success');
-      const submitBtn = form.querySelector('button[type="submit"]');
-
-      // Create error message element
-      const errorDiv = document.createElement('div');
-      errorDiv.style.display = 'none';
-      errorDiv.className = 'contact-error';
-      errorDiv.style.color = '#dc3545';
-      errorDiv.style.marginTop = '10px';
-      errorDiv.style.padding = '10px';
-      errorDiv.style.backgroundColor = 'rgba(220, 53, 69, 0.1)';
-      errorDiv.style.borderRadius = '4px';
-      form.querySelector('.contact-actions').appendChild(errorDiv);
-
-      function showError(message) {
-        errorDiv.textContent = message;
-        errorDiv.style.display = 'block';
-        setTimeout(() => errorDiv.style.display = 'none', 5000);
-      }
-
-      function showSuccess(message) {
-        success.textContent = message;
-        success.style.display = 'block';
-        setTimeout(() => success.style.display = 'none', 5000);
-      }
-
-      form && form.addEventListener('submit', async function(e) {
-        e.preventDefault();
-        
-        // Get form data
-        const name = form.name.value.trim();
-        const email = form.email.value.trim();
-        const message = form.message.value.trim();
-        
-        try {
-          // Disable submit button and show loading state
-          submitBtn.disabled = true;
-          submitBtn.textContent = 'Sending...';
-          errorDiv.style.display = 'none';
-          success.style.display = 'none';
-
-          // Send to our API endpoint
-          const response = await fetch('/api/contact', {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ name, email, message })
-          });
-
-          const result = await response.json();
-
-          if (!response.ok) {
-            // Handle different types of errors
-            if (response.status === 429) {
-              throw new Error('Too many messages sent. Please try again in an hour.');
-            } else if (response.status === 400 && result.errors) {
-              throw new Error(result.errors.join('\\n'));
-            } else {
-              throw new Error(result.error || 'Failed to send message');
-            }
-          }
-
-          // Show success message and clear form
-          showSuccess(result.message || 'Thanks - your message has been sent. We will respond soon.');
-          form.reset();
-          
-        } catch (error) {
-          console.error('Error:', error);
-          showError(error.message || 'Sorry, there was a problem sending your message. Please try again.');
-        } finally {
-          // Re-enable submit button
-          submitBtn.disabled = false;
-          submitBtn.textContent = 'Send message';
-        }
-      });
-
-            // Small entrance animation on load
-
       // Header scroll behavior
       let lastScrollY = window.scrollY;
       let ticking = false;
@@ -579,7 +835,6 @@
           ticking = true;
         }
       });
-```
       window.addEventListener('load', function(){
         document.querySelectorAll('.fade-in-up').forEach((el, i)=>{
           el.style.opacity = 0;

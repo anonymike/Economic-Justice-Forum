@@ -1,0 +1,1008 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nash - Task Management System</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"></script>
+    <style>
+        :root {
+            --ejf-primary: #1e3a5f;
+            --ejf-secondary: #2d5a8c;
+            --ejf-accent: #e9b949;
+            --ejf-success: #4a8c5a;
+            --ejf-highlight: #d4a574;
+        }
+        
+        .gradient-bg {
+            background: linear-gradient(135deg, var(--ejf-primary) 0%, var(--ejf-secondary) 100%);
+        }
+        
+        .ai-chat-container {
+            height: 500px;
+            overflow-y: auto;
+        }
+        
+        .ai-message {
+            animation: fadeIn 0.3s ease-in-out;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .task-completed {
+            text-decoration: line-through;
+            opacity: 0.7;
+        }
+        
+        .pulse-animation {
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+        
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            font-weight: 500;
+            border-radius: 0.375rem;
+            transition: all 0.2s;
+            cursor: pointer;
+            text-align: center;
+            white-space: nowrap;
+            user-select: none;
+            border: none;
+            outline: none;
+        }
+        
+        .btn-responsive {
+            padding: 0.625rem 1.25rem;
+            font-size: 0.875rem;
+            min-height: 2.75rem;
+        }
+        
+        @media (max-width: 640px) {
+            .btn-responsive {
+                padding: 0.75rem 1rem;
+                font-size: 0.8125rem;
+                min-height: 2.5rem;
+                width: 100%;
+            }
+        }
+        
+        @media (min-width: 768px) {
+            .btn-responsive {
+                padding: 0.75rem 1.5rem;
+                font-size: 0.9375rem;
+                min-height: 3rem;
+            }
+        }
+        
+        .btn-primary {
+            background-color: var(--ejf-accent);
+            color: var(--ejf-primary);
+        }
+        
+        .btn-primary:hover {
+            background-color: #d4a235;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        
+        .btn-secondary {
+            background-color: var(--ejf-success);
+            color: white;
+        }
+        
+        .btn-secondary:hover {
+            background-color: #3e7a4c;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        
+        .btn-info {
+            background-color: var(--ejf-secondary);
+            color: white;
+        }
+        
+        .btn-info:hover {
+            background-color: #2a5180;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        
+        .btn-neutral {
+            background-color: #0863daff;
+            color: #2d3748;
+        }
+        
+        .btn-neutral:hover {
+            background-color: #cdd4e9ff;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        
+        .dashboard-card {
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+        
+        .tab-active {
+            background-color: var(--ejf-secondary);
+            color: white;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 min-h-screen">
+    <!-- Header -->
+    <header class="gradient-bg text-white shadow-lg">
+        <div class="container mx-auto px-4 py-4">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="flex items-center mb-4 md:mb-0">
+                    <div class="w-10 h-10 bg-amber-100 rounded-full flex items-center justify-center mr-3">
+                        <i class="fas fa-robot text-amber-600"></i>
+                    </div>
+                    <div>
+                        <h1 class="text-xl font-bold">Nash</h1>
+                        <p class="text-blue-100 text-sm">Your intelligent task management system</p>
+                    </div>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <span id="currentTime" class="text-blue-100"></span>
+                    <button onclick="toggleAssistant()" class="btn btn-primary btn-responsive">
+                        <i class="fas fa-comments mr-1"></i>
+                        <span class="hidden md:inline">Talk To Nash</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <div class="container mx-auto px-4 py-6">
+        <!-- Dashboard Overview -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+            <div class="dashboard-card bg-white p-6 rounded-2xl">
+                <div class="flex items-center">
+                    <div class="p-3 rounded-lg bg-blue-100 text-blue-600">
+                        <i class="fas fa-tasks text-lg"></i>
+                    </div>
+                    <div class="ml-4">
+                        <h3 class="text-sm font-medium text-gray-500">Active Tasks</h3>
+                        <p class="text-2xl font-semibold text-gray-800" id="activeTasksCount">12</p>
+                    </div>
+                </div>
+                <div class="mt-4 flex items-center text-sm text-blue-600">
+                    <i class="fas fa-sync-alt mr-1"></i>
+                    <span>3 due today</span>
+                </div>
+            </div>
+
+            <div class="dashboard-card bg-white p-6 rounded-2xl">
+                <div class="flex items-center">
+                    <div class="p-3 rounded-lg bg-green-100 text-green-600">
+                        <i class="fas fa-donate text-lg"></i>
+                    </div>
+                    <div class="ml-4">
+                        <h3 class="text-sm font-medium text-gray-500">Fundraising</h3>
+                        <p class="text-2xl font-semibold text-gray-800">$48,250</p>
+                    </div>
+                </div>
+                <div class="mt-4 flex items-center text-sm text-green-600">
+                    <i class="fas fa-arrow-up mr-1"></i>
+                    <span>65% of goal reached</span>
+                </div>
+            </div>
+
+            <div class="dashboard-card bg-white p-6 rounded-2xl">
+                <div class="flex items-center">
+                    <div class="p-3 rounded-lg bg-purple-100 text-purple-600">
+                        <i class="fas fa-calendar-alt text-lg"></i>
+                    </div>
+                    <div class="ml-4">
+                        <h3 class="text-sm font-medium text-gray-500">Upcoming Events</h3>
+                        <p class="text-2xl font-semibold text-gray-800">5</p>
+                    </div>
+                </div>
+                <div class="mt-4 flex items-center text-sm text-purple-600">
+                    <i class="fas fa-clock mr-1"></i>
+                    <span>2 this week</span>
+                </div>
+            </div>
+
+            <div class="dashboard-card bg-white p-6 rounded-2xl">
+                <div class="flex items-center">
+                    <div class="p-3 rounded-lg bg-amber-100 text-amber-600">
+                        <i class="fas fa-bullhorn text-lg"></i>
+                    </div>
+                    <div class="ml-4">
+                        <h3 class="text-sm font-medium text-gray-500">Active Campaigns</h3>
+                        <p class="text-2xl font-semibold text-gray-800">3</p>
+                    </div>
+                </div>
+                <div class="mt-4 flex items-center text-sm text-amber-600">
+                    <i class="fas fa-exclamation-circle mr-1"></i>
+                    <span>1 needs attention</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tabs Navigation -->
+        <div class="flex overflow-x-auto mb-6 bg-white rounded-lg shadow-sm">
+            <button id="tabTasks" class="tab-active px-4 py-3 font-medium text-sm md:text-base flex-shrink-0" onclick="switchTab('tasks')">
+                <i class="fas fa-tasks mr-2"></i>Task Management
+            </button>
+            <button id="tabFundraising" class="px-4 py-3 font-medium text-gray-600 hover:bg-gray-100 text-sm md:text-base flex-shrink-0" onclick="switchTab('fundraising')">
+                <i class="fas fa-donate mr-2"></i>Fundraising
+            </button>
+            <button id="tabEvents" class="px-4 py-3 font-medium text-gray-600 hover:bg-gray-100 text-sm md:text-base flex-shrink-0" onclick="switchTab('events')">
+                <i class="fas fa-calendar-alt mr-2"></i>Events
+            </button>
+            <button id="tabCampaigns" class="px-4 py-3 font-medium text-gray-600 hover:bg-gray-100 text-sm md:text-base flex-shrink-0" onclick="switchTab('campaigns')">
+                <i class="fas fa-bullhorn mr-2"></i>Campaigns
+            </button>
+            <button id="tabAnalytics" class="px-4 py-3 font-medium text-gray-600 hover:bg-gray-100 text-sm md:text-base flex-shrink-0" onclick="switchTab('analytics')">
+                <i class="fas fa-chart-bar mr-2"></i>Analytics
+            </button>
+        </div>
+
+        <!-- Task Management Tab -->
+        <div id="contentTasks" class="tab-content">
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                <!-- Task List -->
+                <div class="lg:col-span-2">
+                    <div class="dashboard-card bg-white p-6 rounded-2xl mb-6">
+                        <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 gap-4">
+                            <h2 class="text-xl font-bold text-gray-800">Task Management</h2>
+                            <div class="flex flex-wrap gap-2 w-full md:w-auto">
+                                <button class="btn btn-primary btn-responsive" onclick="showAddTaskModal()">
+                                    <i class="fas fa-plus mr-1"></i> Add Task
+                                </button>
+                                <button class="btn btn-neutral btn-responsive" onclick="aiSuggestTasks()">
+                                    <i class="fas fa-robot mr-1"></i> AI Suggestions
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Task Filters -->
+                        <div class="flex flex-wrap gap-2 mb-6">
+                            <button class="btn btn-info btn-sm active-filter" data-filter="all">All Tasks</button>
+                            <button class="btn btn-neutral btn-sm" data-filter="pending">Pending</button>
+                            <button class="btn btn-neutral btn-sm" data-filter="in-progress">In Progress</button>
+                            <button class="btn btn-neutral btn-sm" data-filter="completed">Completed</button>
+                            <button class="btn btn-neutral btn-sm" data-filter="high">High Priority</button>
+                        </div>
+
+                        <!-- Task List -->
+                        <div class="space-y-4" id="taskList">
+                            <!-- Tasks will be dynamically added here -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Quick Actions & AI Suggestions -->
+                <div class="space-y-6">
+                    <!-- Quick Actions -->
+                    <div class="dashboard-card bg-white p-6 rounded-2xl">
+                        <h3 class="text-lg font-semibold text-gray-800 mb-4">Quick Actions</h3>
+                        <div class="space-y-3">
+                            <button class="btn btn-secondary btn-responsive w-full justify-start" onclick="aiGenerateReport()">
+                                <i class="fas fa-file-alt mr-2"></i> Generate Weekly Report
+                            </button>
+                            <button class="btn btn-info btn-responsive w-full justify-start" onclick="aiAnalyzePerformance()">
+                                <i class="fas fa-chart-line mr-2"></i> Analyze Performance
+                            </button>
+                            <button class="btn btn-primary btn-responsive w-full justify-start" onclick="aiOptimizeSchedule()">
+                                <i class="fas fa-calendar-check mr-2"></i> Optimize Schedule
+                            </button>
+                            <button class="btn btn-neutral btn-responsive w-full justify-start" onclick="aiCheckCompliance()">
+                                <i class="fas fa-shield-alt mr-2"></i> Check Compliance
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- AI Suggestions -->
+                    <div class="dashboard-card bg-white p-6 rounded-2xl">
+                        <h3 class="text-lg font-semibold text-gray-800 mb-4">AI Recommendations</h3>
+                        <div class="space-y-4" id="aiSuggestions">
+                            <!-- AI suggestions will be dynamically added here -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Fundraising Tab -->
+        <div id="contentFundraising" class="tab-content hidden">
+            <div class="dashboard-card bg-white p-6 rounded-2xl">
+                <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 gap-4">
+                    <h2 class="text-xl font-bold text-gray-800">Fundraising Management</h2>
+                    <div class="flex flex-wrap gap-2 w-full md:w-auto">
+                        <button class="btn btn-primary btn-responsive" onclick="aiOptimizeFundraising()">
+                            <i class="fas fa-robot mr-1"></i> AI Optimization
+                        </button>
+                        <button class="btn btn-secondary btn-responsive">
+                            <i class="fas fa-plus mr-1"></i> New Campaign
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <!-- Fundraising Progress -->
+                    <div>
+                        <h3 class="text-lg font-semibold text-gray-800 mb-4">Progress Overview</h3>
+                        <div class="space-y-4">
+                            <div>
+                                <div class="flex justify-between mb-2">
+                                    <span class="text-sm font-medium text-gray-700">$75,000 Goal</span>
+                                    <span class="text-sm font-medium text-gray-700">65%</span>
+                                </div>
+                                <div class="w-full bg-gray-200 rounded-full h-4">
+                                    <div class="bg-green-500 h-4 rounded-full" style="width: 65%"></div>
+                                </div>
+                            </div>
+                            <div>
+                                <div class="flex justify-between mb-1">
+                                    <span class="text-sm font-medium text-gray-700">Climate Justice</span>
+                                    <span class="text-sm font-medium text-gray-700">80%</span>
+                                </div>
+                                <div class="w-full bg-gray-200 rounded-full h-2">
+                                    <div class="bg-green-600 h-2 rounded-full" style="width: 80%"></div>
+                                </div>
+                            </div>
+                            <div>
+                                <div class="flex justify-between mb-1">
+                                    <span class="text-sm font-medium text-gray-700">Economic Reform</span>
+                                    <span class="text-sm font-medium text-gray-700">60%</span>
+                                </div>
+                                <div class="w-full bg-gray-200 rounded-full h-2">
+                                    <div class="bg-blue-600 h-2 rounded-full" style="width: 60%"></div>
+                                </div>
+                            </div>
+                            <div>
+                                <div class="flex justify-between mb-1">
+                                    <span class="text-sm font-medium text-gray-700">Digital Inclusion</span>
+                                    <span class="text-sm font-medium text-gray-700">45%</span>
+                                </div>
+                                <div class="w-full bg-gray-200 rounded-full h-2">
+                                    <div class="bg-amber-500 h-2 rounded-full" style="width: 45%"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- AI Fundraising Tips -->
+                    <div>
+                        <h3 class="text-lg font-semibold text-gray-800 mb-4">AI Fundraising Tips</h3>
+                        <div class="bg-blue-50 p-4 rounded-lg">
+                            <div class="flex items-start">
+                                <div class="flex-shrink-0">
+                                    <i class="fas fa-lightbulb text-blue-500 text-xl mt-1"></i>
+                                </div>
+                                <div class="ml-3">
+                                    <h4 class="font-medium text-blue-800">Optimization Opportunity</h4>
+                                    <p class="text-blue-700 text-sm mt-1">Based on donor patterns, I recommend increasing engagement with mid-tier donors ($100-500) who have high potential for increased giving.</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="mt-4 bg-amber-50 p-4 rounded-lg">
+                            <div class="flex items-start">
+                                <div class="flex-shrink-0">
+                                    <i class="fas fa-exclamation-triangle text-amber-500 text-xl mt-1"></i>
+                                </div>
+                                <div class="ml-3">
+                                    <h4 class="font-medium text-amber-800">Attention Needed</h4>
+                                    <p class="text-amber-700 text-sm mt-1">Digital Inclusion campaign is lagging behind target. Consider launching a targeted social media campaign to boost visibility.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Other Tabs (Placeholder Content) -->
+        <div id="contentEvents" class="tab-content hidden">
+            <div class="dashboard-card bg-white p-6 rounded-2xl">
+                <h2 class="text-xl font-bold text-gray-800 mb-4">Event Management</h2>
+                <p class="text-gray-600">AI-powered event management interface will be implemented here.</p>
+            </div>
+        </div>
+
+        <div id="contentCampaigns" class="tab-content hidden">
+            <div class="dashboard-card bg-white p-6 rounded-2xl">
+                <h2 class="text-xl font-bold text-gray-800 mb-4">Campaign Management</h2>
+                <p class="text-gray-600">AI-powered campaign management interface will be implemented here.</p>
+            </div>
+        </div>
+
+        <div id="contentAnalytics" class="tab-content hidden">
+            <div class="dashboard-card bg-white p-6 rounded-2xl">
+                <h2 class="text-xl font-bold text-gray-800 mb-4">Analytics & Insights</h2>
+                <p class="text-gray-600">AI-powered analytics and insights interface will be implemented here.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- AI Assistant Chat Interface -->
+    <div id="aiAssistant" class="fixed bottom-4 right-4 w-80 bg-white rounded-2xl shadow-2xl z-50 hidden">
+        <!-- Chat Header -->
+        <div class="gradient-bg text-white p-4 rounded-t-2xl flex justify-between items-center">
+            <div class="flex items-center">
+                <div class="w-8 h-8 bg-amber-100 rounded-full flex items-center justify-center mr-2">
+                    <i class="fas fa-robot text-amber-600"></i>
+                </div>
+                <div>
+                    <h3 class="font-semibold">EJF AI Assistant</h3>
+                    <p class="text-blue-100 text-xs">Online • Ready to help</p>
+                </div>
+            </div>
+            <button onclick="toggleAssistant()" class="text-white hover:text-blue-200">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        
+        <!-- Chat Messages -->
+        <div class="ai-chat-container p-4 bg-gray-50">
+            <div class="space-y-4" id="chatMessages">
+                <!-- Messages will be dynamically added here -->
+            </div>
+        </div>
+        
+        <!-- Chat Input -->
+        <div class="p-4 border-t border-gray-200">
+            <div class="flex space-x-2">
+                <input type="text" id="chatInput" placeholder="Ask me anything..." class="flex-1 p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-amber-500">
+                <button onclick="sendMessage()" class="btn btn-primary btn-responsive">
+                    <i class="fas fa-paper-plane"></i>
+                </button>
+            </div>
+            <div class="mt-2 flex flex-wrap gap-1">
+                <button class="text-xs bg-gray-200 text-gray-700 px-2 py-1 rounded" onclick="quickMessage('Show my tasks')">Tasks</button>
+                <button class="text-xs bg-gray-200 text-gray-700 px-2 py-1 rounded" onclick="quickMessage('Fundraising report')">Fundraising</button>
+                <button class="text-xs bg-gray-200 text-gray-700 px-2 py-1 rounded" onclick="quickMessage('Event suggestions')">Events</button>
+                <button class="text-xs bg-gray-200 text-gray-700 px-2 py-1 rounded" onclick="quickMessage('Analytics')">Analytics</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Task Modal -->
+    <div id="addTaskModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
+        <div class="bg-white rounded-2xl p-6 w-full max-w-md mx-4">
+            <h3 class="text-xl font-bold text-gray-800 mb-4">Add New Task</h3>
+            <form id="taskForm" class="space-y-4">
+                <div>
+                    <label class="block text-gray-700 mb-2">Task Title</label>
+                    <input type="text" id="taskTitle" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-500" placeholder="Enter task title" required>
+                </div>
+                <div>
+                    <label class="block text-gray-700 mb-2">Description</label>
+                    <textarea id="taskDescription" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-500" rows="3" placeholder="Enter task description"></textarea>
+                </div>
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-gray-700 mb-2">Priority</label>
+                        <select id="taskPriority" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-500">
+                            <option value="low">Low</option>
+                            <option value="medium">Medium</option>
+                            <option value="high">High</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-gray-700 mb-2">Due Date</label>
+                        <input type="date" id="taskDueDate" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-500">
+                    </div>
+                </div>
+                <div class="flex justify-end space-x-3">
+                    <button type="button" onclick="hideAddTaskModal()" class="btn btn-neutral btn-responsive">
+                        Cancel
+                    </button>
+                    <button type="submit" class="btn btn-secondary btn-responsive">
+                        Add Task
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Initialize the application
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeApp();
+        });
+
+        // Application state
+        const appState = {
+            tasks: [
+                {
+                    id: 1,
+                    title: "Review donor engagement metrics",
+                    description: "Analyze recent donor activity and identify opportunities for increased engagement",
+                    priority: "high",
+                    status: "pending",
+                    dueDate: "2024-01-20",
+                    category: "fundraising"
+                },
+                {
+                    id: 2,
+                    title: "Prepare quarterly report",
+                    description: "Compile data and create presentation for board meeting",
+                    priority: "medium",
+                    status: "in-progress",
+                    dueDate: "2024-01-25",
+                    category: "reporting"
+                },
+                {
+                    id: 3,
+                    title: "Plan climate justice webinar",
+                    description: "Coordinate with speakers and set up registration page",
+                    priority: "high",
+                    status: "pending",
+                    dueDate: "2026-02-01",
+                    category: "events"
+                },
+                {
+                    id: 4,
+                    title: "Update website content",
+                    description: "Add new campaign information and success stories",
+                    priority: "medium",
+                    status: "completed",
+                    dueDate: "2026-01-15",
+                    category: "marketing"
+                }
+            ],
+            currentFilter: "all",
+            chatHistory: []
+        };
+
+        // Initialize the application
+        function initializeApp() {
+            updateTime();
+            setInterval(updateTime, 60000); // Update time every minute
+            
+            loadTasks();
+            setupEventListeners();
+            loadAISuggestions();
+            
+            // Show welcome message in chat
+            addChatMessage("ai", "Hello! I'm Nash. How can I help you manage tasks, fundraising, events, and campaigns today?");
+        }
+
+        // Update current time
+        function updateTime() {
+            const now = new Date();
+            const options = { weekday: 'short', year: 'numeric', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' };
+            document.getElementById('currentTime').textContent = now.toLocaleDateString('en-US', options);
+        }
+
+        // Setup event listeners
+        function setupEventListeners() {
+            // Task form submission
+            document.getElementById('taskForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                addNewTask();
+            });
+            
+            // Filter buttons
+            document.querySelectorAll('.active-filter').forEach(button => {
+                button.addEventListener('click', function() {
+                    const filter = this.getAttribute('data-filter');
+                    filterTasks(filter);
+                });
+            });
+            
+            // Chat input enter key
+            document.getElementById('chatInput').addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    sendMessage();
+                }
+            });
+        }
+
+        // Load tasks into the UI
+        function loadTasks() {
+            const taskList = document.getElementById('taskList');
+            taskList.innerHTML = '';
+            
+            const filteredTasks = appState.currentFilter === 'all' 
+                ? appState.tasks 
+                : appState.tasks.filter(task => 
+                    appState.currentFilter === 'completed' ? task.status === 'completed' :
+                    appState.currentFilter === 'high' ? task.priority === 'high' :
+                    task.status === appState.currentFilter
+                );
+            
+            // Update task count
+            document.getElementById('activeTasksCount').textContent = appState.tasks.filter(t => t.status !== 'completed').length;
+            
+            if (filteredTasks.length === 0) {
+                taskList.innerHTML = '<p class="text-gray-500 text-center py-4">No tasks found</p>';
+                return;
+            }
+            
+            filteredTasks.forEach(task => {
+                const taskElement = createTaskElement(task);
+                taskList.appendChild(taskElement);
+            });
+        }
+
+        // Create a task element
+        function createTaskElement(task) {
+            const taskDiv = document.createElement('div');
+            taskDiv.className = `bg-white border rounded-lg p-4 ${task.status === 'completed' ? 'task-completed' : ''}`;
+            
+            const priorityColors = {
+                low: 'bg-green-100 text-green-800',
+                medium: 'bg-yellow-100 text-yellow-800',
+                high: 'bg-red-100 text-red-800'
+            };
+            
+            taskDiv.innerHTML = `
+                <div class="flex justify-between items-start mb-2">
+                    <h4 class="font-semibold text-gray-800">${task.title}</h4>
+                    <span class="${priorityColors[task.priority]} px-2 py-1 rounded-full text-xs font-medium">${task.priority}</span>
+                </div>
+                <p class="text-gray-600 text-sm mb-4">${task.description}</p>
+                <div class="flex justify-between items-center">
+                    <span class="text-xs text-gray-500">Due: ${formatDate(task.dueDate)}</span>
+                    <div class="flex space-x-2">
+                        ${task.status !== 'completed' ? `
+                            <button class="text-green-600 hover:text-green-800 text-sm" onclick="completeTask(${task.id})">
+                                <i class="fas fa-check"></i> Complete
+                            </button>
+                        ` : ''}
+                        <button class="text-blue-600 hover:text-blue-800 text-sm" onclick="editTask(${task.id})">
+                            <i class="fas fa-edit"></i>
+                        </button>
+                        <button class="text-red-600 hover:text-red-800 text-sm" onclick="deleteTask(${task.id})">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </div>
+                </div>
+            `;
+            
+            return taskDiv;
+        }
+
+        // Format date for display
+        function formatDate(dateString) {
+            const options = { month: 'short', day: 'numeric' };
+            return new Date(dateString).toLocaleDateString('en-US', options);
+        }
+
+        // Filter tasks
+        function filterTasks(filter) {
+            appState.currentFilter = filter;
+            loadTasks();
+            
+            // Update active filter button
+            document.querySelectorAll('.active-filter').forEach(btn => {
+                btn.classList.remove('btn-info');
+                btn.classList.add('btn-neutral');
+            });
+            
+            document.querySelector(`[data-filter="${filter}"]`).classList.remove('btn-neutral');
+            document.querySelector(`[data-filter="${filter}"]`).classList.add('btn-info');
+        }
+
+        // Show add task modal
+        function showAddTaskModal() {
+            document.getElementById('addTaskModal').classList.remove('hidden');
+        }
+
+        // Hide add task modal
+        function hideAddTaskModal() {
+            document.getElementById('addTaskModal').classList.add('hidden');
+            document.getElementById('taskForm').reset();
+        }
+
+        // Add new task
+        function addNewTask() {
+            const title = document.getElementById('taskTitle').value;
+            const description = document.getElementById('taskDescription').value;
+            const priority = document.getElementById('taskPriority').value;
+            const dueDate = document.getElementById('taskDueDate').value;
+            
+            const newTask = {
+                id: Date.now(),
+                title,
+                description,
+                priority,
+                status: 'pending',
+                dueDate: dueDate || new Date().toISOString().split('T')[0],
+                category: 'general'
+            };
+            
+            appState.tasks.push(newTask);
+            loadTasks();
+            hideAddTaskModal();
+            
+            // Notify AI assistant
+            addChatMessage("ai", `I've added "${title}" to your task list. Would you like me to set reminders or help prioritize it?`);
+        }
+
+        // Complete task
+        function completeTask(taskId) {
+            const taskIndex = appState.tasks.findIndex(task => task.id === taskId);
+            if (taskIndex !== -1) {
+                appState.tasks[taskIndex].status = 'completed';
+                loadTasks();
+                
+                // Notify AI assistant
+                addChatMessage("ai", `Great job completing "${appState.tasks[taskIndex].title}"! Would you like me to suggest similar tasks?`);
+            }
+        }
+
+        // Edit task (placeholder)
+        function editTask(taskId) {
+            // In a real app, this would open an edit form
+            alert(`Edit task ${taskId} - This would open an edit form in a complete implementation.`);
+        }
+
+        // Delete task
+        function deleteTask(taskId) {
+            if (confirm("Are you sure you want to delete this task?")) {
+                appState.tasks = appState.tasks.filter(task => task.id !== taskId);
+                loadTasks();
+            }
+        }
+
+        // Toggle AI assistant
+        function toggleAssistant() {
+            const assistant = document.getElementById('aiAssistant');
+            assistant.classList.toggle('hidden');
+            
+            if (!assistant.classList.contains('hidden')) {
+                // Scroll to bottom of chat
+                const chatContainer = document.getElementById('chatMessages').parentElement;
+                chatContainer.scrollTop = chatContainer.scrollHeight;
+                
+                // Focus on input
+                document.getElementById('chatInput').focus();
+            }
+        }
+
+        // Add message to chat
+        function addChatMessage(sender, message) {
+            const chatMessages = document.getElementById('chatMessages');
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `ai-message flex ${sender === 'user' ? 'justify-end' : 'justify-start'}`;
+            
+            messageDiv.innerHTML = `
+                <div class="max-w-xs md:max-w-md rounded-lg p-3 ${sender === 'user' ? 'bg-blue-100 text-blue-800' : 'bg-gray-200 text-gray-800'}">
+                    <div class="flex items-start">
+                        ${sender === 'ai' ? '<i class="fas fa-robot text-amber-600 mt-1 mr-2"></i>' : ''}
+                        <div>${message}</div>
+                        ${sender === 'user' ? '<i class="fas fa-user text-blue-600 mt-1 ml-2"></i>' : ''}
+                    </div>
+                </div>
+            `;
+            
+            chatMessages.appendChild(messageDiv);
+            
+            // Scroll to bottom
+            const chatContainer = chatMessages.parentElement;
+            chatContainer.scrollTop = chatContainer.scrollHeight;
+            
+            // Add to chat history
+            appState.chatHistory.push({ sender, message });
+        }
+
+        // Send message in chat
+        function sendMessage() {
+            const input = document.getElementById('chatInput');
+            const message = input.value.trim();
+            
+            if (message) {
+                addChatMessage('user', message);
+                input.value = '';
+                
+                // Process AI response
+                setTimeout(() => {
+                    processUserMessage(message);
+                }, 1000);
+            }
+        }
+
+        // Quick message buttons
+        function quickMessage(message) {
+            document.getElementById('chatInput').value = message;
+            sendMessage();
+        }
+
+        // Process user message and generate AI response
+        function processUserMessage(message) {
+            const lowerMessage = message.toLowerCase();
+            let response = "";
+            
+            if (lowerMessage.includes('hello') || lowerMessage.includes('hi')) {
+                response = "Hello! I'm Nash. I can help you manage tasks, fundraising campaigns, events, and provide insights. What would you like to work on today?";
+            } else if (lowerMessage.includes('task') || lowerMessage.includes('todo')) {
+                const pendingTasks = appState.tasks.filter(t => t.status !== 'completed').length;
+                response = `You have ${pendingTasks} pending tasks. I can help you prioritize them or add new ones. Would you like me to suggest task optimizations?`;
+            } else if (lowerMessage.includes('fundraising') || lowerMessage.includes('donation')) {
+                response = "Your fundraising is at 65% of the $75,000 goal. I recommend focusing on mid-tier donors and launching a social media campaign for the Digital Inclusion initiative, which is currently lagging behind.";
+            } else if (lowerMessage.includes('event') || lowerMessage.includes('meeting')) {
+                response = "You have 5 upcoming events, with 2 happening this week. Would you like me to help schedule a new event or send reminders for existing ones?";
+            } else if (lowerMessage.includes('report') || lowerMessage.includes('analytics')) {
+                response = "I can generate comprehensive reports on fundraising performance, donor engagement, or campaign effectiveness. Which report would you like me to create?";
+            } else if (lowerMessage.includes('help')) {
+                response = "I can help with: <br>• Task management and prioritization<br>• Fundraising optimization<br>• Event planning and coordination<br>• Campaign performance analysis<br>• Generating reports and insights<br><br>What would you like assistance with?";
+            } else {
+                response = "I understand you're asking about: \"" + message + "\". I can help with task management, fundraising, events, and analytics. Could you provide more details about what you need assistance with?";
+            }
+            
+            addChatMessage("ai", response);
+        }
+
+        // AI-powered task suggestions
+        function aiSuggestTasks() {
+            const suggestions = [
+                "Schedule follow-up calls with top 10 donors from last quarter",
+                "Prepare thank you messages for recent donors",
+                "Update campaign materials with latest impact metrics",
+                "Review and respond to pending volunteer applications",
+                "Plan social media content for upcoming climate justice event"
+            ];
+            
+            const suggestionsDiv = document.getElementById('aiSuggestions');
+            suggestionsDiv.innerHTML = '';
+            
+            suggestions.forEach(suggestion => {
+                const suggestionDiv = document.createElement('div');
+                suggestionDiv.className = 'bg-blue-50 p-3 rounded-lg';
+                suggestionDiv.innerHTML = `
+                    <div class="flex items-start">
+                        <i class="fas fa-lightbulb text-blue-500 mt-1 mr-2"></i>
+                        <div>
+                            <p class="text-blue-800 text-sm">${suggestion}</p>
+                            <button class="text-blue-600 text-xs mt-1" onclick="addTaskFromSuggestion('${suggestion}')">
+                                <i class="fas fa-plus mr-1"></i> Add as task
+                            </button>
+                        </div>
+                    </div>
+                `;
+                suggestionsDiv.appendChild(suggestionDiv);
+            });
+            
+            addChatMessage("ai", "I've analyzed your current activities and suggested 5 tasks that could improve your impact. You can add any of these to your task list.");
+        }
+
+        // Add task from AI suggestion
+        function addTaskFromSuggestion(suggestion) {
+            const newTask = {
+                id: Date.now(),
+                title: suggestion,
+                description: "AI-suggested task to optimize EJF operations",
+                priority: "medium",
+                status: 'pending',
+                dueDate: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString().split('T')[0], // 7 days from now
+                category: 'ai-suggested'
+            };
+            
+            appState.tasks.push(newTask);
+            loadTasks();
+            
+            addChatMessage("ai", `I've added "${suggestion}" to your task list. Would you like me to set a specific due date or reminders?`);
+        }
+
+        // Load AI suggestions
+        function loadAISuggestions() {
+            const suggestions = [
+                {
+                    title: "Donor Engagement",
+                    message: "Your mid-tier donors have 35% potential for increased giving. Consider personalized outreach.",
+                    type: "opportunity"
+                },
+                {
+                    title: "Event Optimization",
+                    message: "Moving the Climate Justice webinar to Thursday could increase attendance by 22% based on historical data.",
+                    type: "optimization"
+                },
+                {
+                    title: "Resource Allocation",
+                    message: "Reallocating 15% of Digital Inclusion budget to social media ads could improve campaign performance.",
+                    type: "recommendation"
+                }
+            ];
+            
+            const suggestionsDiv = document.getElementById('aiSuggestions');
+            suggestionsDiv.innerHTML = '';
+            
+            suggestions.forEach(suggestion => {
+                const bgColor = suggestion.type === 'opportunity' ? 'bg-green-50' : 
+                               suggestion.type === 'optimization' ? 'bg-blue-50' : 'bg-amber-50';
+                const textColor = suggestion.type === 'opportunity' ? 'text-green-800' : 
+                                suggestion.type === 'optimization' ? 'text-blue-800' : 'text-amber-800';
+                const icon = suggestion.type === 'opportunity' ? 'fa-chart-line' : 
+                            suggestion.type === 'optimization' ? 'fa-cogs' : 'fa-lightbulb';
+                
+                const suggestionDiv = document.createElement('div');
+                suggestionDiv.className = `${bgColor} p-3 rounded-lg mb-3`;
+                suggestionDiv.innerHTML = `
+                    <div class="flex items-start">
+                        <i class="fas ${icon} ${textColor} mt-1 mr-2"></i>
+                        <div>
+                            <h4 class="font-medium ${textColor}">${suggestion.title}</h4>
+                            <p class="${textColor} text-sm mt-1">${suggestion.message}</p>
+                        </div>
+                    </div>
+                `;
+                suggestionsDiv.appendChild(suggestionDiv);
+            });
+        }
+
+        // AI-powered functions
+        function aiGenerateReport() {
+            addChatMessage("ai", "I'm generating your weekly performance report... This will include fundraising metrics, campaign progress, and task completion rates. The report will be ready in a moment.");
+            
+            // Simulate report generation
+            setTimeout(() => {
+                addChatMessage("ai", "Report generated! Key findings:<br>• Fundraising: 65% of goal reached (+12% from last week)<br>• Top campaign: Climate Justice (80% of target)<br>• Task completion: 72% of weekly tasks completed<br><br>Would you like me to email this report to the team?");
+            }, 2000);
+        }
+
+        function aiAnalyzePerformance() {
+            addChatMessage("ai", "Analyzing organizational performance... Looking at key metrics across fundraising, engagement, and operations.");
+            
+            setTimeout(() => {
+                addChatMessage("ai", "Performance Analysis Complete:<br>• Strengths: Donor retention (85%), Event attendance (78%)<br>• Opportunities: Digital campaign engagement (+22% potential)<br>• Recommendations: Focus on mid-tier donor conversion, optimize social media strategy");
+            }, 2500);
+        }
+
+        function aiOptimizeSchedule() {
+            addChatMessage("ai", "Optimizing your schedule... Analyzing task priorities, deadlines, and resource allocation.");
+            
+            setTimeout(() => {
+                addChatMessage("ai", "Schedule optimization complete! I've identified 3 time conflicts and rescheduled 5 tasks for better workflow. Your Thursdays now have dedicated time for donor outreach, which could increase engagement by 15%.");
+            }, 3000);
+        }
+
+        function aiCheckCompliance() {
+            addChatMessage("ai", "Running compliance check... Reviewing fundraising regulations, data privacy policies, and reporting requirements.");
+            
+            setTimeout(() => {
+                addChatMessage("ai", "Compliance check complete! All activities are within regulatory guidelines. One recommendation: Update donor consent forms to include new data protection requirements. Would you like me to draft the updated forms?");
+            }, 2800);
+        }
+
+        function aiOptimizeFundraising() {
+            addChatMessage("ai", "Analyzing fundraising strategy... Evaluating donor segments, campaign performance, and engagement metrics.");
+            
+            setTimeout(() => {
+                addChatMessage("ai", "Fundraising optimization complete! Key recommendations:<br>1. Personalize outreach to mid-tier donors ($100-500)<br>2. Launch a matching gift campaign for Digital Inclusion<br>3. Implement a donor loyalty program<br>4. Optimize donation page for mobile users<br><br>These changes could increase fundraising by 18-25%.");
+            }, 3200);
+        }
+
+        // Tab switching
+        function switchTab(tabName) {
+            // Hide all tab contents
+            document.querySelectorAll('.tab-content').forEach(tab => {
+                tab.classList.add('hidden');
+            });
+            
+            // Remove active class from all tabs
+            document.querySelectorAll('[id^="tab"]').forEach(tab => {
+                tab.classList.remove('tab-active');
+                tab.classList.add('text-gray-600', 'hover:bg-gray-100');
+            });
+            
+            // Show selected tab content
+            document.getElementById(`content${tabName.charAt(0).toUpperCase() + tabName.slice(1)}`).classList.remove('hidden');
+            
+            // Add active class to selected tab
+            document.getElementById(`tab${tabName.charAt(0).toUpperCase() + tabName.slice(1)}`).classList.add('tab-active');
+            document.getElementById(`tab${tabName.charAt(0).toUpperCase() + tabName.slice(1)}`).classList.remove('text-gray-600', 'hover:bg-gray-100');
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment Successful - Green Digital Justice Hub</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --ejf-primary: #1e3a5f;
+            --ejf-secondary: #2d5a8c;
+            --ejf-accent: #e9b949;
+            --ejf-success: #4a8c5a;
+        }
+        
+        .gradient-bg {
+            background: linear-gradient(135deg, var(--ejf-primary) 0%, var(--ejf-secondary) 100%);
+        }
+        
+        .btn-primary {
+            background-color: var(--ejf-accent);
+            color: #1e3a5f;
+        }
+        
+        .btn-primary:hover {
+            background-color: #d4a235;
+        }
+    </style>
+</head>
+<body class="bg-gray-100 min-h-screen flex items-center justify-center">
+    <div class="bg-white rounded-2xl p-8 max-w-md w-full mx-4 text-center shadow-lg">
+        <div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+            <i class="fas fa-check text-green-600 text-2xl"></i>
+        </div>
+        <h1 class="text-2xl font-bold text-gray-800 mb-2">Payment Successful!</h1>
+        <p class="text-gray-600 mb-6">Thank you for your donation to the Green Digital Justice Hub. Your support makes a difference.</p>
+        
+        <div class="bg-green-50 border border-green-200 rounded-lg p-4 mb-6 text-left">
+            <h3 class="font-semibold text-green-800 mb-2">What happens next?</h3>
+            <ul class="text-green-700 text-sm space-y-1">
+                <li>• You will receive a confirmation email shortly</li>
+                <li>• Your donation receipt will be sent within 24 hours</li>
+                <li>• Updates on the project will be shared via email</li>
+            </ul>
+        </div>
+        
+        <div class="flex space-x-4">
+            <a href="/" class="flex-1 bg-ejf-accent text-ejf-primary py-3 rounded-lg font-semibold text-center transition hover:bg-yellow-500">
+                <i class="fas fa-home mr-2"></i>Home
+            </a>
+            <a href="/#donate" class="flex-1 bg-ejf-success text-white py-3 rounded-lg font-semibold text-center transition hover:bg-green-600">
+                <i class="fas fa-donate mr-2"></i>Donate Again
+            </a>
+        </div>
+    </div>
+
+    <script>
+        // Check URL parameters for payment reference and show appropriate message
+        const urlParams = new URLSearchParams(window.location.search);
+        const reference = urlParams.get('reference');
+        const trxref = urlParams.get('trxref');
+        
+        if (reference || trxref) {
+            console.log('Payment reference:', reference || trxref);
+            // You could verify the payment here if needed
+        }
+    </script>
+</body>
+</html>

@@ -372,7 +372,7 @@
       <div class="splash-content">
         <div class="splash-logo">🤝</div>
         <h1 class="splash-title">Economic Justice Forum</h1>
-        <p class="splash-subtitle">Preparing your dashboard...</p>
+        <p class="splash-subtitle">Just a moment as we Prepare your dashboard...</p>
         <div class="spinner"></div>
       </div>
     </div>
@@ -381,6 +381,12 @@
     <div class="dashboard">
       <!-- Header -->
       <div class="dashboard-header">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+          <button id="dashboardHomeBtn" style="background: none; border: none; color: #d9a21c; text-decoration: none; font-weight: 600; display: flex; align-items: center; gap: 8px; font-size: 16px; cursor: pointer; transition: all 0.3s ease;">
+            <i class="fas fa-home"></i>Home
+          </button>
+          <div></div>
+        </div>
         <h1>Welcome Back</h1>
         <p class="user-greeting">Hi, <span class="highlight" id="userName">User</span>! 👋</p>
       </div>
@@ -407,42 +413,42 @@
           <div class="card">
             <h3><i class="fas fa-user-circle card-icon"></i>Profile</h3>
             <p>Manage your account settings and personal information.</p>
-            <a href="#" class="card-link">View Profile <i class="fas fa-arrow-right"></i></a>
+            <a href="https://economicjusticeforum.org/profile.html" class="card-link">View Profile <i class="fas fa-arrow-right"></i></a>
           </div>
 
           <!-- Updates Card -->
           <div class="card">
             <h3><i class="fas fa-bell card-icon"></i>Recent Updates</h3>
             <p>Stay informed with the latest news and announcements from EJF.</p>
-            <a href="#" class="card-link">See Updates <i class="fas fa-arrow-right"></i></a>
+            <a href="https://www.economicjusticeforum.org/" class="card-link">See Updates <i class="fas fa-arrow-right"></i></a>
           </div>
 
           <!-- Events Card -->
           <div class="card">
             <h3><i class="fas fa-calendar-alt card-icon"></i>Upcoming Events</h3>
             <p>Discover and register for upcoming forums and seminars.</p>
-            <a href="#" class="card-link">View Events <i class="fas fa-arrow-right"></i></a>
+            <a href="https://www.economicjusticeforum.org/events.html" class="card-link">View Events <i class="fas fa-arrow-right"></i></a>
           </div>
 
           <!-- Resources Card -->
           <div class="card">
             <h3><i class="fas fa-book card-icon"></i>Resources</h3>
             <p>Access research, articles, and educational materials.</p>
-            <a href="#" class="card-link">Browse Resources <i class="fas fa-arrow-right"></i></a>
+            <a href="https://www.economicjusticeforum.org/research.html" class="card-link">Browse Resources <i class="fas fa-arrow-right"></i></a>
           </div>
 
           <!-- Programs Card -->
           <div class="card">
             <h3><i class="fas fa-project-diagram card-icon"></i>Programs</h3>
             <p>Learn about our initiatives and ongoing programs.</p>
-            <a href="#" class="card-link">Explore Programs <i class="fas fa-arrow-right"></i></a>
+            <a href="https://www.economicjusticeforum.org/programs.html" class="card-link">Explore Programs <i class="fas fa-arrow-right"></i></a>
           </div>
 
           <!-- Community Card -->
           <div class="card">
             <h3><i class="fas fa-users card-icon"></i>Community</h3>
             <p>Connect with other members and share your perspectives.</p>
-            <a href="#" class="card-link">Join Community <i class="fas fa-arrow-right"></i></a>
+            <a href="/" class="card-link">Join Community <i class="fas fa-arrow-right"></i></a>
           </div>
         </div>
 
@@ -468,7 +474,7 @@
 
       <!-- Footer -->
       <div class="dashboard-footer">
-        <p>&copy; 2024 Economic Justice Forum. All rights reserved.</p>
+        <p>&copy; 2025 Economic Justice Forum. All rights reserved.</p>
         <p>Empowering equity, justice, and prosperity in our communities.</p>
       </div>
     </div>
@@ -556,6 +562,13 @@
       function redirectToSignup() {
         window.location.href = '/signup.html';
       }
+
+      // Home button handler - redirect to home page
+      document.getElementById('dashboardHomeBtn').addEventListener('click', async () => {
+        // Since user is already on dashboard, they are definitely signed in
+        // Just redirect to home page
+        window.location.href = '/index.html';
+      });
 
       // Sign out handler
       document.getElementById('signoutBtn').addEventListener('click', async () => {

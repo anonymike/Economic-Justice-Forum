@@ -1,0 +1,823 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel - Green Digital Justice Hub</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        :root {
+            --ejf-primary: #1e3a5f;
+            --ejf-secondary: #2d5a8c;
+            --ejf-accent: #e9b949;
+            --ejf-success: #4a8c5a;
+            --ejf-highlight: #d4a574;
+        }
+        
+        .gradient-bg {
+            background: linear-gradient(135deg, var(--ejf-primary) 0%, var(--ejf-secondary) 100%);
+        }
+        
+        .btn-primary {
+            background-color: var(--ejf-accent);
+            color: #1e3a5f;
+        }
+        
+        .btn-primary:hover {
+            background-color: #d4a235;
+        }
+        
+        .btn-secondary {
+            background-color: var(--ejf-success);
+            color: white;
+        }
+        
+        .btn-secondary:hover {
+            background-color: #3e7a4c;
+        }
+        
+        .sidebar {
+            transition: all 0.3s ease;
+        }
+        
+        @media (max-width: 768px) {
+            .sidebar {
+                transform: translateX(-100%);
+            }
+            .sidebar.active {
+                transform: translateX(0);
+            }
+        }
+        
+        .stat-card {
+            transition: transform 0.3s ease;
+        }
+        
+        .stat-card:hover {
+            transform: translateY(-5px);
+        }
+    </style>
+</head>
+<body class="bg-gray-100">
+    <!-- Login Modal -->
+    <div id="loginModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+        <div class="bg-white rounded-2xl p-8 max-w-md w-full mx-4">
+            <div class="text-center mb-6">
+                <div class="w-16 h-16 bg-ejf-accent rounded-full flex items-center justify-center mx-auto mb-4">
+                    <i class="fas fa-lock text-white text-2xl"></i>
+                </div>
+                <h2 class="text-2xl font-bold text-gray-800">Admin Login</h2>
+                <p class="text-gray-600">Enter password to access admin panel</p>
+            </div>
+            <form id="loginForm">
+                <div class="mb-4">
+                    <label class="block text-gray-700 mb-2">Password</label>
+                    <input type="password" id="adminPassword" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-ejf-accent" placeholder="Enter password" required>
+                </div>
+                <button type="submit" class="w-full btn-primary py-3 rounded-lg font-semibold text-lg transition duration-300">
+                    <i class="fas fa-sign-in-alt mr-2"></i> Login
+                </button>
+            </form>
+            <div id="loginError" class="hidden mt-4 p-3 bg-red-100 border border-red-300 rounded-lg text-red-700 text-center">
+                Invalid password. Please try again.
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Admin Layout (Hidden until login) -->
+    <div id="adminLayout" class="hidden">
+        <!-- Mobile Header -->
+        <header class="bg-white shadow-sm lg:hidden">
+            <div class="flex items-center justify-between p-4">
+                <button id="menuToggle" class="text-gray-600">
+                    <i class="fas fa-bars text-xl"></i>
+                </button>
+                <div class="flex items-center space-x-2">
+                    <div class="w-10 h-10 bg-ejf-accent rounded-full flex items-center justify-center">
+                        <i class="fas fa-leaf text-white"></i>
+                    </div>
+                    <div>
+                        <h1 class="text-lg font-bold">EJF Admin</h1>
+                    </div>
+                </div>
+                <div class="w-10"></div> <!-- Spacer for balance -->
+            </div>
+        </header>
+
+        <div class="flex h-screen">
+            <!-- Sidebar -->
+            <div class="sidebar bg-ejf-primary text-white w-64 flex-shrink-0 lg:translate-x-0">
+                <div class="p-6 border-b border-ejf-secondary">
+                    <div class="flex items-center space-x-3">
+                        <div class="w-12 h-12 bg-white rounded-full flex items-center justify-center">
+                            <i class="fas fa-leaf text-ejf-success text-xl"></i>
+                        </div>
+                        <div>
+                            <h1 class="text-xl font-bold">EJF Admin</h1>
+                            <p class="text-blue-100 text-sm">Green Digital Justice Hub</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <nav class="p-4">
+                    <ul class="space-y-2">
+                        <li>
+                            <a href="#dashboard" class="nav-item active flex items-center space-x-3 p-3 rounded-lg bg-ejf-secondary">
+                                <i class="fas fa-chart-bar w-5"></i>
+                                <span>Dashboard</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#transactions" class="nav-item flex items-center space-x-3 p-3 rounded-lg hover:bg-ejf-secondary transition">
+                                <i class="fas fa-exchange-alt w-5"></i>
+                                <span>Transactions</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#donors" class="nav-item flex items-center space-x-3 p-3 rounded-lg hover:bg-ejf-secondary transition">
+                                <i class="fas fa-users w-5"></i>
+                                <span>Donors</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#reports" class="nav-item flex items-center space-x-3 p-3 rounded-lg hover:bg-ejf-secondary transition">
+                                <i class="fas fa-chart-pie w-5"></i>
+                                <span>Reports</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#settings" class="nav-item flex items-center space-x-3 p-3 rounded-lg hover:bg-ejf-secondary transition">
+                                <i class="fas fa-cog w-5"></i>
+                                <span>Settings</span>
+                            </a>
+                        </li>
+                    </ul>
+                    
+                    <div class="mt-8 pt-4 border-t border-ejf-secondary">
+                        <button id="logoutBtn" class="w-full flex items-center space-x-3 p-3 rounded-lg hover:bg-red-600 transition text-red-200 hover:text-white">
+                            <i class="fas fa-sign-out-alt w-5"></i>
+                            <span>Logout</span>
+                        </button>
+                    </div>
+                </nav>
+            </div>
+
+            <!-- Main Content -->
+            <div class="flex-1 overflow-auto">
+                <!-- Dashboard Section -->
+                <section id="dashboard" class="admin-section p-6">
+                    <div class="mb-8">
+                        <h2 class="text-2xl font-bold text-gray-800">Dashboard Overview</h2>
+                        <p class="text-gray-600">Welcome to the Green Digital Justice Hub Admin Panel</p>
+                    </div>
+
+                    <!-- Stats Cards -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+                        <div class="stat-card bg-white rounded-2xl p-6 shadow-lg border-l-4 border-ejf-accent">
+                            <div class="flex justify-between items-start">
+                                <div>
+                                    <p class="text-gray-600">Total Raised</p>
+                                    <h3 class="text-3xl font-bold text-gray-800">$48,250</h3>
+                                </div>
+                                <div class="bg-ejf-accent bg-opacity-20 p-3 rounded-lg">
+                                    <i class="fas fa-donate text-ejf-accent text-xl"></i>
+                                </div>
+                            </div>
+                            <p class="text-green-600 text-sm mt-2">
+                                <i class="fas fa-arrow-up mr-1"></i> 65% of $75,000 goal
+                            </p>
+                        </div>
+
+                        <div class="stat-card bg-white rounded-2xl p-6 shadow-lg border-l-4 border-ejf-success">
+                            <div class="flex justify-between items-start">
+                                <div>
+                                    <p class="text-gray-600">Total Donors</p>
+                                    <h3 class="text-3xl font-bold text-gray-800">327</h3>
+                                </div>
+                                <div class="bg-ejf-success bg-opacity-20 p-3 rounded-lg">
+                                    <i class="fas fa-users text-ejf-success text-xl"></i>
+                                </div>
+                            </div>
+                            <p class="text-green-600 text-sm mt-2">
+                                <i class="fas fa-arrow-up mr-1"></i> 12% from last month
+                            </p>
+                        </div>
+
+                        <div class="stat-card bg-white rounded-2xl p-6 shadow-lg border-l-4 border-ejf-secondary">
+                            <div class="flex justify-between items-start">
+                                <div>
+                                    <p class="text-gray-600">M-Pesa Transactions</p>
+                                    <h3 class="text-3xl font-bold text-gray-800">284</h3>
+                                </div>
+                                <div class="bg-ejf-secondary bg-opacity-20 p-3 rounded-lg">
+                                    <i class="fas fa-mobile-alt text-ejf-secondary text-xl"></i>
+                                </div>
+                            </div>
+                            <p class="text-green-600 text-sm mt-2">
+                                <i class="fas fa-arrow-up mr-1"></i> 78% of all donations
+                            </p>
+                        </div>
+
+                        <div class="stat-card bg-white rounded-2xl p-6 shadow-lg border-l-4 border-ejf-highlight">
+                            <div class="flex justify-between items-start">
+                                <div>
+                                    <p class="text-gray-600">Avg. Donation</p>
+                                    <h3 class="text-3xl font-bold text-gray-800">$148</h3>
+                                </div>
+                                <div class="bg-ejf-highlight bg-opacity-20 p-3 rounded-lg">
+                                    <i class="fas fa-chart-line text-ejf-highlight text-xl"></i>
+                                </div>
+                            </div>
+                            <p class="text-green-600 text-sm mt-2">
+                                <i class="fas fa-arrow-up mr-1"></i> $12 from last month
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Charts Row -->
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+                        <div class="bg-white rounded-2xl p-6 shadow-lg">
+                            <h3 class="text-lg font-semibold text-gray-800 mb-4">Donations Over Time</h3>
+                            <div class="h-64">
+                                <canvas id="donationsChart"></canvas>
+                            </div>
+                        </div>
+
+                        <div class="bg-white rounded-2xl p-6 shadow-lg">
+                            <h3 class="text-lg font-semibold text-gray-800 mb-4">Payment Methods</h3>
+                            <div class="h-64">
+                                <canvas id="paymentMethodsChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Recent Transactions -->
+                    <div class="bg-white rounded-2xl shadow-lg">
+                        <div class="p-6 border-b border-gray-200">
+                            <h3 class="text-lg font-semibold text-gray-800">Recent Transactions</h3>
+                        </div>
+                        <div class="p-6">
+                            <div class="overflow-x-auto">
+                                <table class="w-full">
+                                    <thead>
+                                        <tr class="text-left text-gray-500 text-sm">
+                                            <th class="pb-3 font-medium">Donor</th>
+                                            <th class="pb-3 font-medium">Amount</th>
+                                            <th class="pb-3 font-medium">Method</th>
+                                            <th class="pb-3 font-medium">Date</th>
+                                            <th class="pb-3 font-medium">Status</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="recentTransactions">
+                                        <!-- Transactions will be loaded here -->
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Transactions Section -->
+                <section id="transactions" class="admin-section hidden p-6">
+                    <div class="mb-8">
+                        <h2 class="text-2xl font-bold text-gray-800">All Transactions</h2>
+                        <p class="text-gray-600">Manage and view all donation transactions</p>
+                    </div>
+
+                    <div class="bg-white rounded-2xl shadow-lg">
+                        <div class="p-6 border-b border-gray-200 flex flex-col md:flex-row md:items-center md:justify-between">
+                            <div class="mb-4 md:mb-0">
+                                <h3 class="text-lg font-semibold text-gray-800">Transaction History</h3>
+                            </div>
+                            <div class="flex space-x-3">
+                                <div class="relative">
+                                    <input type="text" placeholder="Search transactions..." class="pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-ejf-accent focus:border-ejf-accent">
+                                    <i class="fas fa-search absolute left-3 top-3 text-gray-400"></i>
+                                </div>
+                                <button class="btn-primary px-4 py-2 rounded-lg font-medium">
+                                    <i class="fas fa-download mr-2"></i> Export
+                                </button>
+                            </div>
+                        </div>
+                        <div class="p-6">
+                            <div class="overflow-x-auto">
+                                <table class="w-full">
+                                    <thead>
+                                        <tr class="text-left text-gray-500 text-sm border-b border-gray-200">
+                                            <th class="pb-3 font-medium">ID</th>
+                                            <th class="pb-3 font-medium">Donor</th>
+                                            <th class="pb-3 font-medium">Phone/Email</th>
+                                            <th class="pb-3 font-medium">Amount</th>
+                                            <th class="pb-3 font-medium">Method</th>
+                                            <th class="pb-3 font-medium">Date</th>
+                                            <th class="pb-3 font-medium">Status</th>
+                                            <th class="pb-3 font-medium">Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="allTransactions">
+                                        <!-- All transactions will be loaded here -->
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Donors Section -->
+                <section id="donors" class="admin-section hidden p-6">
+                    <div class="mb-8">
+                        <h2 class="text-2xl font-bold text-gray-800">Donor Management</h2>
+                        <p class="text-gray-600">View and manage all donors</p>
+                    </div>
+
+                    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
+                        <div class="bg-white rounded-2xl p-6 shadow-lg">
+                            <h3 class="text-lg font-semibold text-gray-800 mb-4">Top Donors</h3>
+                            <div id="topDonors">
+                                <!-- Top donors will be loaded here -->
+                            </div>
+                        </div>
+
+                        <div class="bg-white rounded-2xl p-6 shadow-lg lg:col-span-2">
+                            <h3 class="text-lg font-semibold text-gray-800 mb-4">All Donors</h3>
+                            <div class="overflow-x-auto">
+                                <table class="w-full">
+                                    <thead>
+                                        <tr class="text-left text-gray-500 text-sm">
+                                            <th class="pb-3 font-medium">Name</th>
+                                            <th class="pb-3 font-medium">Email</th>
+                                            <th class="pb-3 font-medium">Total Donated</th>
+                                            <th class="pb-3 font-medium">First Donation</th>
+                                            <th class="pb-3 font-medium">Last Donation</th>
+                                            <th class="pb-3 font-medium">Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="donorsList">
+                                        <!-- Donors will be loaded here -->
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Reports Section -->
+                <section id="reports" class="admin-section hidden p-6">
+                    <div class="mb-8">
+                        <h2 class="text-2xl font-bold text-gray-800">Reports & Analytics</h2>
+                        <p class="text-gray-600">Detailed reports and analytics for the fundraising campaign</p>
+                    </div>
+
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+                        <div class="bg-white rounded-2xl p-6 shadow-lg">
+                            <h3 class="text-lg font-semibold text-gray-800 mb-4">Campaign Progress</h3>
+                            <div class="mb-4">
+                                <div class="flex justify-between mb-2">
+                                    <span class="text-gray-700">$48,250 raised of $75,000 goal</span>
+                                    <span class="text-ejf-accent font-bold">65%</span>
+                                </div>
+                                <div class="w-full bg-gray-200 rounded-full h-4">
+                                    <div class="bg-ejf-success h-4 rounded-full" style="width: 65%"></div>
+                                </div>
+                            </div>
+                            <div class="space-y-3">
+                                <div>
+                                    <div class="flex justify-between text-sm mb-1">
+                                        <span class="text-gray-600">M-Pesa Donations</span>
+                                        <span class="font-medium">$37,635</span>
+                                    </div>
+                                    <div class="w-full bg-gray-200 rounded-full h-2">
+                                        <div class="bg-ejf-success h-2 rounded-full" style="width: 78%"></div>
+                                    </div>
+                                </div>
+                                <div>
+                                    <div class="flex justify-between text-sm mb-1">
+                                        <span class="text-gray-600">Card Donations</span>
+                                        <span class="font-medium">$8,215</span>
+                                    </div>
+                                    <div class="w-full bg-gray-200 rounded-full h-2">
+                                        <div class="bg-ejf-secondary h-2 rounded-full" style="width: 17%"></div>
+                                    </div>
+                                </div>
+                                <div>
+                                    <div class="flex justify-between text-sm mb-1">
+                                        <span class="text-gray-600">PayPal Donations</span>
+                                        <span class="font-medium">$2,400</span>
+                                    </div>
+                                    <div class="w-full bg-gray-200 rounded-full h-2">
+                                        <div class="bg-ejf-accent h-2 rounded-full" style="width: 5%"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="bg-white rounded-2xl p-6 shadow-lg">
+                            <h3 class="text-lg font-semibold text-gray-800 mb-4">Monthly Performance</h3>
+                            <div class="h-64">
+                                <canvas id="monthlyChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bg-white rounded-2xl p-6 shadow-lg">
+                        <h3 class="text-lg font-semibold text-gray-800 mb-4">Export Reports</h3>
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                            <button class="p-4 border-2 border-dashed border-gray-300 rounded-lg hover:border-ejf-accent transition text-center">
+                                <i class="fas fa-file-excel text-green-600 text-2xl mb-2"></i>
+                                <p class="font-medium">Export to Excel</p>
+                                <p class="text-gray-600 text-sm">Transaction data</p>
+                            </button>
+                            <button class="p-4 border-2 border-dashed border-gray-300 rounded-lg hover:border-ejf-accent transition text-center">
+                                <i class="fas fa-file-pdf text-red-600 text-2xl mb-2"></i>
+                                <p class="font-medium">Export to PDF</p>
+                                <p class="text-gray-600 text-sm">Summary report</p>
+                            </button>
+                            <button class="p-4 border-2 border-dashed border-gray-300 rounded-lg hover:border-ejf-accent transition text-center">
+                                <i class="fas fa-chart-bar text-ejf-accent text-2xl mb-2"></i>
+                                <p class="font-medium">Analytics Report</p>
+                                <p class="text-gray-600 text-sm">Detailed analytics</p>
+                            </button>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Settings Section -->
+                <section id="settings" class="admin-section hidden p-6">
+                    <div class="mb-8">
+                        <h2 class="text-2xl font-bold text-gray-800">Settings</h2>
+                        <p class="text-gray-600">Manage admin settings and preferences</p>
+                    </div>
+
+                    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                        <div class="bg-white rounded-2xl p-6 shadow-lg lg:col-span-2">
+                            <h3 class="text-lg font-semibold text-gray-800 mb-4">M-Pesa Configuration</h3>
+                            <div class="space-y-4">
+                                <div>
+                                    <label class="block text-gray-700 mb-2">Consumer Key</label>
+                                    <input type="text" class="w-full p-3 border border-gray-300 rounded-lg" value="6xmCUXpJjutxeWRQLIGns1F24LTyCwA6I8q37A1nE9YG2HPv" readonly>
+                                </div>
+                                <div>
+                                    <label class="block text-gray-700 mb-2">Consumer Secret</label>
+                                    <input type="text" class="w-full p-3 border border-gray-300 rounded-lg" value="wLi1if4izk1NATY6XpFvW5xmKWfGiWMr29wff46x8Zwk4mHfzAKUTyJk8VXKAqW1" readonly>
+                                </div>
+                                <div class="grid grid-cols-2 gap-4">
+                                    <div>
+                                        <label class="block text-gray-700 mb-2">Business Shortcode</label>
+                                        <input type="text" class="w-full p-3 border border-gray-300 rounded-lg" value="174379" readonly>
+                                    </div>
+                                    <div>
+                                        <label class="block text-gray-700 mb-2">Environment</label>
+                                        <select class="w-full p-3 border border-gray-300 rounded-lg">
+                                            <option>Sandbox</option>
+                                            <option>Production</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <button class="btn-primary px-6 py-3 rounded-lg font-medium">
+                                    <i class="fas fa-save mr-2"></i> Save Changes
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="space-y-6">
+                            <div class="bg-white rounded-2xl p-6 shadow-lg">
+                                <h3 class="text-lg font-semibold text-gray-800 mb-4">Change Password</h3>
+                                <div class="space-y-4">
+                                    <div>
+                                        <label class="block text-gray-700 mb-2">Current Password</label>
+                                        <input type="password" class="w-full p-3 border border-gray-300 rounded-lg">
+                                    </div>
+                                    <div>
+                                        <label class="block text-gray-700 mb-2">New Password</label>
+                                        <input type="password" class="w-full p-3 border border-gray-300 rounded-lg">
+                                    </div>
+                                    <div>
+                                        <label class="block text-gray-700 mb-2">Confirm New Password</label>
+                                        <input type="password" class="w-full p-3 border border-gray-300 rounded-lg">
+                                    </div>
+                                    <button class="w-full btn-secondary py-3 rounded-lg font-medium">
+                                        Update Password
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div class="bg-white rounded-2xl p-6 shadow-lg">
+                                <h3 class="text-lg font-semibold text-gray-800 mb-4">System Information</h3>
+                                <div class="space-y-3 text-sm">
+                                    <div class="flex justify-between">
+                                        <span class="text-gray-600">Server Status</span>
+                                        <span class="text-green-600 font-medium">Online</span>
+                                    </div>
+                                    <div class="flex justify-between">
+                                        <span class="text-gray-600">Last Backup</span>
+                                        <span class="text-gray-800">2 hours ago</span>
+                                    </div>
+                                    <div class="flex justify-between">
+                                        <span class="text-gray-600">Database Size</span>
+                                        <span class="text-gray-800">4.2 MB</span>
+                                    </div>
+                                    <div class="flex justify-between">
+                                        <span class="text-gray-600">PHP Version</span>
+                                        <span class="text-gray-800">8.1.12</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Admin Password
+        const ADMIN_PASSWORD = 'myfund777';
+
+        // Sample data (in production, this would come from the backend)
+        const sampleTransactions = [
+            { id: 'EJF001', name: 'John Kamau', email: 'john@example.com', amount: 2500, method: 'M-Pesa', date: '2024-01-15', status: 'Completed' },
+            { id: 'EJF002', name: 'Sarah Wanjiku', email: 'sarah@example.com', amount: 5000, method: 'M-Pesa', date: '2024-01-14', status: 'Completed' },
+            { id: 'EJF003', name: 'Mike Otieno', email: 'mike@example.com', amount: 1000, method: 'Card', date: '2024-01-14', status: 'Completed' },
+            { id: 'EJF004', name: 'Grace Achieng', email: 'grace@example.com', amount: 3000, method: 'M-Pesa', date: '2024-01-13', status: 'Completed' },
+            { id: 'EJF005', name: 'David Njoroge', email: 'david@example.com', amount: 1500, method: 'PayPal', date: '2024-01-12', status: 'Completed' }
+        ];
+
+        // Login functionality
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const password = document.getElementById('adminPassword').value;
+            const errorDiv = document.getElementById('loginError');
+
+            if (password === ADMIN_PASSWORD) {
+                document.getElementById('loginModal').classList.add('hidden');
+                document.getElementById('adminLayout').classList.remove('hidden');
+                loadDashboardData();
+            } else {
+                errorDiv.classList.remove('hidden');
+                document.getElementById('adminPassword').value = '';
+            }
+        });
+
+        // Logout functionality
+        document.getElementById('logoutBtn').addEventListener('click', function() {
+            document.getElementById('adminLayout').classList.add('hidden');
+            document.getElementById('loginModal').classList.remove('hidden');
+            document.getElementById('loginError').classList.add('hidden');
+            document.getElementById('adminPassword').value = '';
+        });
+
+        // Mobile menu toggle
+        document.getElementById('menuToggle').addEventListener('click', function() {
+            document.querySelector('.sidebar').classList.toggle('active');
+        });
+
+        // Navigation
+        document.querySelectorAll('.nav-item').forEach(item => {
+            item.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                // Remove active class from all nav items
+                document.querySelectorAll('.nav-item').forEach(nav => {
+                    nav.classList.remove('active', 'bg-ejf-secondary');
+                });
+                
+                // Add active class to clicked item
+                this.classList.add('active', 'bg-ejf-secondary');
+                
+                // Hide all sections
+                document.querySelectorAll('.admin-section').forEach(section => {
+                    section.classList.add('hidden');
+                });
+                
+                // Show target section
+                const target = this.getAttribute('href').substring(1);
+                document.getElementById(target).classList.remove('hidden');
+                
+                // Close mobile menu
+                document.querySelector('.sidebar').classList.remove('active');
+                
+                // Load section-specific data
+                if (target === 'transactions') {
+                    loadTransactions();
+                } else if (target === 'donors') {
+                    loadDonors();
+                } else if (target === 'reports') {
+                    loadReports();
+                }
+            });
+        });
+
+        // Load dashboard data
+        function loadDashboardData() {
+            // Load recent transactions
+            const recentTransactions = document.getElementById('recentTransactions');
+            recentTransactions.innerHTML = sampleTransactions.map(transaction => `
+                <tr class="border-b border-gray-100">
+                    <td class="py-4">
+                        <div>
+                            <p class="font-medium">${transaction.name}</p>
+                            <p class="text-gray-500 text-sm">${transaction.email}</p>
+                        </div>
+                    </td>
+                    <td class="py-4">
+                        <p class="font-bold">KES ${transaction.amount.toLocaleString()}</p>
+                    </td>
+                    <td class="py-4">
+                        <span class="px-2 py-1 rounded-full text-xs ${transaction.method === 'M-Pesa' ? 'bg-green-100 text-green-800' : transaction.method === 'Card' ? 'bg-blue-100 text-blue-800' : 'bg-yellow-100 text-yellow-800'}">
+                            ${transaction.method}
+                        </span>
+                    </td>
+                    <td class="py-4 text-gray-600">${transaction.date}</td>
+                    <td class="py-4">
+                        <span class="px-2 py-1 rounded-full text-xs bg-green-100 text-green-800">${transaction.status}</span>
+                    </td>
+                </tr>
+            `).join('');
+
+            // Initialize charts
+            initializeCharts();
+        }
+
+        // Load transactions
+        function loadTransactions() {
+            const allTransactions = document.getElementById('allTransactions');
+            allTransactions.innerHTML = sampleTransactions.map(transaction => `
+                <tr class="border-b border-gray-100 hover:bg-gray-50">
+                    <td class="py-4 font-mono text-sm">${transaction.id}</td>
+                    <td class="py-4">
+                        <div>
+                            <p class="font-medium">${transaction.name}</p>
+                            <p class="text-gray-500 text-sm">${transaction.email}</p>
+                        </div>
+                    </td>
+                    <td class="py-4 text-gray-600">${transaction.email}</td>
+                    <td class="py-4 font-bold">KES ${transaction.amount.toLocaleString()}</td>
+                    <td class="py-4">
+                        <span class="px-2 py-1 rounded-full text-xs ${transaction.method === 'M-Pesa' ? 'bg-green-100 text-green-800' : transaction.method === 'Card' ? 'bg-blue-100 text-blue-800' : 'bg-yellow-100 text-yellow-800'}">
+                            ${transaction.method}
+                        </span>
+                    </td>
+                    <td class="py-4 text-gray-600">${transaction.date}</td>
+                    <td class="py-4">
+                        <span class="px-2 py-1 rounded-full text-xs bg-green-100 text-green-800">${transaction.status}</span>
+                    </td>
+                    <td class="py-4">
+                        <button class="text-ejf-accent hover:text-ejf-secondary">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        // Load donors
+        function loadDonors() {
+            const topDonors = document.getElementById('topDonors');
+            const donorsList = document.getElementById('donorsList');
+            
+            // Top donors
+            topDonors.innerHTML = sampleTransactions.slice(0, 3).map(donor => `
+                <div class="flex items-center justify-between py-3 border-b border-gray-100">
+                    <div>
+                        <p class="font-medium">${donor.name}</p>
+                        <p class="text-gray-500 text-sm">${donor.email}</p>
+                    </div>
+                    <div class="text-right">
+                        <p class="font-bold text-ejf-accent">KES ${donor.amount.toLocaleString()}</p>
+                        <p class="text-gray-500 text-sm">${donor.date}</p>
+                    </div>
+                </div>
+            `).join('');
+            
+            // All donors
+            donorsList.innerHTML = sampleTransactions.map(donor => `
+                <tr class="border-b border-gray-100 hover:bg-gray-50">
+                    <td class="py-4 font-medium">${donor.name}</td>
+                    <td class="py-4 text-gray-600">${donor.email}</td>
+                    <td class="py-4 font-bold">KES ${donor.amount.toLocaleString()}</td>
+                    <td class="py-4 text-gray-600">${donor.date}</td>
+                    <td class="py-4 text-gray-600">${donor.date}</td>
+                    <td class="py-4">
+                        <button class="text-ejf-accent hover:text-ejf-secondary mr-3">
+                            <i class="fas fa-envelope"></i>
+                        </button>
+                        <button class="text-ejf-accent hover:text-ejf-secondary">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        // Load reports
+        function loadReports() {
+            // Initialize monthly chart
+            const monthlyCtx = document.getElementById('monthlyChart').getContext('2d');
+            new Chart(monthlyCtx, {
+                type: 'bar',
+                data: {
+                    labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+                    datasets: [{
+                        label: 'Donations (KES)',
+                        data: [1250000, 1890000, 2150000, 2840000, 2310000, 3570000],
+                        backgroundColor: '#e9b949',
+                        borderColor: '#d4a235',
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            ticks: {
+                                callback: function(value) {
+                                    return 'KES ' + (value / 1000) + 'K';
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        // Initialize charts
+        function initializeCharts() {
+            // Donations over time chart
+            const donationsCtx = document.getElementById('donationsChart').getContext('2d');
+            new Chart(donationsCtx, {
+                type: 'line',
+                data: {
+                    labels: ['Week 1', 'Week 2', 'Week 3', 'Week 4', 'Week 5'],
+                    datasets: [{
+                        label: 'Weekly Donations',
+                        data: [450000, 820000, 1230000, 980000, 1345000],
+                        borderColor: '#4a8c5a',
+                        backgroundColor: 'rgba(74, 140, 90, 0.1)',
+                        borderWidth: 2,
+                        fill: true,
+                        tension: 0.4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            ticks: {
+                                callback: function(value) {
+                                    return 'KES ' + (value / 1000) + 'K';
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+
+            // Payment methods chart
+            const paymentCtx = document.getElementById('paymentMethodsChart').getContext('2d');
+            new Chart(paymentCtx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['M-Pesa', 'Credit Card', 'PayPal'],
+                    datasets: [{
+                        data: [78, 17, 5],
+                        backgroundColor: [
+                            '#4a8c5a',
+                            '#2d5a8c',
+                            '#e9b949'
+                        ],
+                        borderWidth: 0
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'bottom'
+                        }
+                    }
+                }
+            });
+        }
+
+        // Close sidebar when clicking outside on mobile
+        document.addEventListener('click', function(e) {
+            const sidebar = document.querySelector('.sidebar');
+            const menuToggle = document.getElementById('menuToggle');
+            
+            if (window.innerWidth <= 768 && 
+                !sidebar.contains(e.target) && 
+                !menuToggle.contains(e.target) && 
+                sidebar.classList.contains('active')) {
+                sidebar.classList.remove('active');
+            }
+        });
+    </script>
+</body>
+</html>

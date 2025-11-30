@@ -520,6 +520,187 @@
         max-height: 250px;
       }
     }
+    /* PDF Preview Card */
+    .pdf-card {
+      position: relative;
+      display: block;
+      width: 100%;
+      max-width: 300px;
+      margin: 0 auto 20px;
+      border-radius: 20px;
+      overflow: hidden;
+      background: white;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+    }
+
+    .pdf-thumbnail {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 3 / 4;
+      border-radius: 8px;
+      overflow: hidden;
+      cursor: pointer;
+      min-height: 200px;
+    }
+
+    .pdf-thumbnail img {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .pdf-thumb-overlay {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-end;
+      padding: 24px;
+      background: linear-gradient(to bottom, rgba(0,0,0,0.1), rgba(0,0,0,0.6));
+      color: white;
+      opacity: 0;
+      transition: opacity 200ms ease;
+    }
+
+    .pdf-thumbnail:hover .pdf-thumb-overlay {
+      opacity: 1;
+    }
+
+    .pdf-actions {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      padding: 24px;
+      background: linear-gradient(to top, rgba(0,0,0,0.85), rgba(0,0,0,0.5));
+      color: white;
+      text-align: center;
+      z-index: 1;
+    }
+
+    .pdf-actions h3 {
+      margin: 0 0 8px 0;
+      color: white;
+      font-size: 1.3rem;
+    }
+
+    .pdf-actions p { margin: 0 0 16px 0; color: rgba(255,255,255,0.9); font-size: 0.95rem; }
+
+    .btn-download { margin-right: 12px }
+
+    /* Modal Viewer */
+    .pdf-modal {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.7);
+      align-items: center;
+      justify-content: center;
+      z-index: 9999;
+      padding: 20px;
+    }
+
+    .pdf-modal.show { display: flex }
+
+    .pdf-modal-content {
+      width: 100%;
+      max-width: 1000px;
+      height: 80vh;
+      background: white;
+      border-radius: 10px;
+      overflow: hidden;
+      position: relative;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.4);
+    }
+
+    .pdf-modal-close {
+      position: absolute;
+      right: 12px;
+      top: 12px;
+      background: rgba(0,0,0,0.6);
+      color: white;
+      border: none;
+      padding: 8px 12px;
+      border-radius: 6px;
+      cursor: pointer;
+      z-index: 2;
+    }
+
+    .pdf-iframe {
+      width: 100%;
+      height: 100%;
+      border: 0;
+    }
+
+    /* Counter Animation */
+    @keyframes countUp {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .counter {
+      animation: countUp 0.6s ease-out forwards;
+    }
+
+    .counter.animate {
+      animation: countUp 0.6s ease-out;
+    }
+
+    /* Stagger animation for multiple counters */
+    .stats-grid .counter:nth-child(1) { animation-delay: 0s; }
+    .stats-grid .counter:nth-child(2) { animation-delay: 0.2s; }
+    .stats-grid .counter:nth-child(3) { animation-delay: 0.4s; }
+
+    /* Expandable Announcement Card */
+    .announcement-card {
+      margin-top: 30px;
+      border-radius: 12px;
+      overflow: hidden;
+      background: linear-gradient(135deg, #d9a21c, #f4c430);
+      box-shadow: 0 8px 25px rgba(217, 162, 28, 0.25);
+    }
+    .announcement-header {
+      padding: 20px 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      cursor: pointer;
+      user-select: none;
+    }
+    .announcement-header h3 { margin: 0; color: var(--navy); font-size: 1.3rem; font-weight: 700; }
+    .announcement-toggle {
+      width: 36px; height: 36px; border-radius: 50%; background: rgba(0, 38, 77, 0.15); border: none;
+      cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 1.2rem;
+      transition: transform 0.3s ease, background 0.3s ease; color: var(--navy); font-weight: 700;
+    }
+    .announcement-toggle:hover { background: rgba(0, 38, 77, 0.25); transform: scale(1.1); }
+    .announcement-toggle.expanded { transform: rotate(180deg); }
+    .announcement-content {
+      max-height: 0; overflow: hidden; transition: max-height 0.4s ease, padding 0.4s ease;
+    }
+    .announcement-content.expanded { max-height: 2000px; padding: 0 24px 24px 24px; }
+    .announcement-body { color: var(--navy); line-height: 1.8; }
+    .announcement-body h4 { margin: 20px 0 12px 0; font-size: 1.1rem; color: var(--navy); font-weight: 700; }
+    .announcement-body ul { margin: 12px 0 12px 20px; padding: 0; }
+    .announcement-body ul li { margin-bottom: 8px; color: var(--navy); }
+    .announcement-body p { margin: 12px 0; color: var(--navy); }
+    .announcement-body a { color: var(--navy); font-weight: 600; text-decoration: none; border-bottom: 2px solid var(--navy); }
+    .announcement-body a:hover { opacity: 0.8; }
+    .announcement-tags { margin-top: 20px; padding-top: 15px; border-top: 1px solid rgba(0, 38, 77, 0.2); display: flex; flex-wrap: wrap; gap: 10px; }
+    .hashtag { display: inline-block; padding: 6px 12px; background: rgba(0, 38, 77, 0.1); border-radius: 20px; font-size: 0.9rem; color: var(--navy); font-weight: 500; }
+    @media (max-width: 768px) {
+      .announcement-header { padding: 16px 18px; }
+      .announcement-header h3 { font-size: 1.1rem; }
+      .announcement-content.expanded { padding: 0 18px 18px 18px; }
+    }
   </style>
 </head>
 <body>
@@ -593,6 +774,46 @@
     <div class="focus-item" style="margin-top:25px;">
       <h4>Supported By:</h4>
       <p><strong>Wildlife Works</strong> (main supporter - donated seedlings) and other conservation partners committed to youth environmental education.</p>
+    </div>
+
+    <!-- Expandable Tree Champions Announcement -->
+    <div class="announcement-card">
+      <div class="announcement-header" onclick="toggleAnnouncement()">
+        <h3>🌟 Tree Champions: Planting Justice, Growing Resilience!</h3>
+        <button class="announcement-toggle" id="announcementToggle" aria-expanded="false">▼</button>
+      </div>
+      <div class="announcement-content" id="announcementContent">
+        <div class="announcement-body">
+          <p>The Economic Justice Forum (EJF) is thrilled to announce the <strong>re-launch of our Tree Champions program</strong> across primary schools, secondary schools, and universities in <strong>Taita Taveta, Mombasa, Kwale, and along the Indian Ocean this coming January!</strong></p>
+          <p>This bold initiative empowers youth and communities to plant, nurture, and protect trees, creating a generation of climate justice leaders. Each tree is adopted and nurtured by a student, who, once the tree thrives, becomes a Tree Champion, committed to environmental stewardship and community-centered natural resource justice. 🌳💚</p>
+          <h4>Our Vision & Impact</h4>
+          <p>Our target is <strong>1,000,000 trees</strong>, including high-value fruit trees, shade trees, and timber species, generating both environmental and economic benefits:</p>
+          <ul>
+            <li><strong>Climate justice:</strong> carbon sequestration, biodiversity restoration, and ecosystem resilience 🌱</li>
+            <li><strong>Economic justice:</strong> fruit, timber, and sustainable livelihoods for frontline communities 💰</li>
+            <li><strong>Youth leadership:</strong> building champions who advocate for local, national, and UN-level benefit-sharing frameworks ✊</li>
+          </ul>
+          <p>This program connects local climate action to global agendas, including <strong>#COP30 outcomes</strong>, post-COP30 climate finance initiatives, and international climate justice frameworks, ensuring frontline communities benefit while contributing to global climate targets.</p>
+          <h4>How You Can Support</h4>
+          <p>We call on friends, partners, organizations, and individuals who believe in youth-led climate action to support us with:</p>
+          <ul>
+            <li>Seedlings 🌱</li>
+            <li>Transport 🚚</li>
+            <li>Logistical support 📦</li>
+          </ul>
+          <p><strong>Together, we can plant, nurture, and mentor the next generation of climate justice champions, growing a greener, just, and resilient Taita Taveta, Mombasa, Kwale, and Indian Ocean communities — inspiring change globally!</strong></p>
+          <p style="margin-top: 20px; font-weight: 600; text-align: center;">🌍 <a href="https://www.economicjusticeforum.org">www.economicjusticeforum.org</a></p>
+          <div class="announcement-tags">
+            <span class="hashtag">#TreePlanting</span>
+            <span class="hashtag">#YouthLeadership</span>
+            <span class="hashtag">#TreeChampions</span>
+            <span class="hashtag">#ClimateJustice</span>
+            <span class="hashtag">#EconomicJustice</span>
+            <span class="hashtag">#COP30</span>
+            <span class="hashtag">#SustainableFuture</span>
+          </div>
+        </div>
+      </div>
     </div>
   </section>
   
@@ -682,6 +903,31 @@
   </section>
 </main>
   
+  <!-- PDF Summary: EJF Programs Summarized -->
+  <section class="container">
+    <div class="pdf-card" aria-labelledby="pdf-summary-title">
+      <div class="pdf-thumbnail" id="pdfThumb" role="button" tabindex="0" aria-label="View EJF Programs Summarized">
+        <img src="images-projects/programs_summarized.jpg" alt="EJF Programs Summarized cover" />
+        <div class="pdf-actions">
+          <h3 id="pdf-summary-title">EJF Programs Summarized</h3>
+          <p>A concise summary of EJF's programs and key impact highlights. Download or view it inline.</p>
+          <div>
+            <a class="btn btn-secondary btn-download" id="downloadPdf" href="documents/reports/EJF%20Programs%20Summarized.pdf" download>📥 Download PDF</a>
+            <button class="btn btn-primary" id="viewPdf">👁️ View</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PDF Viewer Modal -->
+  <div class="pdf-modal" id="pdfModal" aria-hidden="true">
+    <div class="pdf-modal-content" role="dialog" aria-modal="true" aria-label="EJF Programs Summarized viewer">
+      <button class="pdf-modal-close" id="closePdf">✕ Close</button>
+      <iframe class="pdf-iframe" id="pdfFrame" src="" title="EJF Programs Summarized PDF viewer"></iframe>
+    </div>
+  </div>
+
   <!-- Resources Section -->
   <div class="resources-section">
     <div class="container">
@@ -863,6 +1109,180 @@
       window.scrollTo({ top: 0, behavior: 'smooth' });
     });
   });
+</script>
+<!-- Counter animation script -->
+<script>
+  (function(){
+    const counters = document.querySelectorAll('.counter');
+    let hasAnimated = false;
+
+    function animateCounter(counter) {
+      // Store the target value in a data attribute on first run
+      if (!counter.dataset.target) {
+        counter.dataset.target = counter.textContent.replace(/[^0-9]/g, '');
+        counter.dataset.suffix = counter.textContent.replace(/[0-9]/g, '');
+      }
+      const target = parseInt(counter.dataset.target);
+      const suffix = counter.dataset.suffix || '';
+      let current = 0;
+      const duration = 1500; // 1.5 seconds
+      const start = Date.now();
+
+      function update() {
+        const elapsed = Date.now() - start;
+        const progress = Math.min(elapsed / duration, 1);
+        current = Math.floor(target * progress);
+        counter.textContent = current.toLocaleString() + suffix;
+        if (progress < 1) {
+          requestAnimationFrame(update);
+        } else {
+          counter.textContent = target.toLocaleString() + suffix;
+        }
+      }
+      update();
+    }
+
+    function checkCounters() {
+      if (hasAnimated) return;
+
+      counters.forEach(counter => {
+        const rect = counter.getBoundingClientRect();
+        // Check if counter is in viewport
+        if (rect.top <= window.innerHeight * 0.8 && rect.bottom >= 0) {
+          animateCounter(counter);
+        }
+      });
+
+      // Mark as animated if all counters are visible at least once
+      const allVisible = Array.from(counters).every(counter => {
+        const rect = counter.getBoundingClientRect();
+        return rect.top <= window.innerHeight;
+      });
+
+      if (allVisible) {
+        hasAnimated = true;
+        window.removeEventListener('scroll', checkCounters);
+      }
+    }
+
+    // Check on load
+    window.addEventListener('load', checkCounters);
+    // Check on scroll
+    window.addEventListener('scroll', checkCounters);
+  })();
+</script>
+<!-- PDF viewer script -->
+<script>
+  (function(){
+    const pdfUrl = 'documents/reports/EJF%20Programs%20Summarized.pdf';
+    const viewBtn = document.getElementById('viewPdf');
+    const thumb = document.getElementById('pdfThumb');
+    const modal = document.getElementById('pdfModal');
+    const closeBtn = document.getElementById('closePdf');
+    const iframe = document.getElementById('pdfFrame');
+    const downloadLink = document.getElementById('downloadPdf');
+
+    if(!viewBtn || !modal || !iframe) return;
+
+    function openModal(){
+      iframe.src = pdfUrl + '#view=FitH';
+      modal.classList.add('show');
+      modal.setAttribute('aria-hidden','false');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeModal(){
+      modal.classList.remove('show');
+      modal.setAttribute('aria-hidden','true');
+      // clear src to stop PDF download/playing when closed
+      iframe.src = '';
+      document.body.style.overflow = '';
+    }
+
+    viewBtn.addEventListener('click', openModal);
+    closeBtn && closeBtn.addEventListener('click', closeModal);
+
+    // allow clicking thumbnail to open viewer
+    thumb && thumb.addEventListener('click', openModal);
+    thumb && thumb.addEventListener('keydown', function(e){ if(e.key === 'Enter' || e.key === ' ') openModal(); });
+
+    // allow clicking outside content to close
+    modal.addEventListener('click', function(e){ if(e.target === modal) closeModal(); });
+
+    // ensure download link is set (spaces encoded)
+    if(downloadLink) downloadLink.href = pdfUrl;
+  })();
+</script>
+<!-- Announcement toggle script -->
+<script>
+  function toggleAnnouncement() {
+    const content = document.getElementById('announcementContent');
+    const toggle = document.getElementById('announcementToggle');
+    
+    if (!content || !toggle) return;
+    
+    const isExpanded = content.classList.contains('expanded');
+    
+    if (isExpanded) {
+      content.classList.remove('expanded');
+      toggle.classList.remove('expanded');
+      toggle.setAttribute('aria-expanded', 'false');
+    } else {
+      content.classList.add('expanded');
+      toggle.classList.add('expanded');
+      toggle.setAttribute('aria-expanded', 'true');
+    }
+  }
+</script>
+<!-- Counter animation script -->
+<script>
+  (function(){
+    const counters = document.querySelectorAll('.counter');
+    let hasAnimated = false;
+
+    function animateCounter(counter) {
+      if (!counter.dataset.target) {
+        counter.dataset.target = counter.textContent;
+      }
+      const targetText = counter.dataset.target;
+      const target = parseInt(targetText.replace(/[^0-9]/g, ''));
+      const suffix = targetText.replace(/[0-9,]/g, '');
+      let current = 0;
+      const duration = 1500;
+      const start = Date.now();
+
+      function update() {
+        const elapsed = Date.now() - start;
+        const progress = Math.min(elapsed / duration, 1);
+        current = Math.floor(target * progress);
+        counter.textContent = current.toLocaleString() + suffix;
+        if (progress < 1) {
+          requestAnimationFrame(update);
+        } else {
+          counter.textContent = target.toLocaleString() + suffix;
+        }
+      }
+      update();
+    }
+
+    function checkCounters() {
+      if (hasAnimated) return;
+      let anyVisible = false;
+      counters.forEach(counter => {
+        const rect = counter.getBoundingClientRect();
+        if (rect.top <= window.innerHeight * 0.8 && rect.bottom >= 0) {
+          animateCounter(counter);
+          anyVisible = true;
+        }
+      });
+      if (anyVisible) {
+        hasAnimated = true;
+        window.removeEventListener('scroll', checkCounters);
+      }
+    }
+    window.addEventListener('load', checkCounters);
+    window.addEventListener('scroll', checkCounters);
+  })();
 </script>
 </body>
 </html>
