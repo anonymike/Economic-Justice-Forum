@@ -67,12 +67,50 @@
       flex-shrink: 0;
     }
 
+    .logo-container {
+      position: relative;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .logo-img-wrapper {
+      position: relative;
+      display: inline-block;
+      flex-shrink: 0;
+    }
+
     .logo-container img {
       height: 54px;
       width: 54px;
       object-fit: cover;
       border-radius: 6px;
       box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    }
+
+    .logo-title {
+      font-weight: 700;
+      font-size: 1.1rem;
+    }
+
+    .christmas-bells {
+      position: absolute;
+      top: -4px;
+      left: 50%;
+      height: 3px;
+      width: 3px;
+      animation: bellSwing 1.2s ease-in-out infinite;
+      pointer-events: none;
+      z-index: 10;
+    }
+
+    @keyframes bellSwing {
+      0%, 100% {
+        transform: translateX(-50%) rotate(-8deg);
+      }
+      50% {
+        transform: translateX(-50%) rotate(8deg);
+      }
     }
 
     .logo-text {
@@ -394,6 +432,20 @@
     @media (max-width: 768px) {
       .three-col .three-top { grid-template-columns: 1fr; }
       .three-col .three-bottom { margin-top: 12px; }
+
+      .christmas-bells {
+        height: 10px;
+        width: 10px;
+        top: -3px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .christmas-bells {
+        height: 9px;
+        width: 9px;
+        top: -2px;
+      }
     }
 
     .col {
@@ -401,34 +453,165 @@
       flex-direction: column;
     }
 
-    /* Floating latest-events widget */
-    .floating-events {
+    /* Events Alert Modal Styles */
+    .events-alert-banner {
       position: fixed;
-      right: 18px;
-      bottom: 28px;
-      background: linear-gradient(135deg, var(--gold), #e8b923);
-      color: var(--navy);
-      padding: 12px 16px;
-      border-radius: 999px;
-      box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+      top: 0;
+      left: 0;
+      right: 0;
+      background: linear-gradient(135deg, #d9a21c 0%, #e8b923 100%);
+      padding: 14px 20px;
       display: flex;
       align-items: center;
-      gap: 10px;
-      z-index: 2000;
-      cursor: pointer;
+      justify-content: space-between;
+      z-index: 1500;
+      box-shadow: 0 6px 20px rgba(217, 162, 28, 0.4);
+      animation: slideDown 500ms cubic-bezier(0.34, 1.56, 0.64, 1);
+      transform-origin: top;
+    }
+
+    .events-alert-banner.hide {
+      animation: slideUp 300ms ease forwards;
+    }
+
+    @keyframes slideDown {
+      from {
+        opacity: 0;
+        transform: translateY(-100%);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes slideUp {
+      from {
+        opacity: 1;
+        transform: translateY(0);
+      }
+      to {
+        opacity: 0;
+        transform: translateY(-100%);
+      }
+    }
+
+    @keyframes glow {
+      0%, 100% {
+        box-shadow: 0 6px 20px rgba(217, 162, 28, 0.4);
+      }
+      50% {
+        box-shadow: 0 8px 30px rgba(217, 162, 28, 0.7), 0 0 20px rgba(232, 185, 35, 0.5);
+      }
+    }
+
+    .events-alert-banner {
+      animation: slideDown 500ms cubic-bezier(0.34, 1.56, 0.64, 1), glow 2s ease-in-out infinite;
+    }
+
+    .events-alert-content {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex: 1;
+    }
+
+    .events-alert-icon {
+      font-size: 24px;
+      animation: bounce 2s ease-in-out infinite;
+    }
+
+    @keyframes bounce {
+      0%, 100% {
+        transform: translateY(0);
+      }
+      50% {
+        transform: translateY(-4px);
+      }
+    }
+
+    .events-alert-text {
+      color: #00264d;
       font-weight: 700;
-      text-decoration: none;
+      font-size: 15px;
+      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     }
 
-    .floating-events .dot {
-      width: 10px;
-      height: 10px;
-      background: #00264d;
-      border-radius: 50%;
-      box-shadow: 0 0 0 4px rgba(0,38,77,0.12);
+    .events-alert-text .events-alert-subtext {
+      font-size: 12px;
+      opacity: 0.95;
+      font-weight: 500;
     }
 
-    .floating-events:hover { transform: translateY(-4px); }
+    .events-alert-btn {
+      background: rgba(255, 255, 255, 0.95);
+      color: #d9a21c;
+      border: none;
+      padding: 8px 20px;
+      border-radius: 20px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 300ms ease;
+      font-size: 13px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+
+    .events-alert-btn:hover {
+      transform: scale(1.05);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    }
+
+    .events-alert-btn:active {
+      transform: scale(0.98);
+    }
+
+    .close-banner-btn {
+      background: rgba(255, 255, 255, 0.3);
+      border: none;
+      color: #00264d;
+      font-size: 20px;
+      cursor: pointer;
+      padding: 2px 8px;
+      transition: all 300ms ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .close-banner-btn:hover {
+      background: rgba(255, 255, 255, 0.5);
+    }
+
+    @media (max-width: 768px) {
+      .events-alert-banner {
+        padding: 12px 12px;
+      }
+
+      .events-alert-content {
+        gap: 8px;
+      }
+
+      .events-alert-icon {
+        font-size: 20px;
+      }
+
+      .events-alert-text {
+        font-size: 13px;
+      }
+
+      .events-alert-text .events-alert-subtext {
+        font-size: 11px;
+      }
+
+      .events-alert-btn {
+        padding: 6px 14px;
+        font-size: 11px;
+      }
+    }
 
     /* Stats Grid */
     .stats-grid {
@@ -1122,13 +1305,471 @@
         right: 10px;
       }
     }
+
+    /* Cookie Popup Styles */
+    .cookie-popup {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: linear-gradient(135deg, var(--navy) 0%, #1a3a5a 100%);
+      color: white;
+      padding: 20px;
+      box-shadow: 0 -8px 32px rgba(0, 0, 0, 0.3);
+      z-index: 1000;
+      display: none;
+      animation: slideUpCookie 400ms cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    .cookie-popup.show {
+      display: flex;
+    }
+
+    .cookie-popup.hide {
+      animation: slideDownCookie 300ms ease forwards;
+    }
+
+    @keyframes slideUpCookie {
+      from {
+        opacity: 0;
+        transform: translateY(100%);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes slideDownCookie {
+      from {
+        opacity: 1;
+        transform: translateY(0);
+      }
+      to {
+        opacity: 0;
+        transform: translateY(100%);
+      }
+    }
+
+    .cookie-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+      width: 100%;
+    }
+
+    .cookie-content {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+
+    .cookie-icon {
+      font-size: 32px;
+      flex-shrink: 0;
+    }
+
+    .cookie-text h3 {
+      margin: 0 0 8px 0;
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--gold);
+    }
+
+    .cookie-text p {
+      margin: 0;
+      font-size: 14px;
+      line-height: 1.5;
+      opacity: 0.95;
+    }
+
+    .cookie-text a {
+      color: var(--gold);
+      text-decoration: none;
+      font-weight: 600;
+      transition: opacity 300ms ease;
+    }
+
+    .cookie-text a:hover {
+      opacity: 0.8;
+    }
+
+    .cookie-buttons {
+      display: flex;
+      gap: 12px;
+      flex-shrink: 0;
+    }
+
+    .cookie-btn {
+      padding: 10px 24px;
+      border: none;
+      border-radius: 8px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 300ms ease;
+      font-size: 14px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      white-space: nowrap;
+    }
+
+    .cookie-btn-accept {
+      background: var(--gold);
+      color: var(--navy);
+    }
+
+    .cookie-btn-accept:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 16px rgba(217, 162, 28, 0.4);
+    }
+
+    .cookie-btn-reject {
+      background: rgba(255, 255, 255, 0.15);
+      color: white;
+      border: 2px solid rgba(255, 255, 255, 0.3);
+    }
+
+    .cookie-btn-reject:hover {
+      background: rgba(255, 255, 255, 0.25);
+      border-color: rgba(255, 255, 255, 0.5);
+    }
+
+    .cookie-close {
+      background: transparent;
+      border: none;
+      color: white;
+      font-size: 24px;
+      cursor: pointer;
+      padding: 0;
+      flex-shrink: 0;
+      transition: transform 300ms ease;
+    }
+
+    .cookie-close:hover {
+      transform: scale(1.1);
+    }
+
+    @media (max-width: 768px) {
+      .cookie-popup {
+        padding: 16px;
+      }
+
+      .cookie-container {
+        flex-direction: column;
+        gap: 16px;
+      }
+
+      .cookie-content {
+        flex-direction: column;
+        gap: 12px;
+      }
+
+      .cookie-icon {
+        font-size: 28px;
+      }
+
+      .cookie-text h3 {
+        font-size: 15px;
+      }
+
+      .cookie-text p {
+        font-size: 13px;
+      }
+
+      .cookie-buttons {
+        width: 100%;
+        flex-direction: column;
+      }
+
+      .cookie-btn {
+        width: 100%;
+      }
+    }
+
+    /* Privacy Modal Styles */
+    .privacy-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.6);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 1100;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 300ms ease, visibility 300ms ease;
+    }
+
+    .privacy-overlay.show {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .privacy-modal {
+      background: white;
+      border-radius: 16px;
+      max-width: 700px;
+      width: 95%;
+      max-height: 85vh;
+      overflow-y: auto;
+      position: relative;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+      animation: slideInPrivacy 400ms cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    @keyframes slideInPrivacy {
+      from {
+        opacity: 0;
+        transform: scale(0.95);
+      }
+      to {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
+
+    .privacy-header {
+      background: linear-gradient(135deg, var(--navy) 0%, #1a3a5a 100%);
+      color: white;
+      padding: 30px;
+      border-radius: 16px 16px 0 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .privacy-header h2 {
+      margin: 0;
+      font-size: 24px;
+      font-weight: 700;
+    }
+
+    .privacy-close-btn {
+      background: transparent;
+      border: none;
+      color: white;
+      font-size: 28px;
+      cursor: pointer;
+      padding: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 40px;
+      height: 40px;
+      transition: transform 300ms ease;
+    }
+
+    .privacy-close-btn:hover {
+      transform: scale(1.1);
+    }
+
+    .privacy-body {
+      padding: 30px;
+      color: var(--text);
+    }
+
+    .privacy-body h3 {
+      color: var(--navy);
+      font-size: 18px;
+      font-weight: 700;
+      margin-top: 20px;
+      margin-bottom: 12px;
+    }
+
+    .privacy-body h3:first-child {
+      margin-top: 0;
+    }
+
+    .privacy-body p {
+      font-size: 14px;
+      line-height: 1.8;
+      color: #555;
+      margin: 0 0 12px 0;
+    }
+
+    .privacy-body ul {
+      margin: 12px 0;
+      padding-left: 20px;
+    }
+
+    .privacy-body li {
+      font-size: 14px;
+      line-height: 1.8;
+      color: #555;
+      margin-bottom: 8px;
+    }
+
+    .privacy-body a {
+      color: var(--gold);
+      text-decoration: none;
+      font-weight: 600;
+      transition: opacity 300ms ease;
+    }
+
+    .privacy-body a:hover {
+      opacity: 0.8;
+    }
+
+    .privacy-footer {
+      padding: 20px 30px;
+      border-top: 1px solid #e0e0e0;
+      display: flex;
+      gap: 12px;
+      justify-content: flex-end;
+    }
+
+    .privacy-footer-btn {
+      padding: 10px 24px;
+      border: none;
+      border-radius: 8px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 300ms ease;
+      font-size: 14px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .privacy-footer-btn-close {
+      background: var(--gold);
+      color: var(--navy);
+    }
+
+    .privacy-footer-btn-close:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 16px rgba(217, 162, 28, 0.4);
+    }
+
+    @media (max-width: 768px) {
+      .privacy-header {
+        padding: 20px;
+      }
+
+      .privacy-header h2 {
+        font-size: 20px;
+      }
+
+      .privacy-body {
+        padding: 20px;
+      }
+
+      .privacy-body h3 {
+        font-size: 16px;
+      }
+
+      .privacy-body p,
+      .privacy-body li {
+        font-size: 13px;
+      }
+
+      .privacy-footer {
+        flex-direction: column;
+      }
+
+      .privacy-footer-btn {
+        width: 100%;
+      }
+    }
   </style>
 </head>
 <body>
+
+  <!-- Cookie Popup -->
+  <div class="cookie-popup" id="cookiePopup">
+    <div class="cookie-container">
+      <div class="cookie-content">
+        <div class="cookie-icon">🍪</div>
+        <div class="cookie-text">
+          <h3>We Value Your Privacy</h3>
+          <p>We use cookies to enhance your experience, analyze site traffic, and support our mission. By continuing, you agree to our <a href="#" id="cookiePrivacyLink">Privacy Policy</a>.</p>
+        </div>
+      </div>
+      <div class="cookie-buttons">
+        <button class="cookie-btn cookie-btn-reject" id="cookieReject">Reject</button>
+        <button class="cookie-btn cookie-btn-accept" id="cookieAccept">Accept All</button>
+      </div>
+      <button class="cookie-close" id="cookieClose">&times;</button>
+    </div>
+  </div>
+
+  <!-- Events Alert Banner -->
+  <div class="events-alert-banner" id="eventsAlertBanner">
+    <div class="events-alert-content">
+      <div class="events-alert-icon">📅</div>
+      <div class="events-alert-text">
+        Check out our latest events!
+        <div class="events-alert-subtext">Don't miss upcoming opportunities</div>
+      </div>
+    </div>
+    <button type="button" class="events-alert-btn" id="viewEventsBtn">View Events</button>
+    <button type="button" class="close-banner-btn" id="closeBannerBtn">✕</button>
+  </div>
+
+  <!-- Privacy Modal -->
+  <div class="privacy-overlay" id="privacyOverlay">
+    <div class="privacy-modal">
+      <div class="privacy-header">
+        <h2>Privacy Policy</h2>
+        <button class="privacy-close-btn" id="privacyCloseBtn">&times;</button>
+      </div>
+      <div class="privacy-body">
+        <h3>Our Commitment to Your Privacy</h3>
+        <p>Economic Justice Forum (EJF) is committed to protecting your privacy. This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you visit our website.</p>
+
+        <h3>Information We Collect</h3>
+        <p>We may collect information about you in the following ways:</p>
+        <ul>
+          <li><strong>Voluntarily Provided Information:</strong> Personal data you provide directly, such as name, email address, and contact information through forms on our website.</li>
+          <li><strong>Automatically Collected Information:</strong> Data collected through cookies, log files, and analytics tools, including IP addresses, browser types, and pages visited.</li>
+          <li><strong>Third-Party Sources:</strong> Information from social media platforms or other sources with your consent.</li>
+        </ul>
+
+        <h3>How We Use Your Information</h3>
+        <p>We use the information we collect to:</p>
+        <ul>
+          <li>Provide, maintain, and improve our website and services</li>
+          <li>Process donations and communicate about your support</li>
+          <li>Send newsletters and updates about our mission and events</li>
+          <li>Respond to your inquiries and provide customer support</li>
+          <li>Analyze website usage and improve user experience</li>
+          <li>Comply with legal obligations</li>
+        </ul>
+
+        <h3>Cookies</h3>
+        <p>We use cookies to enhance your browsing experience. Cookies are small text files stored on your device that help us recognize you and remember your preferences. You can control cookie settings through your browser.</p>
+
+        <h3>Data Security</h3>
+        <p>We implement appropriate technical and organizational measures to protect your personal information against unauthorized access, alteration, disclosure, or destruction.</p>
+
+        <h3>Your Rights</h3>
+        <p>You have the right to access, correct, or delete your personal information. To exercise these rights, please contact us at <a href="mailto:info@ejf.org">info@ejf.org</a>.</p>
+
+        <h3>Changes to This Policy</h3>
+        <p>We may update this Privacy Policy from time to time. Changes will be posted on this page with an updated date. Your continued use of our website constitutes acceptance of any changes.</p>
+
+        <h3>Contact Us</h3>
+        <p>If you have questions about this Privacy Policy or our privacy practices, please contact us at <a href="contact.html">our contact page</a> or email us.</p>
+      </div>
+      <div class="privacy-footer">
+        <button class="privacy-footer-btn privacy-footer-btn-close" id="privacyAcceptBtn">I Understand</button>
+      </div>
+    </div>
+  </div>
+
 <header class="site-header">
   <div class="container">
     <div class="logo-container">
-      <img src="logo.jpeg" alt="EJF logo">
+      <div class="logo-img-wrapper">
+        <img src="logo.jpeg" alt="EJF logo">
+        <img src="xmasbells.png" alt="Christmas bells" class="christmas-bells">
+      </div>
       <div class="logo-text">
         <div class="logo-title">Economic Justice Forum (EJF)</div>
         <div class="logo-subtitle">Equity • Justice • Prosperity</div>
@@ -1144,7 +1785,7 @@
       <a href="events.html">Events</a>
       <a href="contact.html">Contact</a>
       <a href="profile.html">Profile</a>
-      <a href="donate.html" class="btn btn-gold">Donate</a>
+      <a href="fundraiser sys/index.html" class="btn btn-gold">Donate</a>
       <!-- Authentication Button -->
       <div class="user-menu">
         <a href="signup.html" class="btn btn-primary" id="authButton">Login</a>
@@ -1168,7 +1809,7 @@
       <p class="lead">People's Platform for Economic, Climate, Social & Digital Justice</p>
       <div class="cta-row">
         <a href="about.html" class="btn btn-primary">Learn More</a>
-        <a href="donate.html" class="btn btn-secondary">Join Us</a>
+        <a href="signup.html" class="btn btn-secondary" id="joinUsBtn">Join Us</a>
       </div>
     </div>
   </div>
@@ -1526,7 +2167,7 @@
       <a href="research.html">Research</a><br/>
       <a href="events.html">Events</a><br/>
   <a href="contact.html">Contact</a><br/>
-      <a href="donate.html">Donate</a>
+      <a href="fundraiser sys/index.html">Donate</a>
       
       <div class="footer-quick-links">
         <a href="#" class="quick-link">Annual Report</a>
@@ -2219,6 +2860,7 @@ async function initAuthUI() {
     const { data: { user } } = await supabase.auth.getUser();
     const authButton = document.getElementById('authButton');
     const userDropdown = document.getElementById('userDropdown');
+    const joinUsBtn = document.getElementById('joinUsBtn');
 
     if (user) {
       // User is logged in - hide login button, show dropdown
@@ -2228,6 +2870,11 @@ async function initAuthUI() {
       if (userDropdown) {
         userDropdown.style.display = 'block';
       }
+      // Update Join Us button to Register With Us
+      if (joinUsBtn) {
+        joinUsBtn.textContent = 'Register With Us';
+        joinUsBtn.href = 'https://ejf-members-registration.mgx.world';
+      }
     } else {
       // User is not logged in - show login button, hide dropdown
       if (authButton) {
@@ -2236,6 +2883,11 @@ async function initAuthUI() {
       if (userDropdown) {
         userDropdown.style.display = 'none';
       }
+      // Keep Join Us button pointing to signup
+      if (joinUsBtn) {
+        joinUsBtn.textContent = 'Join Us';
+        joinUsBtn.href = 'signup.html';
+      }
     }
 
     // Listen for auth state changes
@@ -2243,9 +2895,19 @@ async function initAuthUI() {
       if (session) {
         authButton.style.display = 'none';
         userDropdown.style.display = 'block';
+        // Update Join Us button when user logs in
+        if (joinUsBtn) {
+          joinUsBtn.textContent = 'Register With Us';
+          joinUsBtn.href = 'https://ejf-members-registration.mgx.world';
+        }
       } else {
         authButton.style.display = 'block';
         userDropdown.style.display = 'none';
+        // Revert Join Us button when user logs out
+        if (joinUsBtn) {
+          joinUsBtn.textContent = 'Join Us';
+          joinUsBtn.href = 'signup.html';
+        }
       }
     });
 
@@ -2304,13 +2966,164 @@ if (document.readyState === 'loading') {
   initAuthUI();
 }
 
-</script>
+// Events Alert Banner Auto-Show
+function showEventsBanner() {
+  const eventsBanner = document.getElementById('eventsAlertBanner');
+  const closeBannerBtn = document.getElementById('closeBannerBtn');
+  const viewEventsBtn = document.getElementById('viewEventsBtn');
 
-<!-- Floating Latest Events CTA -->
-<a href="events.html#latest" id="floatingEvents" class="floating-events" aria-label="See latest events">
-  <span class="dot" aria-hidden="true"></span>
-  <span>See latest events</span>
-</a>
+  // Show the banner
+  if (eventsBanner) {
+    setTimeout(() => {
+      eventsBanner.style.display = 'flex';
+    }, 300);
+  }
+
+  // Close button handler
+  if (closeBannerBtn) {
+    closeBannerBtn.addEventListener('click', function() {
+      eventsBanner.classList.add('hide');
+      setTimeout(() => {
+        eventsBanner.style.display = 'none';
+      }, 300);
+    });
+  }
+
+  // View Events button - navigate to events.html and scroll to latest
+  if (viewEventsBtn) {
+    viewEventsBtn.addEventListener('click', function() {
+      window.location.href = 'events.html#latest';
+    });
+  }
+}
+
+// Show events banner when DOM is loaded
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', showEventsBanner);
+} else {
+  showEventsBanner();
+}
+
+// Cookie Popup Management
+function initCookiePopup() {
+  const cookiePopup = document.getElementById('cookiePopup');
+  const cookieAccept = document.getElementById('cookieAccept');
+  const cookieReject = document.getElementById('cookieReject');
+  const cookieClose = document.getElementById('cookieClose');
+  const cookiePrivacyLink = document.getElementById('cookiePrivacyLink');
+  const COOKIE_ACCEPTED = 'ejf_cookies_accepted';
+
+  // Check if cookies have been accepted
+  if (localStorage.getItem(COOKIE_ACCEPTED)) {
+    // Cookies already accepted, don't show popup
+    return;
+  }
+
+  // Show the cookie popup
+  if (cookiePopup) {
+    setTimeout(() => {
+      cookiePopup.classList.add('show');
+    }, 1000); // Show after 1 second for better UX
+  }
+
+  // Accept cookies button
+  if (cookieAccept) {
+    cookieAccept.addEventListener('click', function() {
+      localStorage.setItem(COOKIE_ACCEPTED, 'true');
+      closeCookiePopup();
+      // You can add Google Analytics or other cookie-dependent scripts here
+    });
+  }
+
+  // Reject cookies button
+  if (cookieReject) {
+    cookieReject.addEventListener('click', function() {
+      localStorage.setItem(COOKIE_ACCEPTED, 'rejected');
+      closeCookiePopup();
+    });
+  }
+
+  // Close button
+  if (cookieClose) {
+    cookieClose.addEventListener('click', function() {
+      localStorage.setItem(COOKIE_ACCEPTED, 'true');
+      closeCookiePopup();
+    });
+  }
+
+  // Privacy policy link
+  if (cookiePrivacyLink) {
+    cookiePrivacyLink.addEventListener('click', function(e) {
+      e.preventDefault();
+      openPrivacyModal();
+    });
+  }
+
+  function closeCookiePopup() {
+    if (cookiePopup) {
+      cookiePopup.classList.remove('show');
+      cookiePopup.classList.add('hide');
+      setTimeout(() => {
+        cookiePopup.style.display = 'none';
+      }, 300);
+    }
+  }
+}
+
+// Privacy Modal Management
+function initPrivacyModal() {
+  const privacyOverlay = document.getElementById('privacyOverlay');
+  const privacyCloseBtn = document.getElementById('privacyCloseBtn');
+  const privacyAcceptBtn = document.getElementById('privacyAcceptBtn');
+
+  // Close button
+  if (privacyCloseBtn) {
+    privacyCloseBtn.addEventListener('click', closePrivacyModal);
+  }
+
+  // Accept button
+  if (privacyAcceptBtn) {
+    privacyAcceptBtn.addEventListener('click', closePrivacyModal);
+  }
+
+  // Close on overlay click (outside the modal)
+  if (privacyOverlay) {
+    privacyOverlay.addEventListener('click', function(e) {
+      if (e.target === this) {
+        closePrivacyModal();
+      }
+    });
+  }
+}
+
+// Open privacy modal
+function openPrivacyModal() {
+  const privacyOverlay = document.getElementById('privacyOverlay');
+  if (privacyOverlay) {
+    privacyOverlay.classList.add('show');
+  }
+}
+
+// Close privacy modal
+function closePrivacyModal() {
+  const privacyOverlay = document.getElementById('privacyOverlay');
+  if (privacyOverlay) {
+    privacyOverlay.classList.remove('show');
+  }
+}
+
+// Initialize all popups when DOM is loaded
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', function() {
+    initCookiePopup();
+    initPrivacyModal();
+  });
+} else {
+  initCookiePopup();
+  initPrivacyModal();
+}
+
+</script>
 
 <script>
 

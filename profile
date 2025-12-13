@@ -144,7 +144,7 @@
         <div class="profile-stats">
             <div class="stat-card">
                 <h3>Member Since</h3>
-                <p id="memberSince">2024</p>
+                <p id="memberSince">2025</p>
             </div>
             <div class="stat-card">
                 <h3>Events Attended</h3>

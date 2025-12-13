@@ -141,7 +141,7 @@ app.post('/api/contact', async (req, res) => {
     }
 
     const data = await resend.emails.send({
-      from: 'EJF Contact Form <contact@economicjustice.org>',
+      from: 'economicsjusticeforums@gmail.com',
       to: [
         'mbingu@economicjusticeforum.org',
         'moses@economicjusticeforum.org',

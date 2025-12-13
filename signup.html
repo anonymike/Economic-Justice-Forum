@@ -1,753 +1,637 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Sign in / Sign up — Economic Justice Forum</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
-    <link rel="stylesheet" href="ejf_styles.css" />
-    <style>
-      @import url('https://fonts.googleapis.com/css?family=Montserrat:400,800');
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sign Up / Sign In</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <style>
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      padding: 20px;
+      background-image: url('data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"%3E%3Cg fill-rule="evenodd"%3E%3Cg fill="%239C92AC" fill-opacity="0.4"%3E%3Cpath opacity=".5" d="M96 95h4v1h-4v4h-1v-4h-9v4h-1v-4h-9v4h-1v-4h-9v4h-1v-4h-9v4h-1v-4h-9v4h-1v-4h-9v4h-1v-4h-9v4h-1v-4h-9v4h-1v-4H0v-1h15v-9H0v-1h15v-9H0v-1h15v-9H0v-1h15v-9H0v-1h15v-9H0v-1h15v-9H0v-1h15v-9H0v-1h15v-9H0v-1h15V0h1v15h9V0h1v15h9V0h1v15h9V0h1v15h9V0h1v15h9V0h1v15h9V0h1v15h9V0h1v15h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9zm-1 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-9-10h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm9-10v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-9-10h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm9-10v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-9-10h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9z"/%3E%3Cpath d="M6 5V0H5v5H0v1h5v94h1V6h94V5H6z"/%3E%3C/g%3E%3C/g%3E%3C/svg%3E');
+    }
 
-      * { box-sizing: border-box; }
+    .navbar-top {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      background-color: rgba(255, 255, 255, 0.95);
+      padding: 15px 20px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      z-index: 1000;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
 
+    .navbar-top a {
+      color: #333;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 16px;
+      transition: color 0.3s ease;
+    }
+
+    .navbar-top a:hover {
+      color: #F9BC35;
+    }
+
+    .navbar-top .logo {
+      font-size: 18px;
+      font-weight: 700;
+      color: #F9BC35;
+    }
+
+    .main-container {
+      text-align: center;
+      max-width: 600px;
+      width: 100%;
+    }
+
+    .section {
+      margin-bottom: 40px;
+    }
+
+    .section h2 {
+      color: #333;
+      font-size: 24px;
+      margin-bottom: 15px;
+      font-weight: 700;
+    }
+
+    .section p {
+      color: #666;
+      font-size: 16px;
+      margin-bottom: 20px;
+    }
+
+    .divider {
+      margin: 40px 0;
+      border-top: 2px solid #ddd;
+      position: relative;
+    }
+
+    .divider span {
+      background-color: white;
+      padding: 0 15px;
+      position: relative;
+      top: -12px;
+      color: #999;
+      font-weight: 600;
+    }
+
+    .btn {
+      text-transform: uppercase;
+      border-radius: 0.15rem;
+      width: 200px;
+      padding: 12px 30px;
+      margin: 0 auto;
+      font-family: 'PT Sans', sans-serif;
+      letter-spacing: 2px;
+      font-weight: 600;
+      transition: all 0.3s ease;
+    }
+
+    .btn-primary {
+      border-color: rgba(255, 255, 255, 0);
+      background: linear-gradient(to right, #f1da36 0%, #fca86c 99%);
+      color: #333;
+    }
+
+    .btn-primary:hover {
+      border-color: rgba(255, 255, 255, 0);
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    }
+
+    /* Modal Styles */
+    .modal-content {
+      border-radius: 1rem;
+      border: none;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+    }
+
+    .modal-header {
+      background: linear-gradient(to right, #f1da36 0%, #fca86c 99%);
+      border-bottom: none;
+      border-radius: 1rem 1rem 0 0;
+      padding: 30px 20px;
+    }
+
+    .modal-header h5 {
+      color: #333;
+      font-weight: 700;
+      font-size: 24px;
+      margin: 0;
+    }
+
+    .modal-body {
+      padding: 30px;
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    .form-group label {
+      color: #333;
+      font-weight: 600;
+      margin-bottom: 8px;
+      font-size: 14px;
+    }
+
+    .form-control {
+      border: 1px solid #ddd;
+      border-radius: 0.25rem;
+      padding: 10px 15px;
+      font-size: 14px;
+      transition: border-color 0.3s ease;
+    }
+
+    .form-control:focus {
+      border-color: #F9BC35;
+      box-shadow: 0 0 0 0.2rem rgba(249, 188, 53, 0.25);
+    }
+
+    .btn-submit {
+      width: 100%;
+      margin-top: 20px;
+      padding: 12px;
+      background: linear-gradient(to right, #f1da36 0%, #fca86c 99%);
+      border: none;
+      color: #333;
+      font-weight: 600;
+      border-radius: 0.25rem;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .btn-submit:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    }
+
+    .google-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      width: 100%;
+      padding: 10px 15px;
+      margin-top: 15px;
+      background-color: #ffffff;
+      border: 1px solid #dadce0;
+      border-radius: 0.25rem;
+      color: #3c4043;
+      font-weight: 500;
+      font-size: 14px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      text-transform: none;
+      letter-spacing: normal;
+    }
+
+    .google-btn:hover {
+      background-color: #f8f9fa;
+      border-color: #d2d3d4;
+      box-shadow: 0 1px 1px rgba(0,0,0,0.1);
+    }
+
+    .google-btn:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+
+    .guest-btn {
+      display: block;
+      width: 100%;
+      padding: 10px 15px;
+      margin-top: 10px;
+      background-color: #f0f0f0;
+      border: 1px solid #ccc;
+      border-radius: 0.25rem;
+      color: #333;
+      font-weight: 500;
+      font-size: 14px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .guest-btn:hover {
+      background-color: #e0e0e0;
+      border-color: #999;
+    }
+
+    .guest-btn:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+
+    .message {
+      margin-top: 15px;
+      padding: 12px;
+      border-radius: 0.25rem;
+      font-size: 14px;
+    }
+
+    .message.success {
+      background-color: #d4edda;
+      color: #155724;
+      border: 1px solid #c3e6cb;
+    }
+
+    .message.error {
+      background-color: #f8d7da;
+      color: #721c24;
+      border: 1px solid #f5c6cb;
+    }
+
+    .toggle-form {
+      margin-top: 20px;
+      text-align: center;
+      color: #666;
+      font-size: 14px;
+    }
+
+    .toggle-form a {
+      color: #F9BC35;
+      text-decoration: none;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    .toggle-form a:hover {
+      text-decoration: underline;
+    }
+
+    /* Mobile Responsiveness */
+    @media (max-width: 768px) {
       body {
-        background: #f6f5f7;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        flex-direction: column;
-        font-family: 'Montserrat', sans-serif;
-        height: 100vh;
-        margin: -20px 0 50px;
+        padding: 80px 10px 20px 10px;
       }
 
-      h1 { font-weight: bold; margin: 0; }
-      h2 { text-align: center; }
-      p { font-size: 14px; font-weight: 100; line-height: 20px; letter-spacing: 0.5px; margin: 20px 0 30px; }
-      span { font-size: 12px; }
-      a { color: #333; font-size: 14px; text-decoration: none; margin: 15px 0; }
-
-      button { border-radius: 20px; border: 1px solid #FF4B2B; background-color: #FF4B2B; color: #FFFFFF; font-size: 12px; font-weight: bold; padding: 12px 45px; letter-spacing: 1px; text-transform: uppercase; transition: transform 80ms ease-in; }
-      button:active { transform: scale(0.95); }
-      button:focus { outline: none; }
-      button.ghost { background-color: transparent; border-color: #FFFFFF; }
-
-      form { background-color: #FFFFFF; display: flex; align-items: center; justify-content: center; flex-direction: column; padding: 0 50px; height: 100%; text-align: center; }
-      input { background-color: #eee; border: none; padding: 12px 15px; margin: 8px 0; width: 100%; }
-
-      .container { background-color: #fff; border-radius: 10px; box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22); position: relative; overflow: hidden; width: 768px; max-width: 100%; min-height: 480px; }
-
-      .form-container { position: absolute; top: 0; height: 100%; transition: all 0.6s ease-in-out; }
-
-      .sign-in-container { left: 0; width: 50%; z-index: 2; }
-      .container.right-panel-active .sign-in-container { transform: translateX(100%); }
-
-      .sign-up-container { left: 0; width: 50%; opacity: 0; z-index: 1; }
-      .container.right-panel-active .sign-up-container { transform: translateX(100%); opacity: 1; z-index: 5; animation: show 0.6s; }
-
-      @keyframes show { 0%,49.99% { opacity:0; z-index:1; } 50%,100% { opacity:1; z-index:5; } }
-
-      .overlay-container { position: absolute; top: 0; left: 50%; width: 50%; height: 100%; overflow: hidden; transition: transform 0.6s ease-in-out; z-index: 100; }
-      .container.right-panel-active .overlay-container { transform: translateX(-100%); }
-
-      .overlay { background: linear-gradient(to right, #FF4B2B, #FF416C); background-repeat: no-repeat; background-size: cover; background-position: 0 0; color: #FFFFFF; position: relative; left: -100%; height: 100%; width: 200%; transform: translateX(0); transition: transform 0.6s ease-in-out; }
-      .container.right-panel-active .overlay { transform: translateX(50%); }
-
-      .overlay-panel { position: absolute; display: flex; align-items: center; justify-content: center; flex-direction: column; padding: 0 40px; text-align: center; top: 0; height: 100%; width: 50%; transform: translateX(0); transition: transform 0.6s ease-in-out; }
-      .overlay-left { transform: translateX(-20%); }
-      .container.right-panel-active .overlay-left { transform: translateX(0); }
-      .overlay-right { right: 0; transform: translateX(0); }
-      .container.right-panel-active .overlay-right { transform: translateX(20%); }
-
-      .social-container { margin: 20px 0; }
-      .social-container a { border: 1px solid #DDDDDD; border-radius: 50%; display: inline-flex; justify-content: center; align-items: center; margin: 0 5px; height: 40px; width: 40px; }
-
-      /* Guest Section Styles */
-      .guest-section {
-        text-align: center;
-        padding-top: 15px;
-        border-top: 1px solid #ddd;
-        margin-top: 15px;
+      .navbar-top {
+        padding: 10px 15px;
       }
 
-      .guest-section p {
-        font-size: 12px;
-        color: #666;
-        margin: 10px 0;
+      .navbar-top a {
+        font-size: 14px;
       }
 
-      #guestBtn {
-        background-color: #666666 !important;
-        border-color: #666666 !important;
-        width: 100%;
-        margin-top: 5px;
-        padding: 12px 45px !important;
-        font-size: 12px !important;
-        border-radius: 20px !important;
-      }
-
-      #guestBtn:hover {
-        background-color: #555555 !important;
-        border-color: #555555 !important;
-      }
-
-      footer { background-color: #222; color: #fff; font-size: 14px; bottom: 0; position: fixed; left: 0; right: 0; text-align: center; z-index: 999; }
-      footer p { margin: 10px 0; }
-      footer i { color: red; }
-      footer a { color: #3c97bf; text-decoration: none; }
-
-      /* Upgrade Banner */
-      .upgrade-banner {
-        position: fixed;
-        top: 0;
-        left: 0;
-        right: 0;
-        background: linear-gradient(135deg, #FF4B2B, #FF416C);
-        color: white;
-        padding: 16px 20px;
-        z-index: 10000;
-        display: none;
-        animation: slideDown 0.4s ease-out;
-      }
-
-      .upgrade-banner.show {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        gap: 15px;
-      }
-
-      .upgrade-banner-content {
-        flex: 1;
-        text-align: left;
-      }
-
-      .upgrade-banner-content h3 {
-        margin: 0 0 5px 0;
+      .navbar-top .logo {
         font-size: 16px;
-        font-weight: 600;
       }
 
-      .upgrade-banner-content p {
-        margin: 0;
-        font-size: 13px;
-        opacity: 0.95;
-      }
-
-      .upgrade-banner-actions {
-        display: flex;
-        gap: 10px;
-        align-items: center;
-      }
-
-      .upgrade-btn {
-        background-color: white;
-        color: #FF4B2B;
-        border: none;
-        padding: 8px 16px;
-        border-radius: 5px;
-        cursor: pointer;
-        font-weight: 600;
-        font-size: 12px;
-        white-space: nowrap;
-        transition: all 0.3s ease;
-      }
-
-      .upgrade-btn:hover {
-        transform: scale(1.05);
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-      }
-
-      .close-banner-btn {
-        background: none;
-        border: none;
-        color: white;
+      .section h2 {
         font-size: 20px;
-        cursor: pointer;
-        padding: 0;
-        width: 30px;
-        height: 30px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
       }
 
-      .close-banner-btn:hover {
-        opacity: 0.8;
+      .section p {
+        font-size: 14px;
       }
 
-      @keyframes slideDown {
-        from {
-          transform: translateY(-100%);
-          opacity: 0;
-        }
-        to {
-          transform: translateY(0);
-          opacity: 1;
-        }
+      .btn {
+        width: 100%;
+        padding: 10px 20px;
+        font-size: 12px;
       }
 
-      /* Mobile responsive styles */
-      @media (max-width: 768px) {
-        body {
-          margin: -20px 0 80px;
-        }
-
-        .container {
-          width: 95%;
-          min-height: 500px;
-        }
-
-        form {
-          padding: 0 30px;
-        }
-
-        h1 {
-          font-size: 1.4rem;
-        }
-
-        button {
-          padding: 10px 30px;
-          font-size: 11px;
-        }
-
-        input {
-          padding: 10px 12px;
-          margin: 6px 0;
-        }
-
-        .social-container a {
-          height: 35px;
-          width: 35px;
-          margin: 0 3px;
-        }
-
-        footer {
-          font-size: 12px;
-          padding: 10px 5px;
-        }
-
-        footer p {
-          margin: 8px 0;
-          padding: 0 10px;
-        }
-
-        footer a {
-          font-size: 12px;
-        }
-
-        .guest-section {
-          padding-top: 12px;
-          margin-top: 12px;
-        }
-
-        .guest-section p {
-          font-size: 11px;
-        }
-
-        #guestBtn {
-          padding: 10px 30px !important;
-          font-size: 11px !important;
-        }
+      .divider {
+        margin: 30px 0;
       }
 
-      @media (max-width: 480px) {
-        body {
-          margin: -20px 0 100px;
-          height: auto;
-          min-height: 100vh;
-        }
-
-        h2 {
-          font-size: 1.2rem;
-          margin: 10px 0;
-        }
-
-        .container {
-          width: 100%;
-          max-width: 100%;
-          min-height: 600px;
-          border-radius: 0;
-          box-shadow: none;
-        }
-
-        form {
-          padding: 0 20px;
-        }
-
-        h1 {
-          font-size: 1.3rem;
-          margin: 10px 0 5px 0;
-        }
-
-        p {
-          font-size: 13px;
-          margin: 15px 0 20px;
-        }
-
-        span {
-          font-size: 11px;
-        }
-
-        button {
-          padding: 10px 25px;
-          font-size: 11px;
-          border-radius: 15px;
-        }
-
-        input {
-          padding: 10px 10px;
-          margin: 6px 0;
-          font-size: 14px;
-        }
-
-        .social-container {
-          margin: 15px 0;
-        }
-
-        .social-container a {
-          height: 32px;
-          width: 32px;
-          margin: 0 4px;
-        }
-
-        .overlay-panel {
-          padding: 0 25px;
-        }
-
-        .overlay-panel h1 {
-          font-size: 1.2rem;
-        }
-
-        .overlay-panel p {
-          font-size: 13px;
-          margin: 15px 0 20px;
-        }
-
-        footer {
-          font-size: 11px;
-          padding: 8px 5px;
-          position: fixed;
-          bottom: 0;
-        }
-
-        footer p {
-          margin: 6px 0;
-          padding: 0 8px;
-          word-wrap: break-word;
-        }
-
-        footer a {
-          font-size: 11px;
-          display: inline;
-        }
-
-        .guest-section {
-          padding-top: 10px;
-          margin-top: 10px;
-          border-top: 1px solid #ddd;
-        }
-
-        .guest-section p {
-          font-size: 11px;
-          margin: 8px 0;
-        }
-
-        #guestBtn {
-          padding: 10px 25px !important;
-          font-size: 11px !important;
-          margin-top: 5px;
-        }
+      .modal-header {
+        padding: 20px;
       }
-    </style>
-  </head>
-  <body>
-    <h2>Sign in/up Form</h2>
-    <div class="container" id="container">
-      <div class="form-container sign-up-container">
-        <form action="#">
-          <h1>Create Account</h1>
-          <div class="social-container">
-            <a href="#" class="social"><i class="fab fa-facebook-f"></i></a>
-            <a href="#" class="social"><i class="fab fa-google-plus-g"></i></a>
-            <a href="#" class="social"><i class="fab fa-linkedin-in"></i></a>
-          </div>
-          <span>or use your email for registration</span>
-          <input type="text" placeholder="Name" />
-          <input type="email" placeholder="Email" />
-          <input type="password" placeholder="Password" />
-          <button>Sign Up</button>
-        </form>
-      </div>
-      <div class="form-container sign-in-container">
-        <form action="#">
-          <h1>Sign in</h1>
-          <div class="social-container">
-            <a href="#" class="social"><i class="fab fa-facebook-f"></i></a>
-            <a href="#" class="social"><i class="fab fa-google-plus-g"></i></a>
-            <a href="#" class="social"><i class="fab fa-linkedin-in"></i></a>
-          </div>
-          <span>or use your account</span>
-          <input type="email" placeholder="Email" />
-          <input type="password" placeholder="Password" />
-          <a href="#">Forgot your password?</a>
-          <button>Sign In</button>
-        </form>
-        <div class="guest-section">
-          <p>or continue as</p>
-          <button id="guestBtn">Guest</button>
+
+      .modal-header h5 {
+        font-size: 20px;
+      }
+
+      .modal-body {
+        padding: 20px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      body {
+        padding: 70px 5px 15px 5px;
+      }
+
+      .navbar-top {
+        padding: 8px 10px;
+      }
+
+      .navbar-top a {
+        font-size: 12px;
+      }
+
+      .navbar-top .logo {
+        font-size: 14px;
+      }
+
+      .section h2 {
+        font-size: 18px;
+      }
+
+      .section p {
+        font-size: 13px;
+      }
+
+      .btn {
+        width: 100%;
+        padding: 10px 15px;
+        font-size: 11px;
+      }
+
+      .modal-header h5 {
+        font-size: 18px;
+      }
+
+      .form-control {
+        font-size: 13px;
+        padding: 8px 12px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Navigation Bar -->
+  <div class="navbar-top">
+    <div class="logo">EJF</div>
+    <a href="index.html">← Back to Home</a>
+  </div>
+
+  <!-- Main Container -->
+  <div class="main-container">
+    <!-- Existing Users Section -->
+    <div class="section">
+      <h2>Already have an account?</h2>
+      <p>Sign in to access your dashboard and continue your journey</p>
+      <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#loginModal">
+        SIGN IN
+      </button>
+    </div>
+
+    <!-- Divider -->
+    <div class="divider">
+      <span>OR</span>
+    </div>
+
+    <!-- New Users Section -->
+    <div class="section">
+      <h2>If New here Please SignUp</h2>
+      <p>Join our community and unlock exclusive features</p>
+      <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#signupModal">
+        CREATE ACCOUNT
+      </button>
+    </div>
+  </div>
+
+  <!-- Login Modal -->
+  <div class="modal fade" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="loginModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="loginModalLabel">Sign In</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
         </div>
-      </div>
-      <div class="overlay-container">
-        <div class="overlay">
-          <div class="overlay-panel overlay-left">
-            <h1>Welcome Back!</h1>
-            <p>To keep connected with us please login with your personal info</p>
-            <button class="ghost" id="signIn">Sign In</button>
-          </div>
-          <div class="overlay-panel overlay-right">
-            <h1>Hello, Friend!</h1>
-            <p>Enter your personal details and start journey with us</p>
-            <button class="ghost" id="signUp">Sign Up</button>
+        <div class="modal-body">
+          <form id="loginForm">
+            <div class="form-group">
+              <label for="loginEmail">Email Address</label>
+              <input type="email" class="form-control" id="loginEmail" placeholder="your.email@example.com" required>
+            </div>
+            <div class="form-group">
+              <label for="loginPassword">Password</label>
+              <input type="password" class="form-control" id="loginPassword" placeholder="Enter your password" required>
+            </div>
+            <button type="submit" class="btn-submit">Access Account</button>
+            <button type="button" class="google-btn" id="googleLoginBtn">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
+                <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
+                <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/>
+                <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/>
+              </svg>
+              <span>Continue with Google</span>
+            </button>
+            <button type="button" class="guest-btn" id="guestLoginBtn">Sign in as Guest</button>
+            <div id="loginMessage" class="message" style="display: none;"></div>
+          </form>
+          <div class="toggle-form">
+            Don't have an account? <a data-dismiss="modal" data-toggle="modal" data-target="#signupModal">Sign Up</a>
           </div>
         </div>
       </div>
     </div>
+  </div>
 
-    <!-- Upgrade Banner for Guest Users -->
-    <div class="upgrade-banner" id="upgradeBanner">
-      <div class="upgrade-banner-content">
-        <h3>👤 Welcome, Guest!</h3>
-        <p>Sign up for an account to access updates, personalized content, and exclusive features.</p>
-      </div>
-      <div class="upgrade-banner-actions">
-        <button class="upgrade-btn" id="upgradeNowBtn">Upgrade Now</button>
-        <button class="close-banner-btn" id="closeBannerBtn">✕</button>
+  <!-- Signup Modal -->
+  <div class="modal fade" id="signupModal" tabindex="-1" role="dialog" aria-labelledby="signupModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="signupModalLabel">Create Account</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form id="signupForm">
+            <div class="form-group">
+              <label for="signupName">Full Name</label>
+              <input type="text" class="form-control" id="signupName" placeholder="Enter your full name" required>
+            </div>
+            <div class="form-group">
+              <label for="signupEmail">Email Address</label>
+              <input type="email" class="form-control" id="signupEmail" placeholder="your.email@example.com" required>
+            </div>
+            <div class="form-group">
+              <label for="signupPassword">Password</label>
+              <input type="password" class="form-control" id="signupPassword" placeholder="Create a strong password" required>
+            </div>
+            <button type="submit" class="btn-submit">Create Account</button>
+            <button type="button" class="google-btn" id="googleSignupBtn">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
+                <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
+                <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/>
+                <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/>
+              </svg>
+              <span>Continue with Google</span>
+            </button>
+            <button type="button" class="guest-btn" id="guestSignupBtn">Sign in as Guest</button>
+            <div id="signupMessage" class="message" style="display: none;"></div>
+          </form>
+          <div class="toggle-form">
+            Already have an account? <a data-dismiss="modal" data-toggle="modal" data-target="#loginModal">Sign In</a>
+          </div>
+        </div>
       </div>
     </div>
+  </div>
 
-    <footer>
-      <p id="footerText">
-        New to Economic Justice Forum? <a href="#" id="footerLink">Join our community today</a> and make a difference.
-      </p>
-    </footer>
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
 
-    <script type="module">
-      // Import Supabase
-      import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm';
+  <script type="module">
+    import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm';
+    let supabase;
 
-      // Get Supabase config from environment or API
-      let supabase;
-      
-      async function initSupabase() {
-        try {
-          // Try to get config from API first
-          const res = await fetch('/api/supabase-config');
-          if (res.ok) {
-            const config = await res.json();
-            supabase = createClient(config.url, config.anonKey);
-          } else {
-            // Fallback to environment variables
-            const supabaseUrl = import.meta.env.VITE_SUPABASE_URL || process.env.VITE_SUPABASE_URL;
-            const supabaseKey = import.meta.env.VITE_SUPABASE_ANON_KEY || process.env.VITE_SUPABASE_ANON_KEY;
-            if (supabaseUrl && supabaseKey) {
-              supabase = createClient(supabaseUrl, supabaseKey);
-            }
+    // Initialize Supabase with your credentials
+    const SUPABASE_URL = 'https://darchpgmjwzupynayagx.supabase.co';
+    const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRhcmNocGdtand6dXB5bmF5YWd4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjA1MzcxMzcsImV4cCI6MjA3NjExMzEzN30.n0qKMrNGA2SLAr60tdmSTOoabknHWuOAXQKdnwMXJhg';
+
+    function initSupabase() {
+      try {
+        supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+        console.log('Supabase initialized successfully');
+      } catch (e) {
+        console.error('Supabase initialization error:', e);
+      }
+    }
+
+    initSupabase();
+
+    // Show message helper
+    function showMessage(elementId, message, isError = false) {
+      const messageEl = document.getElementById(elementId);
+      messageEl.textContent = message;
+      messageEl.className = `message ${isError ? 'error' : 'success'}`;
+      messageEl.style.display = 'block';
+    }
+
+    // Signup handler
+    document.getElementById('signupForm').addEventListener('submit', async function(e) {
+      e.preventDefault();
+      if (!supabase) {
+        showMessage('signupMessage', 'Supabase not initialized.', true);
+        return;
+      }
+
+      const name = document.getElementById('signupName').value.trim();
+      const email = document.getElementById('signupEmail').value.trim();
+      const password = document.getElementById('signupPassword').value.trim();
+
+      if (!name || !email || !password) {
+        showMessage('signupMessage', 'Please fill in all fields.', true);
+        return;
+      }
+
+      if (password.length < 6) {
+        showMessage('signupMessage', 'Password must be at least 6 characters.', true);
+        return;
+      }
+
+      try {
+        const { data, error } = await supabase.auth.signUp({
+          email,
+          password,
+          options: {
+            data: { full_name: name },
+            emailRedirectTo: window.location.origin + '/dashboard.html'
           }
-        } catch (e) {
-          console.error('Supabase initialization error:', e);
-        }
+        });
+
+        if (error) throw error;
+        showMessage('signupMessage', 'Sign up successful! Please check your email.');
+        document.getElementById('signupForm').reset();
+      } catch (err) {
+        showMessage('signupMessage', 'Sign up failed: ' + (err.message || 'Unknown error'), true);
+      }
+    });
+
+    // Login handler
+    document.getElementById('loginForm').addEventListener('submit', async function(e) {
+      e.preventDefault();
+      if (!supabase) {
+        showMessage('loginMessage', 'Supabase not initialized.', true);
+        return;
       }
 
-      await initSupabase();
+      const email = document.getElementById('loginEmail').value.trim();
+      const password = document.getElementById('loginPassword').value.trim();
 
-      const signUpButton = document.getElementById('signUp');
-      const signInButton = document.getElementById('signIn');
-      const guestBtn = document.getElementById('guestBtn');
-      const container = document.getElementById('container');
-      const footerText = document.getElementById('footerText');
-      const upgradeBanner = document.getElementById('upgradeBanner');
-      const upgradeNowBtn = document.getElementById('upgradeNowBtn');
-      const closeBannerBtn = document.getElementById('closeBannerBtn');
-
-      // Store guest status in localStorage
-      let isGuestUser = localStorage.getItem('ejfGuestUser') === 'true';
-
-      // Show upgrade banner if guest user
-      function checkGuestStatus() {
-        if (isGuestUser) {
-          upgradeBanner.classList.add('show');
-        } else {
-          upgradeBanner.classList.remove('show');
-        }
+      if (!email || !password) {
+        showMessage('loginMessage', 'Please fill in all fields.', true);
+        return;
       }
 
-      // Guest login handler
-      guestBtn.addEventListener('click', () => {
-        localStorage.setItem('ejfGuestUser', 'true');
-        isGuestUser = true;
-        checkGuestStatus();
-        alert('You are now signed in as a guest. Enjoy browsing!');
-      });
+      try {
+        const { data, error } = await supabase.auth.signInWithPassword({ email, password });
+        if (error) throw error;
+        showMessage('loginMessage', 'Sign in successful! Redirecting...');
+        setTimeout(() => { window.location.href = '/dashboard.html'; }, 1500);
+      } catch (err) {
+        showMessage('loginMessage', 'Sign in failed: ' + (err.message || 'Invalid credentials'), true);
+      }
+    });
 
-      // Upgrade Now button - switch to sign up
-      upgradeNowBtn.addEventListener('click', () => {
-        container.classList.add("right-panel-active");
-        setTimeout(updateFooter, 300);
-      });
+    // Guest login handlers
+    document.getElementById('guestLoginBtn').addEventListener('click', function(e) {
+      e.preventDefault();
+      localStorage.setItem('guestMode', 'true');
+      showMessage('loginMessage', 'Entering as guest...');
+      setTimeout(() => { window.location.href = '/dashboard.html'; }, 1000);
+    });
 
-      // Close banner button
-      closeBannerBtn.addEventListener('click', () => {
-        upgradeBanner.classList.remove('show');
-      });
+    document.getElementById('guestSignupBtn').addEventListener('click', function(e) {
+      e.preventDefault();
+      localStorage.setItem('guestMode', 'true');
+      showMessage('signupMessage', 'Entering as guest...');
+      setTimeout(() => { window.location.href = '/dashboard.html'; }, 1000);
+    });
 
-      // Update footer based on active panel
-      function updateFooter() {
-        if (container.classList.contains('right-panel-active')) {
-          footerText.innerHTML = 'Already have an account? <a href="#" id="footerLink">Sign in here</a> to access your profile.';
-        } else {
-          footerText.innerHTML = 'New to Economic Justice Forum? <a href="#" id="footerLink">Join our community today</a> and make a difference.';
-        }
+    // Google OAuth handlers
+    document.getElementById('googleSignupBtn').addEventListener('click', async function(e) {
+      e.preventDefault();
+      if (!supabase) {
+        showMessage('signupMessage', 'Supabase not initialized.', true);
+        return;
       }
 
-      signUpButton.addEventListener('click', () => {
-        container.classList.add("right-panel-active");
-        setTimeout(updateFooter, 300);
-      });
+      try {
+        this.disabled = true;
+        const { data, error } = await supabase.auth.signInWithOAuth({
+          provider: 'google',
+          options: { redirectTo: window.location.origin + '/dashboard.html' }
+        });
+        if (error) throw error;
+      } catch (err) {
+        showMessage('signupMessage', 'Google sign up failed: ' + (err.message || ''), true);
+        this.disabled = false;
+      }
+    });
 
-      signInButton.addEventListener('click', () => {
-        container.classList.remove("right-panel-active");
-        setTimeout(updateFooter, 300);
-      });
-
-      // ===== SUPABASE EMAIL SIGN UP =====
-      const signUpForm = document.querySelector('.sign-up-container form');
-      const signUpNameInput = signUpForm.querySelector('input[type="text"]');
-      const signUpEmailInput = signUpForm.querySelector('input[type="email"]');
-      const signUpPasswordInput = signUpForm.querySelector('input[type="password"]');
-      const signUpSubmitBtn = signUpForm.querySelector('button');
-
-      signUpSubmitBtn.addEventListener('click', async (e) => {
-        e.preventDefault();
-        
-        if (!supabase) {
-          alert('Supabase is not initialized. Please check your configuration.');
-          return;
-        }
-
-        const name = signUpNameInput.value.trim();
-        const email = signUpEmailInput.value.trim();
-        const password = signUpPasswordInput.value.trim();
-
-        if (!name || !email || !password) {
-          alert('Please fill in all fields');
-          return;
-        }
-
-        if (password.length < 6) {
-          alert('Password must be at least 6 characters');
-          return;
-        }
-
-        try {
-          signUpSubmitBtn.textContent = 'Signing up...';
-          signUpSubmitBtn.disabled = true;
-
-          const { data, error } = await supabase.auth.signUp({
-            email,
-            password,
-            options: {
-              data: {
-                full_name: name
-              },
-              emailRedirectTo: window.location.origin + '/dashboard.html'
-            }
-          });
-
-          if (error) throw error;
-
-          // Clear form
-          signUpNameInput.value = '';
-          signUpEmailInput.value = '';
-          signUpPasswordInput.value = '';
-
-          alert('✅ Sign up successful! Please check your email to confirm your account.');
-          
-          // Save user data to localStorage temporarily
-          localStorage.setItem('ejfUser', JSON.stringify({
-            email: email,
-            name: name,
-            type: 'registered',
-            loginTime: new Date().toISOString()
-          }));
-
-        } catch (err) {
-          console.error('Sign up error:', err);
-          alert('❌ Sign up failed: ' + (err.message || 'Unknown error'));
-        } finally {
-          signUpSubmitBtn.textContent = 'Sign Up';
-          signUpSubmitBtn.disabled = false;
-        }
-      });
-
-      // ===== SUPABASE EMAIL SIGN IN =====
-      const signInForm = document.querySelector('.sign-in-container form');
-      const signInEmailInput = signInForm.querySelector('input[type="email"]');
-      const signInPasswordInput = signInForm.querySelector('input[type="password"]');
-      const signInSubmitBtn = signInForm.querySelector('button');
-
-      signInSubmitBtn.addEventListener('click', async (e) => {
-        e.preventDefault();
-
-        if (!supabase) {
-          alert('Supabase is not initialized. Please check your configuration.');
-          return;
-        }
-
-        const email = signInEmailInput.value.trim();
-        const password = signInPasswordInput.value.trim();
-
-        if (!email || !password) {
-          alert('Please fill in all fields');
-          return;
-        }
-
-        try {
-          signInSubmitBtn.textContent = 'Signing in...';
-          signInSubmitBtn.disabled = true;
-
-          const { data, error } = await supabase.auth.signInWithPassword({
-            email,
-            password
-          });
-
-          if (error) throw error;
-
-          // Get user details
-          const { data: { user } } = await supabase.auth.getUser();
-
-          // Save user data to localStorage
-          localStorage.setItem('ejfUser', JSON.stringify({
-            email: user.email,
-            name: user.user_metadata?.full_name || user.email.split('@')[0],
-            type: 'registered',
-            userId: user.id,
-            loginTime: new Date().toISOString()
-          }));
-
-          // Clear form
-          signInEmailInput.value = '';
-          signInPasswordInput.value = '';
-
-          alert('✅ Sign in successful! Redirecting to dashboard...');
-          setTimeout(() => {
-            window.location.href = '/dashboard.html';
-          }, 1000);
-
-        } catch (err) {
-          console.error('Sign in error:', err);
-          alert('❌ Sign in failed: ' + (err.message || 'Invalid credentials'));
-        } finally {
-          signInSubmitBtn.textContent = 'Sign In';
-          signInSubmitBtn.disabled = false;
-        }
-      });
-
-      // ===== GOOGLE OAUTH SIGN UP =====
-      const googleSignUpBtn = document.createElement('button');
-      googleSignUpBtn.textContent = 'Continue with Google';
-      googleSignUpBtn.className = 'btn';
-      googleSignUpBtn.style.marginTop = '12px';
-      googleSignUpBtn.style.backgroundColor = '#DB4437';
-      googleSignUpBtn.style.borderColor = '#DB4437';
-      googleSignUpBtn.id = 'googleSignUpBtn';
-      signUpForm.insertBefore(googleSignUpBtn, signUpForm.querySelector('button'));
-
-      document.getElementById('googleSignUpBtn').addEventListener('click', async (e) => {
-        e.preventDefault();
-
-        if (!supabase) {
-          alert('Supabase is not initialized. Please check your configuration.');
-          return;
-        }
-
-        try {
-          const { data, error } = await supabase.auth.signInWithOAuth({
-            provider: 'google',
-            options: {
-              redirectTo: window.location.origin + '/dashboard.html'
-            }
-          });
-
-          if (error) throw error;
-
-        } catch (err) {
-          console.error('Google OAuth error:', err);
-          alert('❌ Google sign up failed: ' + (err.message || 'Unknown error'));
-        }
-      });
-
-      // ===== GOOGLE OAUTH SIGN IN =====
-      const googleSignInBtn = document.createElement('button');
-      googleSignInBtn.textContent = 'Continue with Google';
-      googleSignInBtn.className = 'btn';
-      googleSignInBtn.style.marginTop = '12px';
-      googleSignInBtn.style.backgroundColor = '#DB4437';
-      googleSignInBtn.style.borderColor = '#DB4437';
-      googleSignInBtn.id = 'googleSignInBtn';
-      signInForm.insertBefore(googleSignInBtn, signInForm.querySelector('button'));
-
-      document.getElementById('googleSignInBtn').addEventListener('click', async (e) => {
-        e.preventDefault();
-
-        if (!supabase) {
-          alert('Supabase is not initialized. Please check your configuration.');
-          return;
-        }
-
-        try {
-          const { data, error } = await supabase.auth.signInWithOAuth({
-            provider: 'google',
-            options: {
-              redirectTo: window.location.origin + '/dashboard.html'
-            }
-          });
-
-          if (error) throw error;
-
-        } catch (err) {
-          console.error('Google OAuth error:', err);
-          alert('❌ Google sign in failed: ' + (err.message || 'Unknown error'));
-        }
-      });
-
-      // Check if user is already logged in
-      async function checkAuthStatus() {
-        if (!supabase) return;
-
-        try {
-          const { data: { session } } = await supabase.auth.getSession();
-          if (session && session.user) {
-            // User is logged in, save to localStorage and redirect
-            localStorage.setItem('ejfUser', JSON.stringify({
-              email: session.user.email,
-              name: session.user.user_metadata?.full_name || session.user.email.split('@')[0],
-              type: 'registered',
-              userId: session.user.id,
-              loginTime: new Date().toISOString()
-            }));
-            window.location.href = '/dashboard.html';
-          }
-        } catch (err) {
-          console.error('Auth check error:', err);
-        }
+    document.getElementById('googleLoginBtn').addEventListener('click', async function(e) {
+      e.preventDefault();
+      if (!supabase) {
+        showMessage('loginMessage', 'Supabase not initialized.', true);
+        return;
       }
 
-      // Initialize on page load
-      updateFooter();
-      checkGuestStatus();
-      await checkAuthStatus();
-    </script>
-  </body>
+      try {
+        this.disabled = true;
+        const { data, error } = await supabase.auth.signInWithOAuth({
+          provider: 'google',
+          options: { redirectTo: window.location.origin + '/dashboard.html' }
+        });
+        if (error) throw error;
+      } catch (err) {
+        showMessage('loginMessage', 'Google sign in failed: ' + (err.message || ''), true);
+        this.disabled = false;
+      }
+    });
+  </script>
+</body>
 </html>
