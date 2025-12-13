@@ -479,39 +479,52 @@
       </div>
     </div>
 
-    <script type="module">
-      import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm';
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script>
+      let supabase = null;
+      const SUPABASE_URL = 'https://darchpgmjwzupynayagx.supabase.co';
+      const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRhcmNocGdtand6dXB5bmF5YWd4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjA1MzcxMzcsImV4cCI6MjA3NjExMzEzN30.n0qKMrNGA2SLAr60tdmSTOoabknHWuOAXQKdnwMXJhg';
 
-      let supabase;
-
-      async function initSupabase() {
+      function initSupabase() {
         try {
-          const res = await fetch('/api/supabase-config');
-          const config = await res.json();
-          supabase = createClient(config.url, config.anonKey);
-        } catch (err) {
-          console.error('Supabase init error:', err);
-          // Fall back to localStorage data
+          if (window.supabase && window.supabase.createClient) {
+            supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+            console.log('Supabase initialized');
+            return true;
+          }
+        } catch (e) {
+          console.error('Supabase init error:', e);
         }
+        return false;
       }
 
       async function loadDashboard() {
-        await initSupabase();
+        // Initialize Supabase
+        initSupabase();
 
-        // Try Supabase first, then fall back to localStorage
         let user = null;
-        let session = null;
+        let userEmail = null;
 
+        // Try to get user from Supabase
         if (supabase) {
           try {
-            const sessionResp = await supabase.auth.getSession();
-            session = sessionResp.data.session;
-            if (session) {
-              const userResp = await supabase.auth.getUser();
-              user = userResp.data.user;
+            const { data: { session } } = await supabase.auth.getSession();
+            if (session && session.user) {
+              user = session.user;
+              userEmail = user.email;
+              const fullName = user.user_metadata?.full_name || user.email.split('@')[0] || 'User';
+              
+              // Store in localStorage for fallback
+              localStorage.setItem('ejfUser', JSON.stringify({
+                name: fullName,
+                email: userEmail,
+                userId: user.id,
+                loginTime: new Date().toISOString(),
+                type: 'registered'
+              }));
             }
           } catch (err) {
-            console.error('Supabase error:', err);
+            console.error('Supabase session error:', err);
           }
         }
 
@@ -521,13 +534,14 @@
           if (storedUser) {
             try {
               const userData = JSON.parse(storedUser);
+              userEmail = userData.email;
               user = {
                 email: userData.email,
                 user_metadata: { full_name: userData.name },
                 id: userData.userId || 'guest-' + Date.now(),
               };
             } catch (err) {
-              console.error('localStorage parse error:', err);
+              console.error('Parse error:', err);
               redirectToSignup();
               return;
             }
@@ -537,25 +551,26 @@
           }
         }
 
-        // Display user data
-        const name = user.user_metadata?.full_name || user.email.split('@')[0] || 'User';
-        const email = user.email || 'No email';
-        const userId = user.id || 'N/A';
+        // Display user information
+        const firstName = user.user_metadata?.full_name?.split(' ')[0] || user.email.split('@')[0] || 'User';
+        const fullName = user.user_metadata?.full_name || user.email.split('@')[0] || 'User';
 
-        document.getElementById('userName').textContent = name.split(' ')[0];
-        document.getElementById('userNameFull').textContent = name;
-        document.getElementById('userEmail').textContent = email;
-        document.getElementById('userId').textContent = userId;
+        document.getElementById('userName').textContent = firstName;
+        document.getElementById('userNameFull').textContent = fullName;
+        document.getElementById('userEmail').textContent = user.email || 'No email';
+        document.getElementById('userId').textContent = user.id || 'N/A';
 
-        // Format login time
+        // Set login time
         const storedUser = localStorage.getItem('ejfUser');
         if (storedUser) {
           const userData = JSON.parse(storedUser);
-          const loginDate = new Date(userData.loginTime);
-          const today = new Date();
-          const isToday = loginDate.toDateString() === today.toDateString();
-          document.getElementById('loginTime').textContent = isToday ? 'Today' : loginDate.toLocaleDateString();
-          document.getElementById('activityTime').textContent = 'Just now';
+          if (userData.loginTime) {
+            const loginDate = new Date(userData.loginTime);
+            const today = new Date();
+            const isToday = loginDate.toDateString() === today.toDateString();
+            document.getElementById('loginTime').textContent = isToday ? 'Today' : loginDate.toLocaleDateString();
+            document.getElementById('activityTime').textContent = 'Just now';
+          }
         }
       }
 
@@ -563,15 +578,15 @@
         window.location.href = '/signup.html';
       }
 
-      // Home button handler - redirect to home page
-      document.getElementById('dashboardHomeBtn').addEventListener('click', async () => {
-        // Since user is already on dashboard, they are definitely signed in
-        // Just redirect to home page
+      // Home button handler
+      document.getElementById('dashboardHomeBtn').addEventListener('click', () => {
         window.location.href = '/index.html';
       });
 
       // Sign out handler
-      document.getElementById('signoutBtn').addEventListener('click', async () => {
+      document.getElementById('signoutBtn').addEventListener('click', async (e) => {
+        e.preventDefault();
+        
         if (supabase) {
           try {
             await supabase.auth.signOut();
@@ -579,8 +594,13 @@
             console.error('Sign out error:', err);
           }
         }
+        
+        // Clear localStorage
         localStorage.removeItem('ejfUser');
         localStorage.removeItem('ejfGuestUser');
+        localStorage.removeItem('guestMode');
+        
+        // Redirect to signup
         window.location.href = '/signup.html';
       });
 
@@ -588,13 +608,18 @@
       if (supabase) {
         supabase.auth.onAuthStateChange((event, session) => {
           if (event === 'SIGNED_OUT') {
+            localStorage.removeItem('ejfUser');
             redirectToSignup();
           }
         });
       }
 
-      // Load dashboard content
-      loadDashboard();
+      // Load dashboard on ready
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', loadDashboard);
+      } else {
+        loadDashboard();
+      }
     </script>
   </body>
 </html>

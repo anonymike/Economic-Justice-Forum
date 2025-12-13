@@ -10,6 +10,8 @@
   <link rel="manifest" href="site.webmanifest">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <link rel="stylesheet" href="ejf_styles.css">
+  <!-- Supabase -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <!-- Add this for AI functionality -->
   <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
   <style>
@@ -2848,13 +2850,26 @@ window.addEventListener('scroll', () => {
 // Supabase Auth Detection
 async function initAuthUI() {
   try {
-    // Load supabase client from CDN
-    const { createClient } = await import('https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm');
+    // Initialize Supabase from CDN
+    let supabase = null;
+    const SUPABASE_URL = 'https://darchpgmjwzupynayagx.supabase.co';
+    const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRhcmNocGdtand6dXB5bmF5YWd4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjA1MzcxMzcsImV4cCI6MjA3NjExMzEzN30.n0qKMrNGA2SLAr60tdmSTOoabknHWuOAXQKdnwMXJhg';
     
-    // Get config
-    const configRes = await fetch('/api/supabase-config');
-    const cfg = await configRes.json();
-    const supabase = createClient(cfg.url, cfg.anonKey);
+    // Wait for Supabase library from CDN
+    let attempts = 0;
+    while (!window.supabase && attempts < 20) {
+      await new Promise(resolve => setTimeout(resolve, 100));
+      attempts++;
+    }
+
+    if (window.supabase && window.supabase.createClient) {
+      supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+    }
+
+    if (!supabase) {
+      console.warn('Supabase not available, using fallback');
+      return;
+    }
 
     // Check if user is logged in
     const { data: { user } } = await supabase.auth.getUser();
@@ -2869,12 +2884,28 @@ async function initAuthUI() {
       }
       if (userDropdown) {
         userDropdown.style.display = 'block';
+        // Update user name in dropdown
+        const userNameSpan = userDropdown.querySelector('.user-name-display');
+        if (userNameSpan) {
+          const fullName = user.user_metadata?.full_name || user.email.split('@')[0] || 'User';
+          userNameSpan.textContent = fullName;
+        }
       }
       // Update Join Us button to Register With Us
       if (joinUsBtn) {
         joinUsBtn.textContent = 'Register With Us';
         joinUsBtn.href = 'https://ejf-members-registration.mgx.world';
       }
+      
+      // Store user info in localStorage
+      const fullName = user.user_metadata?.full_name || user.email.split('@')[0] || 'User';
+      localStorage.setItem('ejfUser', JSON.stringify({
+        name: fullName,
+        email: user.email,
+        userId: user.id,
+        loginTime: new Date().toISOString(),
+        type: 'registered'
+      }));
     } else {
       // User is not logged in - show login button, hide dropdown
       if (authButton) {
@@ -2888,53 +2919,74 @@ async function initAuthUI() {
         joinUsBtn.textContent = 'Join Us';
         joinUsBtn.href = 'signup.html';
       }
+      localStorage.removeItem('ejfUser');
     }
 
     // Listen for auth state changes
     supabase.auth.onAuthStateChange((event, session) => {
-      if (session) {
-        authButton.style.display = 'none';
-        userDropdown.style.display = 'block';
+      if (session && session.user) {
+        // User just logged in
+        if (authButton) authButton.style.display = 'none';
+        if (userDropdown) {
+          userDropdown.style.display = 'block';
+          const userNameSpan = userDropdown.querySelector('.user-name-display');
+          if (userNameSpan) {
+            const fullName = session.user.user_metadata?.full_name || session.user.email.split('@')[0] || 'User';
+            userNameSpan.textContent = fullName;
+          }
+        }
         // Update Join Us button when user logs in
         if (joinUsBtn) {
           joinUsBtn.textContent = 'Register With Us';
           joinUsBtn.href = 'https://ejf-members-registration.mgx.world';
         }
-      } else {
-        authButton.style.display = 'block';
-        userDropdown.style.display = 'none';
+        const fullName = session.user.user_metadata?.full_name || session.user.email.split('@')[0] || 'User';
+        localStorage.setItem('ejfUser', JSON.stringify({
+          name: fullName,
+          email: session.user.email,
+          userId: session.user.id,
+          loginTime: new Date().toISOString(),
+          type: 'registered'
+        }));
+      } else if (event === 'SIGNED_OUT') {
+        // User just logged out
+        if (authButton) authButton.style.display = 'block';
+        if (userDropdown) userDropdown.style.display = 'none';
         // Revert Join Us button when user logs out
         if (joinUsBtn) {
           joinUsBtn.textContent = 'Join Us';
           joinUsBtn.href = 'signup.html';
         }
+        localStorage.removeItem('ejfUser');
       }
     });
 
-    // Wire dashboard, settings and logout links for expected behavior
+    // Wire dashboard, settings and logout links
     const profileLink = document.getElementById('profileLink');
     const settingsLink = document.getElementById('settingsLink');
     const logoutLink = document.getElementById('logoutLink');
 
-    if (profileLink) profileLink.setAttribute('href', '/dashboard.html');
+    if (profileLink) profileLink.setAttribute('href', '/profile.html');
     if (settingsLink) {
-      // If there's a dedicated settings page, go there; otherwise open profile
       settingsLink.addEventListener('click', (e) => {
         e.preventDefault();
-        // Prefer a settings route if available
-        const settingsPage = '/profile.html';
-        window.location.href = settingsPage;
+        window.location.href = '/profile.html';
       });
     }
 
     if (logoutLink) {
-      // ensure logout performs a proper sign-out via Supabase
       logoutLink.addEventListener('click', (e) => {
         e.preventDefault();
-        // Use the logoutUser helper defined later in the file
-        if (typeof logoutUser === 'function') logoutUser();
-        else {
-          // fallback: clear localStorage and reload
+        if (supabase) {
+          supabase.auth.signOut().then(() => {
+            localStorage.removeItem('ejfUser');
+            window.location.href = '/index.html';
+          }).catch(err => {
+            console.error('Logout error:', err);
+            localStorage.removeItem('ejfUser');
+            window.location.href = '/index.html';
+          });
+        } else {
           localStorage.removeItem('ejfUser');
           window.location.href = '/index.html';
         }

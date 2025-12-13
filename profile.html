@@ -821,125 +821,186 @@
         });
     </script>
 
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script>
-        // Authentication functions
-        function toggleAuthModal() {
-            // Redirect to login if not authenticated
-            const user = JSON.parse(localStorage.getItem('ejfUser'));
-            if (!user) {
-                window.location.href = 'index.html';
-            }
+      let supabase = null;
+      const SUPABASE_URL = 'https://darchpgmjwzupynayagx.supabase.co';
+      const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRhcmNocGdtand6dXB5bmF5YWd4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjA1MzcxMzcsImV4cCI6MjA3NjExMzEzN30.n0qKMrNGA2SLAr60tdmSTOoabknHWuOAXQKdnwMXJhg';
+
+      function initSupabase() {
+        try {
+          if (window.supabase && window.supabase.createClient) {
+            supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+            return true;
+          }
+        } catch (e) {
+          console.error('Supabase init error:', e);
         }
-
-        function logout() {
-            localStorage.removeItem('ejfUser');
-            window.location.href = 'index.html';
-        }
-
-        // Profile functions
-        function editProfile() {
-            alert('Profile editing feature coming soon!');
-        }
-
-        function changePassword() {
-            alert('Password change feature coming soon!');
-        }
-
-        function viewActivity() {
-            alert('Activity view feature coming soon!');
-        }
-
-    // Back to Top functionality
-    const backToTopButton = document.createElement('a');
-    backToTopButton.href = '#';
-    backToTopButton.className = 'back-to-top';
-    backToTopButton.innerHTML = '↑';
-    document.body.appendChild(backToTopButton);
-
-    window.addEventListener('scroll', () => {
-      if (window.pageYOffset > 300) {
-        backToTopButton.classList.add('visible');
-      } else {
-        backToTopButton.classList.remove('visible');
+        return false;
       }
-    });
 
-    backToTopButton.addEventListener('click', (e) => {
-      e.preventDefault();
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    });
-  });
-        // Load user data
-        document.addEventListener('DOMContentLoaded', function() {
-            const user = JSON.parse(localStorage.getItem('ejfUser'));
-            if (!user) {
-                window.location.href = 'index.html';
-                return;
-            }
+      async function loadProfileData() {
+        initSupabase();
 
-            // Update profile information
-            document.getElementById('userName').textContent = user.name;
-            document.getElementById('userEmail').textContent = user.email;
-            document.getElementById('userType').textContent = user.type === 'guest' ? 'Guest User' : 'Member';
-            document.getElementById('userAvatar').textContent = user.name.charAt(0).toUpperCase();
-            
-            // Update badge based on user type
-            const badge = document.getElementById('userBadge');
-            if (user.type === 'guest') {
-                badge.textContent = 'GUEST';
-                badge.style.background = '#6c757d';
-            } else {
-                badge.textContent = 'MEMBER';
-                badge.style.background = 'var(--gold)';
-            }
-            
-            // Update profile details
-            document.getElementById('profileName').textContent = user.name;
-            document.getElementById('profileEmail').textContent = user.email;
-            document.getElementById('profileType').textContent = user.type === 'guest' ? 'Guest Account' : 'Full Member';
-            
-            if (user.loginTime) {
-                const date = new Date(user.loginTime);
-                document.getElementById('memberSince').textContent = date.getFullYear();
-                document.getElementById('profileSince').textContent = date.toLocaleDateString();
-                
-                // Update last active
-                const now = new Date();
-                const diffTime = Math.abs(now - date);
-                const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-                
-                if (diffDays === 1) {
-                    document.getElementById('lastActive').textContent = 'Today';
-                } else if (diffDays < 7) {
-                    document.getElementById('lastActive').textContent = `${diffDays} days ago`;
-                } else {
-                    document.getElementById('lastActive').textContent = date.toLocaleDateString();
-                }
-            }
+        let userData = null;
 
-            // Update navigation
-            updateNavigation();
-        });
-
-        function updateNavigation() {
-            const authButton = document.getElementById('authButton');
-            const user = JSON.parse(localStorage.getItem('ejfUser'));
-            
-            if (user) {
-                authButton.innerHTML = `👤 ${user.name}`;
-                authButton.onclick = () => document.getElementById('userDropdown').classList.toggle('show');
-            } else {
-                authButton.innerHTML = 'Login';
-                authButton.onclick = () => window.location.href = 'index.html';
+        // Try Supabase first
+        if (supabase) {
+          try {
+            const { data: { session } } = await supabase.auth.getSession();
+            if (session && session.user) {
+              const user = session.user;
+              const fullName = user.user_metadata?.full_name || user.email.split('@')[0] || 'User';
+              
+              userData = {
+                name: fullName,
+                email: user.email,
+                userId: user.id,
+                type: 'registered',
+                loginTime: new Date().toISOString()
+              };
+              
+              localStorage.setItem('ejfUser', JSON.stringify(userData));
             }
+          } catch (err) {
+            console.error('Supabase error:', err);
+          }
         }
+
+        // Fallback to localStorage
+        if (!userData) {
+          const storedUser = localStorage.getItem('ejfUser');
+          if (storedUser) {
+            try {
+              userData = JSON.parse(storedUser);
+            } catch (err) {
+              console.error('Parse error:', err);
+              window.location.href = 'index.html';
+              return;
+            }
+          } else {
+            window.location.href = 'index.html';
+            return;
+          }
+        }
+
+        // Update profile information
+        const firstLetter = userData.name.charAt(0).toUpperCase();
+        
+        if (document.getElementById('userName')) document.getElementById('userName').textContent = userData.name;
+        if (document.getElementById('userEmail')) document.getElementById('userEmail').textContent = userData.email;
+        if (document.getElementById('userType')) document.getElementById('userType').textContent = userData.type === 'guest' ? 'Guest User' : 'Member';
+        if (document.getElementById('userAvatar')) document.getElementById('userAvatar').textContent = firstLetter;
+        
+        // Update badge
+        const badge = document.getElementById('userBadge');
+        if (badge) {
+          if (userData.type === 'guest') {
+            badge.textContent = 'GUEST';
+            badge.style.background = '#6c757d';
+          } else {
+            badge.textContent = 'MEMBER';
+            badge.style.background = 'var(--gold)';
+          }
+        }
+        
+        // Update profile details
+        if (document.getElementById('profileName')) document.getElementById('profileName').textContent = userData.name;
+        if (document.getElementById('profileEmail')) document.getElementById('profileEmail').textContent = userData.email;
+        if (document.getElementById('profileType')) document.getElementById('profileType').textContent = userData.type === 'guest' ? 'Guest Account' : 'Full Member';
+        
+        // Update stats
+        if (userData.loginTime) {
+          const date = new Date(userData.loginTime);
+          const year = date.getFullYear();
+          
+          if (document.getElementById('memberSince')) document.getElementById('memberSince').textContent = year;
+          if (document.getElementById('profileSince')) document.getElementById('profileSince').textContent = date.toLocaleDateString();
+          
+          if (document.getElementById('lastActive')) {
+            const now = new Date();
+            const diffTime = Math.abs(now - date);
+            const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+            
+            if (diffDays === 0) {
+              document.getElementById('lastActive').textContent = 'Today';
+            } else if (diffDays === 1) {
+              document.getElementById('lastActive').textContent = 'Yesterday';
+            } else if (diffDays < 7) {
+              document.getElementById('lastActive').textContent = diffDays + ' days ago';
+            } else {
+              document.getElementById('lastActive').textContent = date.toLocaleDateString();
+            }
+          }
+        }
+      }
+
+      function updateNavigation() {
+        const userData = localStorage.getItem('ejfUser');
+        if (userData) {
+          try {
+            const user = JSON.parse(userData);
+            const authButton = document.getElementById('authButton');
+            if (authButton) {
+              authButton.innerHTML = '👤 ' + user.name;
+              authButton.onclick = () => {
+                const dropdown = document.getElementById('userDropdown');
+                if (dropdown) dropdown.classList.toggle('show');
+              };
+            }
+          } catch (err) {
+            console.error('Error updating navigation:', err);
+          }
+        }
+      }
+
+      async function handleLogout(e) {
+        if (e) e.preventDefault();
+        
+        if (supabase) {
+          try {
+            await supabase.auth.signOut();
+          } catch (err) {
+            console.error('Sign out error:', err);
+          }
+        }
+        
+        localStorage.removeItem('ejfUser');
+        localStorage.removeItem('ejfGuestUser');
+        localStorage.removeItem('guestMode');
+        
+        window.location.href = '/signup.html';
+      }
+
+      // Initialize on DOM ready
+      document.addEventListener('DOMContentLoaded', function() {
+        loadProfileData();
+        updateNavigation();
+        
+        // Attach logout handlers
+        const logoutButtons = document.querySelectorAll('.logout-btn');
+        logoutButtons.forEach(btn => {
+          btn.addEventListener('click', handleLogout);
+        });
 
         // Close dropdown when clicking outside
         document.addEventListener('click', (e) => {
-            if (!e.target.closest('.user-menu')) {
-                document.getElementById('userDropdown').classList.remove('show');
-            }
+          if (!e.target.closest('.user-menu')) {
+            const dropdown = document.getElementById('userDropdown');
+            if (dropdown) dropdown.classList.remove('show');
+          }
         });
+      });
+
+      // Listen for auth state changes
+      if (supabase) {
+        supabase.auth.onAuthStateChange((event, session) => {
+          if (event === 'SIGNED_OUT') {
+            localStorage.removeItem('ejfUser');
+            window.location.href = '/signup.html';
+          }
+        });
+      }
     </script>
 </body>
 </html>
