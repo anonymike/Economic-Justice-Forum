@@ -501,137 +501,169 @@
       }
     }
 
-    initSupabase();
-
     // Show message helper
     function showMessage(elementId, message, isError = false) {
       const messageEl = document.getElementById(elementId);
-      messageEl.textContent = message;
-      messageEl.className = `message ${isError ? 'error' : 'success'}`;
-      messageEl.style.display = 'block';
+      if (messageEl) {
+        messageEl.textContent = message;
+        messageEl.className = `message ${isError ? 'error' : 'success'}`;
+        messageEl.style.display = 'block';
+      }
     }
 
-    // Signup handler
-    document.getElementById('signupForm').addEventListener('submit', async function(e) {
-      e.preventDefault();
-      if (!supabase) {
-        showMessage('signupMessage', 'Supabase not initialized.', true);
-        return;
-      }
+    // Initialize everything when DOM is ready
+    function initializeEventHandlers() {
+      const signupForm = document.getElementById('signupForm');
+      const loginForm = document.getElementById('loginForm');
+      const googleSignupBtn = document.getElementById('googleSignupBtn');
+      const googleLoginBtn = document.getElementById('googleLoginBtn');
+      const guestLoginBtn = document.getElementById('guestLoginBtn');
+      const guestSignupBtn = document.getElementById('guestSignupBtn');
 
-      const name = document.getElementById('signupName').value.trim();
-      const email = document.getElementById('signupEmail').value.trim();
-      const password = document.getElementById('signupPassword').value.trim();
+      // Signup handler
+      if (signupForm) {
+        signupForm.addEventListener('submit', async function(e) {
+          e.preventDefault();
+          if (!supabase) {
+            showMessage('signupMessage', 'Supabase not initialized.', true);
+            return;
+          }
 
-      if (!name || !email || !password) {
-        showMessage('signupMessage', 'Please fill in all fields.', true);
-        return;
-      }
+          const name = document.getElementById('signupName').value.trim();
+          const email = document.getElementById('signupEmail').value.trim();
+          const password = document.getElementById('signupPassword').value.trim();
 
-      if (password.length < 6) {
-        showMessage('signupMessage', 'Password must be at least 6 characters.', true);
-        return;
-      }
+          if (!name || !email || !password) {
+            showMessage('signupMessage', 'Please fill in all fields.', true);
+            return;
+          }
 
-      try {
-        const { data, error } = await supabase.auth.signUp({
-          email,
-          password,
-          options: {
-            data: { full_name: name },
-            emailRedirectTo: window.location.origin + '/dashboard.html'
+          if (password.length < 6) {
+            showMessage('signupMessage', 'Password must be at least 6 characters.', true);
+            return;
+          }
+
+          try {
+            const { data, error } = await supabase.auth.signUp({
+              email,
+              password,
+              options: {
+                data: { full_name: name },
+                emailRedirectTo: window.location.origin + '/dashboard.html'
+              }
+            });
+
+            if (error) throw error;
+            showMessage('signupMessage', 'Sign up successful! Please check your email.');
+            signupForm.reset();
+          } catch (err) {
+            showMessage('signupMessage', 'Sign up failed: ' + (err.message || 'Unknown error'), true);
           }
         });
-
-        if (error) throw error;
-        showMessage('signupMessage', 'Sign up successful! Please check your email.');
-        document.getElementById('signupForm').reset();
-      } catch (err) {
-        showMessage('signupMessage', 'Sign up failed: ' + (err.message || 'Unknown error'), true);
-      }
-    });
-
-    // Login handler
-    document.getElementById('loginForm').addEventListener('submit', async function(e) {
-      e.preventDefault();
-      if (!supabase) {
-        showMessage('loginMessage', 'Supabase not initialized.', true);
-        return;
       }
 
-      const email = document.getElementById('loginEmail').value.trim();
-      const password = document.getElementById('loginPassword').value.trim();
+      // Login handler
+      if (loginForm) {
+        loginForm.addEventListener('submit', async function(e) {
+          e.preventDefault();
+          if (!supabase) {
+            showMessage('loginMessage', 'Supabase not initialized.', true);
+            return;
+          }
 
-      if (!email || !password) {
-        showMessage('loginMessage', 'Please fill in all fields.', true);
-        return;
-      }
+          const email = document.getElementById('loginEmail').value.trim();
+          const password = document.getElementById('loginPassword').value.trim();
 
-      try {
-        const { data, error } = await supabase.auth.signInWithPassword({ email, password });
-        if (error) throw error;
-        showMessage('loginMessage', 'Sign in successful! Redirecting...');
-        setTimeout(() => { window.location.href = '/dashboard.html'; }, 1500);
-      } catch (err) {
-        showMessage('loginMessage', 'Sign in failed: ' + (err.message || 'Invalid credentials'), true);
-      }
-    });
+          if (!email || !password) {
+            showMessage('loginMessage', 'Please fill in all fields.', true);
+            return;
+          }
 
-    // Guest login handlers
-    document.getElementById('guestLoginBtn').addEventListener('click', function(e) {
-      e.preventDefault();
-      localStorage.setItem('guestMode', 'true');
-      showMessage('loginMessage', 'Entering as guest...');
-      setTimeout(() => { window.location.href = '/dashboard.html'; }, 1000);
-    });
-
-    document.getElementById('guestSignupBtn').addEventListener('click', function(e) {
-      e.preventDefault();
-      localStorage.setItem('guestMode', 'true');
-      showMessage('signupMessage', 'Entering as guest...');
-      setTimeout(() => { window.location.href = '/dashboard.html'; }, 1000);
-    });
-
-    // Google OAuth handlers
-    document.getElementById('googleSignupBtn').addEventListener('click', async function(e) {
-      e.preventDefault();
-      if (!supabase) {
-        showMessage('signupMessage', 'Supabase not initialized.', true);
-        return;
-      }
-
-      try {
-        this.disabled = true;
-        const { data, error } = await supabase.auth.signInWithOAuth({
-          provider: 'google',
-          options: { redirectTo: window.location.origin + '/dashboard.html' }
+          try {
+            const { data, error } = await supabase.auth.signInWithPassword({ email, password });
+            if (error) throw error;
+            showMessage('loginMessage', 'Sign in successful! Redirecting...');
+            setTimeout(() => { window.location.href = '/dashboard.html'; }, 1500);
+          } catch (err) {
+            showMessage('loginMessage', 'Sign in failed: ' + (err.message || 'Invalid credentials'), true);
+          }
         });
-        if (error) throw error;
-      } catch (err) {
-        showMessage('signupMessage', 'Google sign up failed: ' + (err.message || ''), true);
-        this.disabled = false;
-      }
-    });
-
-    document.getElementById('googleLoginBtn').addEventListener('click', async function(e) {
-      e.preventDefault();
-      if (!supabase) {
-        showMessage('loginMessage', 'Supabase not initialized.', true);
-        return;
       }
 
-      try {
-        this.disabled = true;
-        const { data, error } = await supabase.auth.signInWithOAuth({
-          provider: 'google',
-          options: { redirectTo: window.location.origin + '/dashboard.html' }
+      // Guest login handlers
+      if (guestLoginBtn) {
+        guestLoginBtn.addEventListener('click', function(e) {
+          e.preventDefault();
+          localStorage.setItem('guestMode', 'true');
+          showMessage('loginMessage', 'Entering as guest...');
+          setTimeout(() => { window.location.href = '/dashboard.html'; }, 1000);
         });
-        if (error) throw error;
-      } catch (err) {
-        showMessage('loginMessage', 'Google sign in failed: ' + (err.message || ''), true);
-        this.disabled = false;
       }
-    });
+
+      if (guestSignupBtn) {
+        guestSignupBtn.addEventListener('click', function(e) {
+          e.preventDefault();
+          localStorage.setItem('guestMode', 'true');
+          showMessage('signupMessage', 'Entering as guest...');
+          setTimeout(() => { window.location.href = '/dashboard.html'; }, 1000);
+        });
+      }
+
+      // Google OAuth handlers
+      if (googleSignupBtn) {
+        googleSignupBtn.addEventListener('click', async function(e) {
+          e.preventDefault();
+          if (!supabase) {
+            showMessage('signupMessage', 'Supabase not initialized.', true);
+            return;
+          }
+
+          try {
+            this.disabled = true;
+            const { data, error } = await supabase.auth.signInWithOAuth({
+              provider: 'google',
+              options: { redirectTo: window.location.origin + '/dashboard.html' }
+            });
+            if (error) throw error;
+          } catch (err) {
+            showMessage('signupMessage', 'Google sign up failed: ' + (err.message || ''), true);
+            this.disabled = false;
+          }
+        });
+      }
+
+      if (googleLoginBtn) {
+        googleLoginBtn.addEventListener('click', async function(e) {
+          e.preventDefault();
+          if (!supabase) {
+            showMessage('loginMessage', 'Supabase not initialized.', true);
+            return;
+          }
+
+          try {
+            this.disabled = true;
+            const { data, error } = await supabase.auth.signInWithOAuth({
+              provider: 'google',
+              options: { redirectTo: window.location.origin + '/dashboard.html' }
+            });
+            if (error) throw error;
+          } catch (err) {
+            showMessage('loginMessage', 'Google sign in failed: ' + (err.message || ''), true);
+            this.disabled = false;
+          }
+        });
+      }
+    }
+
+    // Initialize Supabase and event handlers when DOM is ready
+    initSupabase();
+    
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initializeEventHandlers);
+    } else {
+      // DOM is already loaded
+      initializeEventHandlers();
+    }
   </script>
 </body>
 </html>
