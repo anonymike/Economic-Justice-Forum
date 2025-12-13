@@ -483,6 +483,7 @@
 
   <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
   <script>
     let supabase = null;
@@ -491,12 +492,17 @@
     const SUPABASE_URL = 'https://darchpgmjwzupynayagx.supabase.co';
     const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRhcmNocGdtand6dXB5bmF5YWd4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjA1MzcxMzcsImV4cCI6MjA3NjExMzEzN30.n0qKMrNGA2SLAr60tdmSTOoabknHWuOAXQKdnwMXJhg';
 
-    async function initSupabase() {
+    function initSupabase() {
       try {
-        const { createClient } = await import('https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm');
-        supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-        console.log('Supabase initialized successfully');
-        return true;
+        // Use the global supabase object from the CDN script
+        if (window.supabase && window.supabase.createClient) {
+          supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+          console.log('Supabase initialized successfully');
+          return true;
+        } else {
+          console.error('Supabase library not loaded from CDN');
+          return false;
+        }
       } catch (e) {
         console.error('Supabase initialization error:', e);
         return false;
@@ -658,9 +664,25 @@
     }
 
     // Initialize Supabase and event handlers when DOM is ready
-    async function initializeApp() {
-      await initSupabase();
-      initializeEventHandlers();
+    function initializeApp() {
+      // Give the Supabase CDN script time to load
+      let attempts = 0;
+      const maxAttempts = 10;
+      
+      const checkSupabaseReady = setInterval(function() {
+        attempts++;
+        
+        if (window.supabase && window.supabase.createClient) {
+          clearInterval(checkSupabaseReady);
+          initSupabase();
+          initializeEventHandlers();
+          console.log('App initialized successfully');
+        } else if (attempts >= maxAttempts) {
+          clearInterval(checkSupabaseReady);
+          console.error('Supabase library failed to load after ' + maxAttempts + ' attempts');
+          initializeEventHandlers(); // Still initialize event handlers even if Supabase fails
+        }
+      }, 100);
     }
 
     if (document.readyState === 'loading') {
