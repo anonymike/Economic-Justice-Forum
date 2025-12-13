@@ -2992,6 +2992,56 @@ async function initAuthUI() {
         }
       });
     }
+
+    // Close dropdown on scroll
+    function closeDropdown() {
+      if (userDropdown) {
+        userDropdown.style.display = 'none';
+      }
+    }
+
+    // Close dropdown when scrolling
+    window.addEventListener('scroll', closeDropdown);
+
+    // Close dropdown when clicking outside
+    document.addEventListener('click', (e) => {
+      const userMenu = document.querySelector('.user-menu');
+      const authBtn = document.getElementById('authButton');
+      
+      if (!userMenu.contains(e.target) && !authBtn.contains(e.target)) {
+        closeDropdown();
+      }
+    });
+
+    // Open dropdown on hover (desktop) or click (mobile)
+    const userMenu = document.querySelector('.user-menu');
+    if (userMenu) {
+      const authBtn = document.getElementById('authButton');
+      
+      // Desktop hover behavior
+      userMenu.addEventListener('mouseenter', () => {
+        if (userDropdown && userDropdown.style.display !== 'none') {
+          userDropdown.style.display = 'block';
+        }
+      });
+
+      userMenu.addEventListener('mouseleave', () => {
+        closeDropdown();
+      });
+
+      // Mobile click behavior
+      if (authBtn) {
+        authBtn.addEventListener('click', (e) => {
+          // Only toggle if it's a user menu (when logged in)
+          if (authBtn.style.display !== 'none' && authBtn.textContent.includes('👤')) {
+            e.preventDefault();
+            if (userDropdown) {
+              userDropdown.style.display = userDropdown.style.display === 'block' ? 'none' : 'block';
+            }
+          }
+        });
+      }
+    }
   } catch (err) {
     console.error('Auth init error:', err);
   }

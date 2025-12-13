@@ -569,8 +569,160 @@
       }
     }
   </style>
+
+  <!-- Fundraiser Redirect Popup Styles -->
+  <style>
+    .fundraiser-redirect-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.7);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 10000;
+      animation: fadeIn 0.3s ease-in;
+    }
+
+    .fundraiser-redirect-modal {
+      background: white;
+      border-radius: 16px;
+      padding: 40px 30px;
+      max-width: 500px;
+      width: 90%;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+      text-align: center;
+      animation: slideUp 0.4s cubic-bezier(0.23, 1, 0.320, 1);
+    }
+
+    .fundraiser-icon {
+      font-size: 60px;
+      margin-bottom: 20px;
+      display: block;
+    }
+
+    .fundraiser-redirect-modal h2 {
+      color: #00264d;
+      font-size: 28px;
+      margin: 15px 0 10px 0;
+      font-weight: 700;
+    }
+
+    .fundraiser-redirect-modal p {
+      color: #666;
+      font-size: 16px;
+      line-height: 1.6;
+      margin: 15px 0;
+    }
+
+    .fundraiser-redirect-modal .highlight {
+      color: #d9a21c;
+      font-weight: 700;
+    }
+
+    .fundraiser-btn-group {
+      display: flex;
+      gap: 12px;
+      margin-top: 30px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .fundraiser-btn {
+      padding: 14px 28px;
+      border: none;
+      border-radius: 8px;
+      font-size: 15px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      text-decoration: none;
+      display: inline-block;
+      min-width: 180px;
+    }
+
+    .fundraiser-btn-primary {
+      background: linear-gradient(135deg, #d9a21c 0%, #f9bc35 100%);
+      color: #00264d;
+    }
+
+    .fundraiser-btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(217, 162, 28, 0.3);
+    }
+
+    .fundraiser-btn-secondary {
+      background: #f0f0f0;
+      color: #333;
+      border: 2px solid #ddd;
+    }
+
+    .fundraiser-btn-secondary:hover {
+      background: #e8e8e8;
+      border-color: #bbb;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+      }
+      to {
+        opacity: 1;
+      }
+    }
+
+    @keyframes slideUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* Mobile responsiveness */
+    @media (max-width: 480px) {
+      .fundraiser-redirect-modal {
+        padding: 25px 20px;
+      }
+
+      .fundraiser-redirect-modal h2 {
+        font-size: 22px;
+      }
+
+      .fundraiser-redirect-modal p {
+        font-size: 14px;
+      }
+
+      .fundraiser-btn-group {
+        flex-direction: column;
+      }
+
+      .fundraiser-btn {
+        width: 100%;
+        min-width: auto;
+      }
+    }
+  </style>
 </head>
 <body>
+  <!-- Fundraiser Redirect Popup -->
+  <div id="fundraiserRedirectOverlay" class="fundraiser-redirect-overlay">
+    <div class="fundraiser-redirect-modal">
+      <span class="fundraiser-icon">🎉</span>
+      <h2>Great News! 🚀</h2>
+      <p>We've launched a <span class="highlight">new and improved Fundraising System</span> with better features and easier donation options.</p>
+      <p>Please visit our new fundraiser page to support our cause with an enhanced experience.</p>
+      <div class="fundraiser-btn-group">
+        <a href="fundraiser%20sys/index.html" class="fundraiser-btn fundraiser-btn-primary">Go to New Fundraiser →</a>
+        <button id="closeRedirectBtn" class="fundraiser-btn fundraiser-btn-secondary">Continue Anyway</button>
+      </div>
+    </div>
+  </div>
 
 <header class="site-header">
   <div class="container">
@@ -967,6 +1119,42 @@
       e.preventDefault();
       window.scrollTo({ top: 0, behavior: 'smooth' });
     });
+
+    // Fundraiser Redirect Popup Handler
+    function initFundraiserRedirect() {
+      const overlay = document.getElementById('fundraiserRedirectOverlay');
+      const closeBtn = document.getElementById('closeRedirectBtn');
+      
+      if (overlay) {
+        // Show popup immediately on page load
+        overlay.style.display = 'flex';
+
+        // Close button - allows user to dismiss popup
+        if (closeBtn) {
+          closeBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            overlay.style.opacity = '0';
+            setTimeout(() => {
+              overlay.style.display = 'none';
+            }, 300);
+          });
+        }
+
+        // Prevent clicking outside the modal from closing it (modal-only behavior)
+        overlay.addEventListener('click', (e) => {
+          // Only close if clicking the close button, not the modal itself
+          if (e.target === overlay) {
+            // Don't close - keep modal visible
+          }
+        });
+
+        // Add fade-out animation when closing
+        overlay.style.transition = 'opacity 0.3s ease';
+      }
+    }
+
+    // Initialize popup when page loads
+    initFundraiserRedirect();
   });
 </script>
 </body>

@@ -117,7 +117,7 @@
                 <a href="programs.html">Programs</a>
                 <a href="research.html">Research</a>
                 <a href="events.html">Events</a>
-                <a href="donate.html" class="btn btn-gold">Donate</a>
+                <a href="fundraiser sys/index.html" class="btn btn-gold">Donate</a>
                 <!-- Authentication Button -->
                 <div class="user-menu">
                     <button class="btn btn-primary" id="authButton" onclick="toggleAuthModal()">Login</button>
@@ -179,7 +179,7 @@
         <div class="card">
             <h2>Quick Actions</h2>
             <div class="profile-actions">
-                <a href="donate.html" class="profile-btn">💰 Make a Donation</a>
+                <a href="fundraiser sys/index.html" class="profile-btn">💰 Make a Donation</a>
                 <a href="events.html" class="profile-btn">📅 Browse Events</a>
                 <a href="research.html" class="profile-btn">📚 Access Research</a>
                 <a href="programs.html" class="profile-btn">🌱 Join Programs</a>
