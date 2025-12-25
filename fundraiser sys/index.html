@@ -32,36 +32,56 @@
             transition: width 1s ease-in-out;
         }
         
+        .donation-option {
+            color: #1e3a5f !important;
+            font-weight: 600 !important;
+            background-color: #ffffff !important;
+            border-color: #d0d0d0 !important;
+        }
+        
         .donation-option.selected {
-            border-color: var(--ejf-accent);
-            background-color: rgba(233, 185, 73, 0.1);
+            border-color: var(--ejf-accent) !important;
+            background-color: var(--ejf-accent) !important;
+            color: #1e3a5f !important;
+            font-weight: 700 !important;
+        }
+        
+        .payment-method {
+            color: #1e3a5f !important;
+            font-weight: 600 !important;
+            background-color: lch(80% 109.86 136.15) !important;
+            border-color: hsl(120, 87%, 47%) !important;
         }
         
         .payment-method.selected {
-            border-color: var(--ejf-accent);
-            background-color: rgba(233, 185, 73, 0.1);
+            border-color: var(--ejf-accent) !important;
+            background-color: var(--ejf-accent) !important;
+            color: #1e3a5f !important;
+            font-weight: 700 !important;
         }
         
         .btn-primary {
             background-color: var(--ejf-accent);
-            color: #1e3a5f;
+            color: #1e3a5f !important;
+            font-weight: 600;
         }
         
         .btn-primary:hover {
             background-color: #d4a235;
+            color: #1e3a5f !important;
         }
         
         .btn-secondary {
             background-color: var(--ejf-success);
-            color: white;
+            color: hsl(59, 96%, 47%) 96%, 47%) !important;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.3);
         }
-        
+
         .btn-secondary:hover {
             background-color: #3e7a4c;
-        }
-        
-        .text-ejf-accent {
-            color: var(--ejf-accent);
+            color: hsl(64, 89%, 46%) !important;
         }
         
         .bg-ejf-accent {
@@ -92,7 +112,7 @@
             height: 20px;
             border: 3px solid rgba(255,255,255,.3);
             border-radius: 50%;
-            border-top-color: #fff;
+            border-top-color: #c97404;
             animation: spin 1s ease-in-out infinite;
         }
 

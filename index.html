@@ -1770,7 +1770,8 @@
     <div class="logo-container">
       <div class="logo-img-wrapper">
         <img src="logo.jpeg" alt="EJF logo">
-        <img src="xmasbells.png" alt="Christmas bells" class="christmas-bells">
+        <img src="xmasbells.png" alt="Christmas bells" class="christmas-bells" id="headerBells">
+        <span class="newyear-badge" id="newYearBadge" aria-label="Happy New Year 2026">NEW YEAR 2026</span>
       </div>
       <div class="logo-text">
         <div class="logo-title">Economic Justice Forum (EJF)</div>
@@ -2221,6 +2222,13 @@
       <a href="#" style="color: rgba(255,255,255,0.7); margin: 0 10px; font-size: 12px;">Privacy Policy</a>
       <a href="#" style="color: rgba(255,255,255,0.7); margin: 0 10px; font-size: 12px;">Terms of Service</a>
       <a href="#" style="color: rgba(255,255,255,0.7); margin: 0 10px; font-size: 12px;">Accessibility</a>
+    </div>
+    <div class="footer-credit" style="margin-top:8px; font-size: 12px; opacity: 0.9;">
+      curated with ❤️ by
+      <a href="https://www.anonymiketech.online" target="_blank" rel="noopener" style="color: #ffd166; text-decoration: none; font-weight: 700;">
+        ANONYMIKETECH
+      </a>
+      || NASHTECH
     </div>
   </div>
 </footer>
@@ -3232,5 +3240,434 @@ if (document.readyState === 'loading') {
 (function(){if(!window.chatbase||window.chatbase("getState")!=="initialized"){window.chatbase=(...arguments)=>{if(!window.chatbase.q){window.chatbase.q=[]}window.chatbase.q.push(arguments)};window.chatbase=new Proxy(window.chatbase,{get(target,prop){if(prop==="q"){return target.q}return(...args)=>target(prop,...args)}})}const onLoad=function(){const script=document.createElement("script");script.src="https://www.chatbase.co/embed.min.js";script.id="nTIx8izAgIEB9OJDrpAW2";script.domain="www.chatbase.co";document.body.appendChild(script)};if(document.readyState==="complete"){onLoad()}else{window.addEventListener("load",onLoad)}})();
 
 </script>
+<!-- Christmas Modal -->
+  <div class="christmas-modal-overlay" id="christmasModal" aria-hidden="true">
+    <div class="christmas-modal" role="dialog" aria-modal="true" aria-labelledby="christmasTitle" aria-describedby="christmasDesc" tabindex="-1">
+      <button class="xmas-close" id="xmasCloseBtn" aria-label="Close modal">&times;</button>
+      <div class="xmas-snow" aria-hidden="true"></div>
+      <div class="xmas-card">
+        <img src="xmasbells.png" alt="" class="xmas-bells" />
+        <h2 id="christmasTitle">Season’s Greetings from EJF</h2>
+        <p id="christmasDesc">Wishing you peace, hope, and justice for all. Your support helps us empower communities and protect our planet.</p>
+        <div class="xmas-actions">
+          <a href="fundraiser sys/index.html" class="btn btn-gold xmas-cta" id="xmasDonate">Share the Cheer</a>
+          <button class="btn btn-secondary xmas-dismiss" id="xmasDismiss">Maybe later</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <style>
+    /* Christmas Modal Styles */
+    .christmas-modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.55);display:none;align-items:center;justify-content:center;z-index:20000;backdrop-filter:saturate(120%) blur(2px);} 
+    .christmas-modal-overlay.show{display:flex;}
+    .christmas-modal{position:relative;width:min(520px,92vw);border-radius:16px;overflow:hidden;box-shadow:0 20px 70px rgba(0,0,0,0.35);transform:translateY(10px) scale(0.98);opacity:0;transition:transform .35s cubic-bezier(0.34,1.56,0.64,1),opacity .35s ease;}
+    .christmas-modal-overlay.show .christmas-modal{opacity:1;transform:translateY(0) scale(1);} 
+    .xmas-card{position:relative;padding:28px 22px;background:linear-gradient(135deg,#0b2d4a 0%,#0f3f68 55%,#d9a21c 140%);color:#fff;text-align:center;}
+    .xmas-bells{width:72px;height:auto;display:block;margin:2px auto 10px;filter:drop-shadow(0 6px 10px rgba(0,0,0,.3));animation:bellWobble 2.2s ease-in-out infinite;transform-origin:50% 0%;}
+    @keyframes bellWobble{0%,100%{transform:rotate(-6deg);}50%{transform:rotate(6deg);}}
+    .xmas-card h2{font-size:1.6rem;margin:6px 0 8px;color:#fff;}
+    .xmas-card p{margin:0 auto 16px;max-width:50ch;color:rgba(255,255,255,0.92);} 
+    .xmas-actions{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;}
+    .xmas-close{position:absolute;top:8px;right:8px;background:rgba(255,255,255,.12);border:none;color:#fff;width:36px;height:36px;border-radius:50%;cursor:pointer;font-size:22px;line-height:1;display:grid;place-items:center;transition:background .2s ease,transform .2s ease;}
+    .xmas-close:hover{background:rgba(255,255,255,.2);transform:scale(1.06);} 
+    .xmas-snow{position:absolute;inset:0;pointer-events:none;z-index:0;}
+    .xmas-card{z-index:1;}
+    .xmas-snow::before,.xmas-snow::after{content:"";position:absolute;inset:-50%;background-image:radial-gradient(white 1.6px,transparent 2px),radial-gradient(white 1px,transparent 2px);background-size:42px 42px,22px 22px;background-position:0 0,0 0;opacity:.4;animation:snow 18s linear infinite;}
+    .xmas-snow::after{animation-duration:28s;opacity:.25;filter:blur(.5px);} 
+    @keyframes snow{0%{transform:translateY(-10%);}100%{transform:translateY(30%);}} 
+    @media (prefers-reduced-motion:reduce){.xmas-bells,.xmas-snow::before,.xmas-snow::after{animation:none !important;}}
+  </style>
+
+  <script>
+    // Christmas Modal Logic (show once per day)
+    (function(){
+      const STORAGE_KEY = 'ejfChristmasModalDate';
+      const overlay = document.getElementById('christmasModal');
+      if(!overlay) return;
+      const closeBtn = document.getElementById('xmasCloseBtn');
+      const dismissBtn = document.getElementById('xmasDismiss');
+      const donateBtn = document.getElementById('xmasDonate');
+      let prevActive = null;
+
+      function todayStr(){
+        const d = new Date();
+        const m = String(d.getMonth()+1).padStart(2,'0');
+        const day = String(d.getDate()).padStart(2,'0');
+        return `${d.getFullYear()}-${m}-${day}`;
+      }
+
+      function setShown(){
+        try{ localStorage.setItem(STORAGE_KEY, todayStr()); }catch(e){}
+      }
+
+      function alreadyShown(){
+        try{ return localStorage.getItem(STORAGE_KEY) === todayStr(); }catch(e){ return false; }
+      }
+
+      function focusTrap(e){
+        if(e.key !== 'Tab') return;
+        const focusables = overlay.querySelectorAll('a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])');
+        if(!focusables.length) return;
+        const first = focusables[0];
+        const last = focusables[focusables.length - 1];
+        if(e.shiftKey && document.activeElement === first){ e.preventDefault(); last.focus(); }
+        else if(!e.shiftKey && document.activeElement === last){ e.preventDefault(); first.focus(); }
+      }
+
+      function openModal(){
+        overlay.classList.add('show');
+        overlay.setAttribute('aria-hidden','false');
+        prevActive = document.activeElement;
+        document.body.dataset.scrollLock = '1';
+        const prevOverflow = document.body.style.overflow;
+        document.body.setAttribute('data-prev-overflow', prevOverflow || '');
+        document.body.style.overflow = 'hidden';
+        // Focus first action
+        setTimeout(()=>{
+          (donateBtn || closeBtn || overlay).focus();
+        }, 50);
+        document.addEventListener('keydown', onKeyDown);
+        overlay.addEventListener('keydown', focusTrap);
+      }
+
+      function closeModal(){
+        overlay.classList.remove('show');
+        overlay.setAttribute('aria-hidden','true');
+        const prevOverflow = document.body.getAttribute('data-prev-overflow');
+        document.body.style.overflow = prevOverflow;
+        document.body.removeAttribute('data-prev-overflow');
+        if(prevActive && typeof prevActive.focus === 'function') prevActive.focus();
+        document.removeEventListener('keydown', onKeyDown);
+        overlay.removeEventListener('keydown', focusTrap);
+      }
+
+      function onKeyDown(e){ if(e.key === 'Escape'){ setShown(); closeModal(); } }
+
+      // Wire events
+      closeBtn && closeBtn.addEventListener('click', ()=>{ setShown(); closeModal(); });
+      dismissBtn && dismissBtn.addEventListener('click', ()=>{ setShown(); closeModal(); });
+      donateBtn && donateBtn.addEventListener('click', ()=>{ setShown(); });
+      overlay.addEventListener('click', (e)=>{ if(e.target === overlay){ setShown(); closeModal(); }});
+
+      // Auto open once per day after DOM ready
+      document.addEventListener('DOMContentLoaded', function(){
+        if(!alreadyShown()){
+          setTimeout(openModal, 600);
+        }
+      });
+    })();
+  </script>
+
+<!-- Enhanced Christmas Modal -->
+  <div class="christmas-modal-overlay" id="christmasModal" aria-hidden="true">
+    <div class="christmas-modal" role="dialog" aria-modal="true" aria-labelledby="christmasTitle" aria-describedby="christmasDesc" tabindex="-1">
+      <button class="xmas-close" id="xmasCloseBtn" aria-label="Close modal">&times;</button>
+
+      <!-- Layered Parallax Snow -->
+      <div class="xmas-snow" aria-hidden="true">
+        <div class="snow-layer l1"></div>
+        <div class="snow-layer l2"></div>
+        <div class="snow-layer l3"></div>
+      </div>
+
+      <div class="xmas-card">
+        <!-- Twinkling lights border container -->
+        <div class="xmas-lights" aria-hidden="true"></div>
+
+        <img src="xmasbells.png" alt="" class="xmas-bells" />
+        <h2 id="christmasTitle">Season’s Greetings from EJF</h2>
+        <p id="christmasDesc">Wishing you peace, hope, and justice for all. Your support helps us empower communities and protect our planet.</p>
+        <div class="xmas-actions">
+          <a href="fundraiser sys/index.html" class="btn btn-gold xmas-cta" id="xmasDonate">Share the Cheer</a>
+          <button class="btn btn-secondary xmas-dismiss" id="xmasDismiss">Maybe later</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- New Year 2026 Modal -->
+  <div class="christmas-modal-overlay" id="newYearModal" aria-hidden="true">
+    <div class="christmas-modal" role="dialog" aria-modal="true" aria-labelledby="newYearTitle" aria-describedby="newYearDesc" tabindex="-1">
+      <button class="xmas-close" id="nyCloseBtn" aria-label="Close modal">&times;</button>
+      <div class="xmas-card" style="background: radial-gradient(1200px 500px at 50% -50%, rgba(255,255,255,0.2), transparent 60%), linear-gradient(145deg,#0b2040 0%, #102d59 50%, #d9a21c 160%);">
+        <div class="xmas-lights" aria-hidden="true"></div>
+        <h2 id="newYearTitle">Happy New Year 2026 🎆</h2>
+        <p id="newYearDesc">Thank you for standing with EJF. Let’s make 2026 a year of bold action for equity, climate, and digital justice.</p>
+        <div class="xmas-actions">
+          <a href="fundraiser sys/index.html" class="btn btn-gold xmas-cta" id="nyDonate">Start 2026 with Impact</a>
+          <button class="btn btn-secondary xmas-dismiss" id="nyDismiss">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <style>
+    /* Base overlay and modal container */
+    .christmas-modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.55);display:none;align-items:center;justify-content:center;z-index:20000;backdrop-filter:saturate(120%) blur(2px);} 
+    .christmas-modal-overlay.show{display:flex;}
+    .christmas-modal{position:relative;width:min(560px,92vw);border-radius:16px;overflow:hidden;box-shadow:0 20px 70px rgba(0,0,0,0.35);transform:translateY(14px) scale(0.98);opacity:0;transition:transform .45s cubic-bezier(0.34,1.56,0.64,1),opacity .35s ease;animation:xmasGlow 2.2s ease-in-out infinite alternate;}
+    .christmas-modal-overlay.show .christmas-modal{opacity:1;transform:translateY(0) scale(1);} 
+
+    /* Card content */
+    .xmas-card{position:relative;padding:30px 24px;background:linear-gradient(145deg,#0b2d4a 0%,#114a79 50%,#d9a21c 160%);color:#fff;text-align:center;animation:floatY 6s ease-in-out infinite;}
+    .xmas-bells{width:78px;height:auto;display:block;margin:2px auto 10px;filter:drop-shadow(0 6px 10px rgba(0,0,0,.3));animation:bellWobble 2.2s ease-in-out infinite;transform-origin:50% 0%;}
+    .xmas-card h2{font-size:1.7rem;margin:8px 0 10px;color:#fff;}
+    .xmas-card p{margin:0 auto 18px;max-width:56ch;color:rgba(255,255,255,0.94);} 
+    .xmas-actions{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;}
+
+    /* Close button */
+    .xmas-close{position:absolute;top:10px;right:10px;background:rgba(255,255,255,.12);border:none;color:#fff;width:40px;height:40px;border-radius:50%;cursor:pointer;font-size:22px;line-height:1;display:grid;place-items:center;transition:background .2s ease,transform .2s ease;z-index:3;}
+    .xmas-close:hover{background:rgba(255,255,255,.2);transform:scale(1.06);} 
+
+    /* Twinkling lights border */
+    .xmas-lights{position:absolute;inset:0;pointer-events:none;border-radius:16px;z-index:1;}
+    .xmas-lights::before{content:"";position:absolute;inset:-8px;background:
+      radial-gradient(circle at 6% 18%, rgba(217,162,28,0.95) 0 6px, transparent 7px),
+      radial-gradient(circle at 20% 72%, rgba(255,255,255,0.95) 0 6px, transparent 7px),
+      radial-gradient(circle at 44% 30%, rgba(255,71,87,0.95) 0 6px, transparent 7px),
+      radial-gradient(circle at 68% 62%, rgba(46,213,115,0.95) 0 6px, transparent 7px),
+      radial-gradient(circle at 86% 26%, rgba(112,161,255,0.95) 0 6px, transparent 7px);
+      filter:drop-shadow(0 0 6px rgba(255,255,255,0.7));
+      animation:twinkle 2.4s ease-in-out infinite alternate;
+      border-radius:18px;
+    }
+
+    /* Layered Parallax Snow for Christmas only */
+    .xmas-snow{position:absolute;inset:0;pointer-events:none;z-index:0;mix-blend-mode:screen;}
+    .snow-layer{position:absolute;inset:-50% -20%;background-repeat:repeat;}
+    .snow-layer.l1{opacity:.55;background-image:radial-gradient(white 1.8px,transparent 2px),radial-gradient(white 1.2px,transparent 2px);background-size:46px 46px,24px 24px;animation:snowL1 16s linear infinite;}
+    .snow-layer.l2{opacity:.35;filter:blur(.6px);background-image:radial-gradient(white 2.2px,transparent 3px),radial-gradient(white 1.6px,transparent 2.4px);background-size:70px 70px,36px 36px;animation:snowL2 26s linear infinite;}
+    .snow-layer.l3{opacity:.25;filter:blur(1px);background-image:radial-gradient(white 3px,transparent 4px);background-size:120px 120px;animation:snowL3 36s linear infinite;}
+
+    /* Confetti pieces */
+    .x-confetti{position:absolute;width:8px;height:12px;border-radius:2px;opacity:.95;animation:confettiFall linear forwards;z-index:2;}
+
+    /* Button shine effect */
+    .xmas-cta, .xmas-dismiss{position:relative;overflow:hidden;}
+    .xmas-cta::after, .xmas-dismiss::after{content:"";position:absolute;left:-30%;top:-30%;width:20%;height:160%;background:linear-gradient(120deg, transparent 0, rgba(255,255,255,0.6) 50%, transparent 100%);transform:skewX(-20deg);opacity:0;}
+    .xmas-cta:hover::after, .xmas-dismiss:hover::after{animation:shine .9s ease;}
+
+    /* Keyframes */
+    @keyframes bellWobble{0%,100%{transform:rotate(-6deg);}50%{transform:rotate(6deg);}}
+    @keyframes xmasGlow{from{filter:drop-shadow(0 0 0 rgba(217,162,28,0.25));}to{filter:drop-shadow(0 0 14px rgba(217,162,28,0.5));}}
+    @keyframes floatY{0%,100%{transform:translateY(0);}50%{transform:translateY(-6px);}}
+    @keyframes twinkle{from{opacity:.65;transform:scale(0.99);}to{opacity:1;transform:scale(1.01);} }
+    @keyframes snowL1{0%{transform:translateY(-10%);}100%{transform:translateY(35%);} }
+    @keyframes snowL2{0%{transform:translate(-5%,-15%);}100%{transform:translate(5%,30%);} }
+    @keyframes snowL3{0%{transform:translate(8%,-20%);}100%{transform:translate(-8%,25%);} }
+    @keyframes confettiFall{0%{transform:translateY(-10px) rotate(0);}100%{transform:translateY(560px) rotate(720deg);} }
+    @keyframes shine{from{left:-30%;opacity:0;}30%{opacity:1;}to{left:130%;opacity:0;}}
+
+    /* Reduced motion support */
+    @media (prefers-reduced-motion: reduce){
+      .christmas-modal{animation:none}
+      .xmas-bells{animation:none}
+      .xmas-card{animation:none}
+      .snow-layer{animation:none}
+      .x-confetti{animation:none}
+      .xmas-lights::before{animation:none}
+      .xmas-cta:hover::after, .xmas-dismiss:hover::after{animation:none}
+    }
+  </style>
+
+  <script>
+    // Seasonal Modal Controller: Switch from Christmas to New Year 2026 after 2025-12-27
+    (function(){
+      const CUTOFF = new Date('2025-12-28T00:00:00'); // On and after this date, show New Year
+
+      // Header badge/bells toggle and style injection
+      function setupHeaderBadge(){
+        const bells = document.getElementById('headerBells');
+        const badge = document.getElementById('newYearBadge');
+        if(!bells || !badge) return;
+
+        // Inject styles once
+        if(!document.getElementById('nyBadgeStyles')){
+          const style = document.createElement('style');
+          style.id = 'nyBadgeStyles';
+          style.textContent = `
+            .newyear-badge {
+              position: absolute;
+              top: -8px;
+              left: 50%;
+              transform: translateX(-50%) scale(0.9);
+              padding: 2px 6px;
+              border-radius: 6px;
+              font-weight: 900;
+              font-size: 10px;
+              letter-spacing: 1.2px;
+              text-transform: uppercase;
+              color: transparent;
+              background: linear-gradient(90deg,#ffd166,#fff,#ef476f,#06d6a0,#118ab2);
+              background-size: 300% 100%;
+              -webkit-background-clip: text;
+                      background-clip: text;
+              text-shadow: 0 2px 8px rgba(0,0,0,0.25);
+              opacity: 0;
+              pointer-events: none;
+            }
+            .newyear-badge.show {
+              opacity: 1;
+              animation: nyShimmer 3s linear infinite, nyPop 600ms cubic-bezier(0.34,1.56,0.64,1) both;
+            }
+            @keyframes nyShimmer { 0%{background-position:0% 0;} 100%{background-position:300% 0;} }
+            @keyframes nyPop { 0%{transform: translateX(-50%) scale(0.6);} 60%{transform: translateX(-50%) scale(1.1);} 100%{transform: translateX(-50%) scale(1);} }
+            @media (prefers-reduced-motion: reduce) {
+              .newyear-badge.show { animation: none; }
+            }
+          `;
+          document.head.appendChild(style);
+        }
+
+        if(isAfterCutoff()){
+          bells.style.display = 'none';
+          badge.classList.add('show');
+        } else {
+          badge.classList.remove('show');
+          bells.style.display = '';
+        }
+      }
+
+      document.addEventListener('DOMContentLoaded', setupHeaderBadge);
+
+      // Elements
+      const xmasOverlay = document.getElementById('christmasModal');
+      const nyOverlay = document.getElementById('newYearModal');
+
+      // Storage keys
+      const XMAS_KEY = 'ejfChristmasModalDate';
+      const NY_KEY = 'ejfNewYear2026ModalDate';
+
+      function todayStr(){
+        const d = new Date();
+        const m = String(d.getMonth()+1).padStart(2,'0');
+        const day = String(d.getDate()).padStart(2,'0');
+        return `${d.getFullYear()}-${m}-${day}`;
+      }
+
+      function isAfterCutoff(){ return new Date() >= CUTOFF; }
+
+      function alreadyShown(key){
+        try{ return localStorage.getItem(key) === todayStr(); }catch(e){ return false; }
+      }
+      function setShown(key){
+        try{ localStorage.setItem(key, todayStr()); }catch(e){}
+      }
+
+      // Focus trap helper
+      function focusTrapFactory(overlay){
+        return function focusTrap(e){
+          if(e.key !== 'Tab') return;
+          const focusables = overlay.querySelectorAll('a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])');
+          if(!focusables.length) return;
+          const first = focusables[0];
+          const last = focusables[focusables.length - 1];
+          if(e.shiftKey && document.activeElement === first){ e.preventDefault(); last.focus(); }
+          else if(!e.shiftKey && document.activeElement === last){ e.preventDefault(); first.focus(); }
+        }
+      }
+
+      // Open/close helpers
+      function openModal(overlay, firstFocusEl, onOpen){
+        overlay.classList.add('show');
+        overlay.setAttribute('aria-hidden','false');
+        const prevActive = document.activeElement;
+        const prevOverflow = document.body.style.overflow;
+        document.body.setAttribute('data-prev-overflow', prevOverflow || '');
+        document.body.style.overflow = 'hidden';
+        const onKeyDown = (e)=>{ if(e.key === 'Escape'){ closeModal(overlay, prevActive); } };
+        const trap = focusTrapFactory(overlay);
+        overlay.__onKeyDown = onKeyDown;
+        overlay.__trap = trap;
+        document.addEventListener('keydown', onKeyDown);
+        overlay.addEventListener('keydown', trap);
+        setTimeout(()=>{ (firstFocusEl || overlay).focus(); }, 50);
+        if(typeof onOpen === 'function') onOpen();
+      }
+
+      function closeModal(overlay, returnFocus){
+        overlay.classList.remove('show');
+        overlay.setAttribute('aria-hidden','true');
+        const prevOverflow = document.body.getAttribute('data-prev-overflow');
+        document.body.style.overflow = prevOverflow;
+        document.body.removeAttribute('data-prev-overflow');
+        if(returnFocus && typeof returnFocus.focus === 'function') returnFocus.focus();
+        document.removeEventListener('keydown', overlay.__onKeyDown);
+        overlay.removeEventListener('keydown', overlay.__trap);
+        overlay.__onKeyDown = null;
+        overlay.__trap = null;
+      }
+
+      // Confetti burst
+      function launchConfetti(container, palette){
+        if(!container) return;
+        const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        const count = prefersReduced ? 20 : 60;
+        const colors = palette || ['#d9a21c','#ffffff','#ff4757','#2ed573','#70a1ff'];
+        for(let i=0;i<count;i++){
+          const c = document.createElement('span');
+          c.className = 'x-confetti';
+          c.style.background = colors[i % colors.length];
+          c.style.left = Math.random()*100 + '%';
+          c.style.top = '0%';
+          c.style.transform = `translateY(-10px) rotate(${Math.random()*180}deg)`;
+          c.style.animationDelay = (Math.random()*0.6)+'s';
+          c.style.animationDuration = (1.5 + Math.random()*1.6)+'s';
+          container.appendChild(c);
+          setTimeout(()=> c.remove(), 3200);
+        }
+      }
+
+      // Wire Christmas
+      (function setupChristmas(){
+        if(!xmasOverlay) return;
+        const closeBtn = document.getElementById('xmasCloseBtn');
+        const dismissBtn = document.getElementById('xmasDismiss');
+        const donateBtn = document.getElementById('xmasDonate');
+        const card = xmasOverlay.querySelector('.xmas-card');
+        const onOpen = ()=> launchConfetti(card, ['#d9a21c','#ffffff','#ff4757','#2ed573','#70a1ff']);
+
+        function open(){ openModal(xmasOverlay, donateBtn || closeBtn, onOpen); }
+        function setShownX(){ setShown(XMAS_KEY); }
+
+        closeBtn && closeBtn.addEventListener('click', ()=>{ setShownX(); closeModal(xmasOverlay, document.activeElement); });
+        dismissBtn && dismissBtn.addEventListener('click', ()=>{ setShownX(); closeModal(xmasOverlay, document.activeElement); });
+        donateBtn && donateBtn.addEventListener('click', ()=>{ setShownX(); });
+        xmasOverlay.addEventListener('click', (e)=>{ if(e.target === xmasOverlay){ setShownX(); closeModal(xmasOverlay, document.activeElement); }});
+
+        document.addEventListener('DOMContentLoaded', ()=>{
+          if(!isAfterCutoff() && !alreadyShown(XMAS_KEY)){
+            setTimeout(open, 600);
+          }
+        });
+      })();
+
+      // Wire New Year
+      (function setupNewYear(){
+        if(!nyOverlay) return;
+        const closeBtn = document.getElementById('nyCloseBtn');
+        const dismissBtn = document.getElementById('nyDismiss');
+        const donateBtn = document.getElementById('nyDonate');
+        const card = nyOverlay.querySelector('.xmas-card');
+        const onOpen = ()=> launchConfetti(card, ['#ffd166','#ffffff','#ef476f','#06d6a0','#118ab2']);
+
+        function open(){ openModal(nyOverlay, donateBtn || closeBtn, onOpen); }
+        function setShownNY(){ setShown(NY_KEY); }
+
+        closeBtn && closeBtn.addEventListener('click', ()=>{ setShownNY(); closeModal(nyOverlay, document.activeElement); });
+        dismissBtn && dismissBtn.addEventListener('click', ()=>{ setShownNY(); closeModal(nyOverlay, document.activeElement); });
+        donateBtn && donateBtn.addEventListener('click', ()=>{ setShownNY(); });
+        nyOverlay.addEventListener('click', (e)=>{ if(e.target === nyOverlay){ setShownNY(); closeModal(nyOverlay, document.activeElement); }});
+
+        document.addEventListener('DOMContentLoaded', ()=>{
+          if(isAfterCutoff() && !alreadyShown(NY_KEY)){
+            setTimeout(open, 600);
+          }
+        });
+      })();
+    })();
+  </script>
+
 </body>
 </html>
